@@ -1,7 +1,15 @@
 ---
 import { NAV, SITE } from "../lib/site";
+import { UI, LOCALES, localeHome, type LocaleCode } from "../i18n/locales";
 import { stripBase, url } from "../lib/url";
 
+interface Props {
+  locale?: LocaleCode;
+  mode?: "site" | "guide";
+}
+
+const { locale = "zh", mode = "site" } = Astro.props;
+const ui = UI[locale];
 const path = stripBase(Astro.url.pathname);
 
 function isActive(href: string) {
@@ -9,11 +17,24 @@ function isActive(href: string) {
   const clean = href.replace(/\/$/, "");
   return path === clean || path.startsWith(`${clean}/`);
 }
+
+const guideNav = [
+  { href: "#chapters", label: ui.nav.chapters },
+  { href: "#roadmap", label: ui.nav.roadmap },
+  { href: "#tunes", label: ui.nav.tunes },
+  { href: "#courses", label: ui.nav.courses },
+  { href: "#players", label: ui.nav.players },
+  { href: "#books", label: ui.nav.books },
+  { href: "#tools", label: ui.nav.tools },
+].map((item) => ({ ...item, active: false }));
+
+const siteNav = NAV.map((item) => ({ href: url(item.href), label: item.short ?? item.label, active: isActive(item.href) }));
+const navItems = mode === "guide" ? guideNav : siteNav;
 ---
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href={url("/")} aria-label={`${SITE.title} 首页`}>
+    <a class="brand" href={url(localeHome(locale))} aria-label={`${SITE.title} home`}>
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 40 40" fill="none">
           <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.1" opacity=".42" />
@@ -25,20 +46,34 @@ function isActive(href: string) {
       </span>
       <span class="brand-text">
         <span class="brand-name">Jazz Guitar Guide</span>
-        <span class="brand-sub">爵士吉他学习手册</span>
+        <span class="brand-sub">{ui.brandSub}</span>
       </span>
     </a>
 
-    <nav class="main-nav" aria-label="主导航">
-      {NAV.map((item) => (
-        <a href={url(item.href)} aria-current={isActive(item.href) ? "page" : undefined}>
-          {item.short ?? item.label}
+    <nav class="main-nav" aria-label="Primary">
+      {navItems.map((item) => (
+        <a href={item.href} aria-current={item.active ? "page" : undefined}>
+          {item.label}
         </a>
       ))}
     </nav>
 
     <div class="header-tools">
-      <button class="icon-btn" id="theme-toggle" type="button" aria-label="切换明暗主题" title="切换明暗主题">
+      <div class="lang-switcher">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3c2.4 2.5 3.6 5.6 3.6 9S14.4 18.5 12 21M12 3C9.6 5.5 8.4 8.6 8.4 12s1.2 6.5 3.6 9" />
+        </svg>
+        <label class="sr-only" for="lang-select">{ui.langLabel}</label>
+        <select id="lang-select" aria-label={ui.langLabel}>
+          {LOCALES.map((item) => (
+            <option value={url(localeHome(item.code))} selected={item.code === locale}>
+              {item.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
         <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
           <circle cx="12" cy="12" r="4" />
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-linecap="round" />
@@ -47,7 +82,7 @@ function isActive(href: string) {
           <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z" stroke-linejoin="round" />
         </svg>
       </button>
-      <button class="icon-btn mobile-toggle" id="mobile-toggle" type="button" aria-label="打开菜单" aria-controls="mobile-nav" aria-expanded="false">
+      <button class="icon-btn mobile-toggle" id="mobile-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
           <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
         </svg>
@@ -56,9 +91,9 @@ function isActive(href: string) {
   </div>
 </header>
 
-<nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航">
-  {NAV.map((item) => (
-    <a href={url(item.href)} aria-current={isActive(item.href) ? "page" : undefined}>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+  {navItems.map((item) => (
+    <a href={item.href} aria-current={item.active ? "page" : undefined}>
       <span>{item.label}</span>
       <span aria-hidden="true">→</span>
     </a>

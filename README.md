@@ -1,6 +1,6 @@
 # Jazz Guitar Guide · 爵士吉他学习手册
 
-一份写给自学者的中文爵士吉他指南：基础知识、12 个月路线图、40 首标准曲、免费课程、大师与教材，以及可直接使用的练习工具箱。
+一份写给自学者的爵士吉他指南：基础知识、12 个月路线图、40 首标准曲、免费课程、大师与教材、练习工具箱，并提供 6 种语言的本地化导读。
 
 **在线访问：** https://lulgabc.github.io/JazzGuitarGuide/
 
@@ -30,6 +30,9 @@
   - ii–V–I / Blues / Rhythm Changes 伴奏（Web Audio）
   - 30/60/90 分钟练习计时器
   - 音程/和弦听音测验
+- **多语言导读**：英语、法语、西班牙语、意大利语、德语、葡萄牙语（`/en/`、`/fr/`、`/es/`、`/it/`、`/de/`、`/pt/`），包含 11 章摘要、路线图、12 首曲目、免费课程、大师、书单与工具介绍。
+- **原创 10 秒开场音频**：首页打开时尝试自动播放；若浏览器阻止自动播放，会显示可点击的播放提示。音频由 Karplus-Strong 合成，不含第三方录音。
+- **真实书籍封面**：通过 Open Library Covers API 展示；暂无公开封面的书使用本站排版封面。
 
 ## 技术栈
 
@@ -39,6 +42,8 @@
 - GitHub Actions + GitHub Pages 部署
 
 没有后端、没有账号、没有广告、没有第三方统计。路线图进度只保存在浏览器 `localStorage`。
+
+多语言范围：**界面、导航、首页/导读页已本地化**；11 章深度长文目前保留中文，并在各语言导读中明确标注。书籍封面来自 Open Library，版权归原出版社。
 
 ## 本地开发
 
@@ -95,11 +100,14 @@ src/
 │  ├─ standards.ts             # 40 首标准曲
 │  ├─ roadmap.ts               # 四阶段/周计划/练习菜单
 │  └─ glossary.ts              # 术语表
+├─ i18n/                       # 语言、UI 文案、6 语言导读
 ├─ layouts/BaseLayout.astro
 ├─ lib/                        # 站点常量、base path 工具
 ├─ pages/                      # 首页、入门、路线图、课程、曲目、大师、书单、工具、关于、404
-├─ scripts/main.ts             # 主题、移动菜单、TOC、reveal
+├─ scripts/main.ts             # 主题、语言切换、移动菜单、TOC、reveal
 └─ styles/global.css
+
+scripts/generate_intro.py      # 生成原创 10 秒开场音频
 ```
 
 ## 内容原则

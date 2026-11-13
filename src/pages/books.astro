@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
+import BookCover from "../components/BookCover.astro";
 import { BOOKS, BOOK_CATEGORY_ORDER, bookLink } from "../data/books";
 import { url } from "../lib/url";
 ---
@@ -103,7 +104,7 @@ import { url } from "../lib/url";
       <div class="book-grid" id="book-grid">
         {BOOKS.map((book) => (
           <article class="book-card" id={book.id} data-category={book.category}>
-            <div class="book-cover">{book.title.split(":")[0]}</div>
+            <BookCover book={book} />
             <div>
               <h3><a href={bookLink(book)} target="_blank" rel="noopener noreferrer">{book.title}</a></h3>
               <div class="book-author">{book.author}{book.publisher ? ` · ${book.publisher}` : ""}</div>
@@ -130,6 +131,7 @@ import { url } from "../lib/url";
         <p>
           同一本书可能有不同版本（原版/翻译版/附音频版）。购买前确认版本、是否有音频、是否包含 TAB。
           本站不销售书籍，也不提供 PDF 下载；请通过正规渠道购买或借阅。
+          封面图片来自 Open Library，版权归原出版社；暂无公开封面的书使用本站排版封面。
         </p>
       </div>
       <div class="callout callout-tip" style="margin-top: 18px;">

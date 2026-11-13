@@ -1,0 +1,288 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "./SectionHead.astro";
+import BookCover from "./BookCover.astro";
+import IntroSolo from "./IntroSolo.astro";
+import type { GuideContent } from "../i18n/guide";
+import { UI, type LocaleCode } from "../i18n/locales";
+import { url } from "../lib/url";
+import { STANDARDS } from "../data/standards";
+import { VIDEOS } from "../data/courses";
+import { PLAYERS } from "../data/players";
+import { BOOKS, bookLink } from "../data/books";
+
+interface Props {
+  locale: Exclude<LocaleCode, "zh">;
+  guide: GuideContent;
+}
+
+const { locale, guide } = Astro.props;
+const ui = UI[locale];
+
+const standardById = new Map(STANDARDS.map((tune) => [tune.id, tune]));
+const videoById = new Map(VIDEOS.map((video) => [video.id, video]));
+const playerById = new Map(PLAYERS.map((player) => [player.id, player]));
+const bookById = new Map(BOOKS.map((book) => [book.id, book]));
+
+const tuneIds = ["autumn-leaves", "blue-bossa", "summertime", "all-of-me", "fly-me-to-the-moon", "satin-doll", "take-the-a-train", "blue-monk", "bags-groove", "c-jam-blues", "straight-no-chaser", "mr-pc"];
+
+const barWords: Record<string, string> = {
+  en: "bars",
+  fr: "mesures",
+  es: "compases",
+  it: "battute",
+  de: "Takte",
+  pt: "compassos",
+};
+
+function cleanForm(form: string) {
+  return form
+    .replace(/（.*?）/g, "")
+    .replace(/小节/g, barWords[locale] ?? "bars")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function cleanKey(key: string) {
+  return key.replace(/（.*?）/g, "").trim();
+}
+
+const heroLines = guide.hero.title.split("\n");
+---
+
+<BaseLayout
+  title={guide.meta.title}
+  description={guide.meta.description}
+  locale={locale}
+  mode="guide"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">{guide.hero.eyebrow}</span>
+      <h1>
+        {heroLines.map((line, i) => (
+          <span class="line" style={i === heroLines.length - 1 ? "color: var(--accent);" : ""}>{line}</span>
+        ))}
+      </h1>
+      <p class="lead">{guide.hero.lead}</p>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href="#roadmap">{guide.hero.primary} <span aria-hidden="true">↓</span></a>
+        <a class="btn btn-ghost" href="#chapters">{guide.hero.secondary}</a>
+      </div>
+      <div class="hero-meta">
+        {guide.hero.meta.map((item) => <span>{item}</span>)}
+      </div>
+      <button class="intro-replay" data-intro-replay type="button" style="margin-top: 14px;">♪ 10s</button>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="stat-strip">
+        <div class="stat-cell"><strong>11</strong><span>{ui.stats.chapters}</span></div>
+        <div class="stat-cell"><strong>12</strong><span>{ui.stats.months}</span></div>
+        <div class="stat-cell"><strong>40</strong><span>{ui.stats.tunes}</span></div>
+        <div class="stat-cell"><strong>5</strong><span>{ui.stats.tools}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead kicker={guide.pillars.kicker} title={guide.pillars.title} description={guide.pillars.intro} />
+      <div class="manifesto-grid">
+        {guide.pillars.items.map((item, i) => (
+          <article class="manifesto-card reveal">
+            <div class="manifesto-num">0{i + 1}</div>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="chapters">
+    <div class="container">
+      <SectionHead kicker={guide.chapters.kicker} title={guide.chapters.title} description={guide.chapters.intro} />
+      <div class="grid grid-3">
+        {guide.chapters.items.map((chapter, i) => (
+          <a class="card card-link reveal" href={url(`/basics/${chapter.slug}/`)}>
+            <div class="card-top">
+              <span class="card-index">{String(i + 1).padStart(2, "0")}</span>
+              <span class="pill">{ui.deepBadge}</span>
+            </div>
+            <h3>{chapter.title}</h3>
+            <p>{chapter.desc}</p>
+            <div class="resource-meta" style="margin-top: 18px;">
+              <span class="card-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p class="small muted" style="margin-top: 16px;">{ui.footer.deepNote}</p>
+    </div>
+  </section>
+
+  <section class="section" id="roadmap">
+    <div class="container">
+      <SectionHead kicker={guide.roadmap.kicker} title={guide.roadmap.title} description={guide.roadmap.intro} />
+      <div class="grid grid-4">
+        {guide.roadmap.phases.map((phase) => (
+          <article class="card phase-card reveal">
+            <div class="phase-top">
+              <span class="phase-num">{phase.number}</span>
+            </div>
+            <h3>{phase.title}</h3>
+            <p>{phase.subtitle}</p>
+            <ul class="phase-list">
+              {phase.focus.map((item) => <li>{item}</li>)}
+            </ul>
+            <p class="small muted" style="margin-top: 12px;">{phase.goal}</p>
+          </article>
+        ))}
+      </div>
+      <div class="btn-row" style="margin-top: 24px;">
+        <a class="btn btn-ghost" href={url("/roadmap/")}>{guide.roadmap.cta} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tunes">
+    <div class="container">
+      <SectionHead kicker={guide.tunes.kicker} title={guide.tunes.title} description={guide.tunes.intro} />
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{guide.tunes.labels.tune}</th>
+              <th>{guide.tunes.labels.composer}</th>
+              <th>{guide.tunes.labels.key}</th>
+              <th>{guide.tunes.labels.form}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tuneIds.map((id, i) => {
+              const tune = standardById.get(id);
+              if (!tune) return null;
+              return (
+                <tr>
+                  <td class="mono">{String(i + 1).padStart(2, "0")}</td>
+                  <td><strong>{tune.title}</strong></td>
+                  <td>{tune.composer}</td>
+                  <td>{cleanKey(tune.key)}</td>
+                  <td>{cleanForm(tune.form)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-row" style="margin-top: 20px;">
+        <a class="btn btn-ghost" href={url("/standards/")}>{guide.tunes.cta} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="courses">
+    <div class="container">
+      <SectionHead kicker={guide.courses.kicker} title={guide.courses.title} description={guide.courses.intro} />
+      <div class="grid grid-3">
+        {guide.courses.items.map((item) => {
+          const video = videoById.get(item.id);
+          if (!video) return null;
+          return (
+            <article class="card resource-card reveal">
+              <div class="resource-top">
+                <div class="resource-icon" aria-hidden="true">▶</div>
+                <span class="pill">{video.channel}</span>
+              </div>
+              <h3><a href={`https://www.youtube.com/watch?v=${video.youtubeId}`} target="_blank" rel="noopener noreferrer">{video.title}</a></h3>
+              <p>{item.why}</p>
+              <a class="resource-link" href={`https://www.youtube.com/watch?v=${video.youtubeId}`} target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="players">
+    <div class="container">
+      <SectionHead kicker={guide.players.kicker} title={guide.players.title} description={guide.players.intro} />
+      <div class="grid grid-4">
+        {guide.players.items.map((item) => {
+          const player = playerById.get(item.id);
+          if (!player) return null;
+          return (
+            <article class="card reveal">
+              <div class="card-top">
+                <span class="pill">{player.years}</span>
+              </div>
+              <h3>{player.name}</h3>
+              <p>{item.why}</p>
+              <p class="small muted" style="margin-top: 10px;">{player.albums[0].title}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="books">
+    <div class="container">
+      <SectionHead kicker={guide.books.kicker} title={guide.books.title} description={guide.books.intro} />
+      <div class="book-grid">
+        {guide.books.items.map((item) => {
+          const book = bookById.get(item.id);
+          if (!book) return null;
+          return (
+            <article class="book-card reveal">
+              <BookCover book={book} />
+              <div>
+                <h3><a href={bookLink(book)} target="_blank" rel="noopener noreferrer">{book.title}</a></h3>
+                <div class="book-author">{book.author}</div>
+                <p>{item.why}</p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tools">
+    <div class="container">
+      <SectionHead kicker={guide.tools.kicker} title={guide.tools.title} description={guide.tools.intro} />
+      <div class="grid grid-3">
+        {guide.tools.items.map((item, i) => (
+          <article class="card reveal">
+            <div class="card-top">
+              <span class="card-index">0{i + 1}</span>
+              <span class="pill">{ui.nav.tools}</span>
+            </div>
+            <h3>{item.name}</h3>
+            <p>{item.desc}</p>
+          </article>
+        ))}
+      </div>
+      <div class="btn-row" style="margin-top: 24px;">
+        <a class="btn btn-primary" href={url("/tools/")}>{ui.nav.tools} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card" style="padding: clamp(28px, 5vw, 56px); text-align: center; background: radial-gradient(circle at 50% 0%, var(--accent-soft), transparent 60%), var(--panel);">
+        <span class="eyebrow" style="justify-content: center;">{ui.deepBadge}</span>
+        <h2 style="font-size: clamp(2rem, 4vw, 3.4rem); margin: 14px auto; max-width: 760px;">{guide.deep.title}</h2>
+        <p class="lead" style="max-width: 680px; margin: 0 auto 24px;">{guide.deep.body}</p>
+        <a class="btn btn-primary" href={url("/basics/")}>{guide.deep.cta} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <IntroSolo locale={locale} />
+</BaseLayout>

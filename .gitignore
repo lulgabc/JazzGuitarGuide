@@ -7,3 +7,6 @@ dist/
 .env.*
 !.env.example
 tmp/
+
+# generated source audio (the mp3 is the committed asset)
+public/audio/*.wav

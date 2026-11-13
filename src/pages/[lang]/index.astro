@@ -1,0 +1,17 @@
+---
+import GuidePage from "../../components/GuidePage.astro";
+import { GUIDES } from "../../i18n/guide";
+import { LOCALIZED_LOCALES, type LocaleCode } from "../../i18n/locales";
+
+export function getStaticPaths() {
+  return LOCALIZED_LOCALES.map((locale) => ({
+    params: { lang: locale.code },
+    props: { locale: locale.code as Exclude<LocaleCode, "zh"> },
+  }));
+}
+
+const { locale } = Astro.props;
+const guide = GUIDES[locale];
+---
+
+<GuidePage locale={locale} guide={guide} />

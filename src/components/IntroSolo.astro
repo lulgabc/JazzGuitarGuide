@@ -1,0 +1,186 @@
+---
+import { base } from "../lib/url";
+
+interface Props {
+  locale?: string;
+}
+
+const { locale = "zh" } = Astro.props;
+
+const STRINGS: Record<string, { title: string; play: string; stop: string; playing: string; blocked: string; close: string }> = {
+  zh: {
+    title: "10 秒爵士序曲",
+    play: "播放",
+    stop: "停止",
+    playing: "正在播放 · 原创合成片段",
+    blocked: "浏览器阻止了自动播放。点击播放，听一段 10 秒的爵士吉他。",
+    close: "关闭",
+  },
+  en: {
+    title: "10-second jazz intro",
+    play: "Play",
+    stop: "Stop",
+    playing: "Now playing · original synth sketch",
+    blocked: "Autoplay was blocked. Tap play for a 10-second jazz guitar intro.",
+    close: "Dismiss",
+  },
+  fr: {
+    title: "Intro jazz de 10 secondes",
+    play: "Lire",
+    stop: "Arrêter",
+    playing: "Lecture en cours · esquisse synthétique originale",
+    blocked: "La lecture automatique a été bloquée. Appuyez sur lire pour écouter 10 secondes de guitare jazz.",
+    close: "Fermer",
+  },
+  es: {
+    title: "Intro de jazz de 10 segundos",
+    play: "Reproducir",
+    stop: "Detener",
+    playing: "Reproduciendo · esbozo sintético original",
+    blocked: "El navegador bloqueó la reproducción automática. Pulsa reproducir para oír 10 segundos de guitarra jazz.",
+    close: "Cerrar",
+  },
+  it: {
+    title: "Intro jazz di 10 secondi",
+    play: "Riproduci",
+    stop: "Ferma",
+    playing: "In riproduzione · schizzo sintetico originale",
+    blocked: "La riproduzione automatica è stata bloccata. Premi riproduci per ascoltare 10 secondi di chitarra jazz.",
+    close: "Chiudi",
+  },
+  de: {
+    title: "10-Sekunden-Jazz-Intro",
+    play: "Abspielen",
+    stop: "Stoppen",
+    playing: "Wird abgespielt · originale Synth-Skizze",
+    blocked: "Autoplay wurde blockiert. Tippe auf Abspielen und höre 10 Sekunden Jazzgitarre.",
+    close: "Schließen",
+  },
+  pt: {
+    title: "Intro de jazz de 10 segundos",
+    play: "Reproduzir",
+    stop: "Parar",
+    playing: "A reproduzir · esboço sintético original",
+    blocked: "A reprodução automática foi bloqueada. Toque em reproduzir para ouvir 10 segundos de guitarra jazz.",
+    close: "Fechar",
+  },
+};
+
+const t = STRINGS[locale] ?? STRINGS.zh;
+---
+
+<div
+  class="intro-toast"
+  id="intro-toast"
+  role="status"
+  aria-live="polite"
+  data-playing={t.playing}
+  data-blocked={t.blocked}
+  data-play={t.play}
+  data-stop={t.stop}
+  hidden
+>
+  <div class="intro-toast-icon" aria-hidden="true">♪</div>
+  <div class="intro-toast-body">
+    <strong>{t.title}</strong>
+    <span id="intro-message">{t.blocked}</span>
+  </div>
+  <button class="btn btn-primary btn-sm" id="intro-toggle" type="button">{t.play}</button>
+  <button class="intro-close" id="intro-close" type="button" aria-label={t.close}>×</button>
+</div>
+
+<audio id="intro-audio" src={`${base}/audio/intro-solo.mp3`} preload="auto"></audio>
+
+<script>
+  const audio = document.getElementById("intro-audio") as HTMLAudioElement | null;
+  const toast = document.getElementById("intro-toast") as HTMLElement | null;
+  const toggle = document.getElementById("intro-toggle") as HTMLButtonElement | null;
+  const close = document.getElementById("intro-close") as HTMLButtonElement | null;
+  const message = document.getElementById("intro-message") as HTMLElement | null;
+  const replay = document.querySelector<HTMLButtonElement>("[data-intro-replay]");
+  const labels = {
+    play: toast?.dataset.play || "Play",
+    stop: toast?.dataset.stop || "Stop",
+  };
+
+  if (audio && toast && toggle && message) {
+    audio.volume = 0.45;
+    let dismissed = false;
+    try {
+      dismissed = sessionStorage.getItem("jgg-intro-dismissed") === "1";
+    } catch {
+      dismissed = false;
+    }
+
+    const show = () => {
+      toast.hidden = false;
+    };
+    const hide = () => {
+      toast.hidden = true;
+    };
+    const setPlaying = (playing: boolean) => {
+      toggle.textContent = playing ? labels.stop : labels.play;
+      toggle.dataset.state = playing ? "playing" : "idle";
+      message.textContent = playing ? toast.dataset.playing || "" : toast.dataset.blocked || "";
+    };
+
+    const stop = () => {
+      audio.pause();
+      audio.currentTime = 0;
+      setPlaying(false);
+      toggle.textContent = labels.play;
+    };
+
+    const play = async () => {
+      try {
+        audio.currentTime = 0;
+        await audio.play();
+        show();
+        setPlaying(true);
+        toggle.textContent = labels.stop;
+      } catch {
+        show();
+        setPlaying(false);
+        toggle.textContent = labels.play;
+      }
+    };
+
+    toggle.addEventListener("click", () => {
+      if (audio.paused) void play();
+      else stop();
+    });
+
+    close?.addEventListener("click", () => {
+      dismissed = true;
+      try {
+        sessionStorage.setItem("jgg-intro-dismissed", "1");
+      } catch {
+        /* ignore */
+      }
+      hide();
+    });
+
+    replay?.addEventListener("click", () => {
+      dismissed = false;
+      try {
+        sessionStorage.removeItem("jgg-intro-dismissed");
+      } catch {
+        /* ignore */
+      }
+      void play();
+    });
+
+    audio.addEventListener("ended", () => {
+      setPlaying(false);
+      toggle.textContent = labels.play;
+      window.setTimeout(hide, 1200);
+    });
+
+    // Best-effort autoplay on first visit in this browser session.
+    if (!dismissed) {
+      window.setTimeout(() => {
+        void play();
+      }, 550);
+    }
+  }
+</script>

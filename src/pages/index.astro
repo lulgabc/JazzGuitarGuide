@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
 import VideoCard from "../components/VideoCard.astro";
+import BookCover from "../components/BookCover.astro";
+import IntroSolo from "../components/IntroSolo.astro";
 import { SITE } from "../lib/site";
 import { url } from "../lib/url";
 import { PHASES, ROUTINES } from "../data/roadmap";
@@ -35,6 +37,7 @@ import { FEATURED_BOOKS } from "../data/books";
           <span>30+ 免费课程</span>
           <span>可交互练习</span>
         </div>
+        <button class="intro-replay" data-intro-replay type="button" style="margin-top: 14px;">♪ 听 10 秒开场</button>
       </div>
 
       <div class="hero-visual" aria-hidden="true">
@@ -270,7 +273,7 @@ import { FEATURED_BOOKS } from "../data/books";
       <div class="grid grid-3">
         {FEATURED_BOOKS.slice(0, 3).map((book) => (
           <a class="book-card" href={url(`/books/#${book.id}`)} style="text-decoration:none;color:inherit;">
-            <div class="book-cover">{book.title.split(",")[0]}</div>
+            <BookCover book={book} />
             <div>
               <h3>{book.title}</h3>
               <div class="book-author">{book.author}</div>
@@ -300,4 +303,6 @@ import { FEATURED_BOOKS } from "../data/books";
       </div>
     </div>
   </section>
+
+  <IntroSolo />
 </BaseLayout>

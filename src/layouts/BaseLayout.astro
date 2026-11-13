@@ -3,6 +3,8 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE } from "../lib/site";
+import { getLocale, LOCALES, localeHome, type LocaleCode } from "../i18n/locales";
+import { url } from "../lib/url";
 
 interface Props {
   title?: string;
@@ -10,6 +12,8 @@ interface Props {
   image?: string;
   noindex?: boolean;
   bodyClass?: string;
+  locale?: LocaleCode;
+  mode?: "site" | "guide";
 }
 
 const {
@@ -18,21 +22,29 @@ const {
   image = `${SITE.url}/og.png`,
   noindex = false,
   bodyClass = "",
+  locale = "zh",
+  mode = "site",
 } = Astro.props;
 
-const pageTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.titleZh}`;
+const localeMeta = getLocale(locale);
+
+const pageTitle = !title ? `${SITE.title} · ${SITE.titleZh}` : title === SITE.title ? title : `${title} · ${SITE.title}`;
 const canonical = new URL(Astro.url.pathname, SITE.url).toString();
 const ogType = title ? "article" : "website";
 ---
 
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang={localeMeta.htmlLang} data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {LOCALES.map((item) => (
+      <link rel="alternate" hreflang={item.htmlLang} href={new URL(url(localeHome(item.code)), SITE.url).toString()} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(url("/"), SITE.url).toString()} />
     <meta name="generator" content={Astro.generator} />
     <meta name="author" content={SITE.author} />
     <meta name="theme-color" content="#0b0d11" />
@@ -45,7 +57,7 @@ const ogType = title ? "article" : "website";
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={image} />
-    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale" content={localeMeta.ogLocale} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
@@ -72,11 +84,11 @@ const ogType = title ? "article" : "website";
   </head>
   <body id="top" class={bodyClass}>
     <a class="skip-link" href="#main">跳到主要内容</a>
-    <Header />
+    <Header locale={locale} mode={mode} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} mode={mode} />
     <script>
       import "../scripts/main";
     </script>

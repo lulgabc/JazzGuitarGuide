@@ -25,6 +25,12 @@ document.querySelectorAll<HTMLButtonElement>("#theme-toggle").forEach((btn) => {
 
 applyTheme((root.dataset.theme as "dark" | "light") || "dark");
 
+/* language selector */
+const langSelect = document.getElementById("lang-select") as HTMLSelectElement | null;
+langSelect?.addEventListener("change", () => {
+  if (langSelect.value) window.location.href = langSelect.value;
+});
+
 /* mobile navigation */
 const mobileToggle = document.querySelector<HTMLButtonElement>("#mobile-toggle");
 const mobileNav = document.querySelector<HTMLElement>("#mobile-nav");

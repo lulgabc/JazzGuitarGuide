@@ -1,0 +1,27 @@
+---
+import type { Book } from "../data/books";
+import { BOOK_COVERS } from "../data/book-covers";
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+const src = BOOK_COVERS[book.id];
+const shortTitle = book.title.split(":")[0].split(",")[0];
+---
+
+<div class:list={["book-cover", !src && "is-fallback"]}>
+  <span class="book-cover-text">{shortTitle}</span>
+  {src && (
+    <img
+      src={src}
+      alt={`Cover: ${book.title}`}
+      loading="lazy"
+      width="180"
+      height="234"
+      onerror="this.parentElement.classList.add('is-fallback'); this.remove();"
+    />
+  )}
+  {src && <span class="book-cover-source" aria-hidden="true">Open Library</span>}
+</div>
