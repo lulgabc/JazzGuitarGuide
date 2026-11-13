@@ -24,6 +24,7 @@ export const NAV: NavItem[] = [
   { href: "/standards/", label: "必学曲目", short: "曲目", description: "40 首标准曲，按难度、曲式与练习重点整理" },
   { href: "/players/", label: "吉他大师", short: "大师", description: "从 Django 到 Julian Lage，按年代与风格认识爵士吉他" },
   { href: "/books/", label: "教材书单", short: "书单", description: "方法书、和声、即兴、转录、历史与传记" },
+  { href: "/guitars/", label: "选琴指南", short: "选琴", description: "入门、进阶、演出三个等级的爵士吉他型号与法国市场参考价" },
   { href: "/tools/", label: "练习工具箱", short: "工具箱", description: "指板、节拍器、伴奏、计时器与听音测验" },
 ];
 

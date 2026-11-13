@@ -10,6 +10,7 @@ import { PHASES, ROUTINES } from "../data/roadmap";
 import { FIRST_WAVE } from "../data/standards";
 import { FEATURED_VIDEOS, CHANNELS } from "../data/courses";
 import { FEATURED_PLAYERS } from "../data/players";
+import { PLAYER_PHOTOS } from "../data/player-photos";
 import { FEATURED_BOOKS } from "../data/books";
 ---
 
@@ -207,16 +208,23 @@ import { FEATURED_BOOKS } from "../data/books";
         linkLabel="进入大师名录"
       />
       <div class="player-grid">
-        {FEATURED_PLAYERS.slice(0, 4).map((player) => (
-          <a class="player-card" href={url(`/players/#${player.id}`)} style="text-decoration:none;color:inherit;">
-            <span class="player-years">{player.years}</span>
-            <span class="player-initial" aria-hidden="true">{player.name.charAt(0)}</span>
-            <div class="player-role">{player.style}</div>
-            <h3>{player.name}</h3>
-            <p>{player.oneLiner}</p>
-            <div class="player-albums"><span>先听：</span>{player.albums[0].title}</div>
-          </a>
-        ))}
+        {FEATURED_PLAYERS.slice(0, 4).map((player) => {
+          const photo = PLAYER_PHOTOS[player.id];
+          return (
+            <a class:list={["player-card", photo && "has-photo"]} href={url(`/players/#${player.id}`)} style="text-decoration:none;color:inherit;">
+              {photo && <img class="player-photo" src={url(photo.src)} alt="" loading="lazy" aria-hidden="true" />}
+              {photo && <div class="player-photo-shade" aria-hidden="true"></div>}
+              <span class="player-years">{player.years}</span>
+              <span class="player-initial" aria-hidden="true">{player.name.charAt(0)}</span>
+              <div class="player-body">
+                <div class="player-role">{player.style}</div>
+                <h3>{player.name}</h3>
+                <p>{player.oneLiner}</p>
+                <div class="player-albums"><span>先听：</span>{player.albums[0].title}</div>
+              </div>
+            </a>
+          );
+        })}
       </div>
     </div>
   </section>

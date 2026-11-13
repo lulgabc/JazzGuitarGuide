@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
 import { PLAYERS, ERA_ORDER } from "../data/players";
+import { PLAYER_PHOTOS } from "../data/player-photos";
 import { url } from "../lib/url";
 ---
 
@@ -54,36 +55,47 @@ import { url } from "../lib/url";
         </div>
         <span class="small muted" id="player-count">显示 {PLAYERS.length} 位</span>
       </div>
+      <p class="small muted" style="margin-bottom: 18px;">
+        人物照片来自 Wikipedia / Wikimedia Commons，均以黑白背景衬底；作者、许可与来源见页尾照片 credits。
+        没有开放许可照片的 4 位大师使用排版背景。
+      </p>
 
       <div class="player-grid" id="player-grid">
-        {PLAYERS.map((player) => (
-          <article class="player-card player-card-full" id={player.id} data-era={player.era}>
-            <span class="player-years">{player.years}</span>
-            <span class="player-initial" aria-hidden="true">{player.name.charAt(0)}</span>
-            <div class="player-role">{player.era} · {player.style}</div>
-            <h3>{player.name}{player.nameZh ? ` · ${player.nameZh}` : ""}</h3>
-            <p>{player.oneLiner}</p>
-            <p style="margin-top: 8px;">{player.why}</p>
-            <div class="player-albums">
-              <span>先听：</span>{player.albums.map((album) => album.title).join(" · ")}
-            </div>
-            <details style="position:relative; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px;">
-              <summary style="cursor:pointer; color: var(--accent); font-size: 0.76rem;">专辑听点</summary>
-              <ul class="listen-list" style="list-style:none; padding: 8px 0 0; margin:0; display:grid; gap:8px;">
-                {player.albums.map((album) => (
-                  <li style="font-size:0.74rem; color:var(--muted); line-height:1.5;">
-                    <strong style="color:var(--text-soft);">{album.title}</strong>
-                    <span style="display:block; color:var(--faint);">{album.note}</span>
-                  </li>
-                ))}
-              </ul>
-            </details>
-            <div class="tag-row" style="position:relative; margin-top: 12px;">
-              {player.tags.map((tag) => <span class="pill">{tag}</span>)}
-            </div>
-            <a class="resource-link" href={`https://www.youtube.com/results?search_query=${encodeURIComponent(player.listenQuery)}`} target="_blank" rel="noopener noreferrer" style="position:relative; margin-top: 12px;">在 YouTube 听 ↗</a>
-          </article>
-        ))}
+        {PLAYERS.map((player) => {
+          const photo = PLAYER_PHOTOS[player.id];
+          return (
+            <article class:list={["player-card", "player-card-full", photo && "has-photo"]} id={player.id} data-era={player.era}>
+              {photo && <img class="player-photo" src={url(photo.src)} alt="" loading="lazy" aria-hidden="true" />}
+              {photo && <div class="player-photo-shade" aria-hidden="true"></div>}
+              <span class="player-years">{player.years}</span>
+              <span class="player-initial" aria-hidden="true">{player.name.charAt(0)}</span>
+              <div class="player-body">
+                <div class="player-role">{player.era} · {player.style}</div>
+                <h3>{player.name}{player.nameZh ? ` · ${player.nameZh}` : ""}</h3>
+                <p>{player.oneLiner}</p>
+                <p style="margin-top: 8px;">{player.why}</p>
+                <div class="player-albums">
+                  <span>先听：</span>{player.albums.map((album) => album.title).join(" · ")}
+                </div>
+                <details style="position:relative; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px;">
+                  <summary style="cursor:pointer; color: var(--accent); font-size: 0.76rem;">专辑听点</summary>
+                  <ul class="listen-list" style="list-style:none; padding: 8px 0 0; margin:0; display:grid; gap:8px;">
+                    {player.albums.map((album) => (
+                      <li style="font-size:0.74rem; color:var(--muted); line-height:1.5;">
+                        <strong style="color:var(--text-soft);">{album.title}</strong>
+                        <span style="display:block; color:var(--faint);">{album.note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+                <div class="tag-row" style="position:relative; margin-top: 12px;">
+                  {player.tags.map((tag) => <span class="pill">{tag}</span>)}
+                </div>
+                <a class="resource-link" href={`https://www.youtube.com/results?search_query=${encodeURIComponent(player.listenQuery)}`} target="_blank" rel="noopener noreferrer" style="position:relative; margin-top: 12px;">在 YouTube 听 ↗</a>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -128,6 +140,45 @@ import { url } from "../lib/url";
       </div>
     </div>
   </section>
+
+
+  <section class="section" id="photo-credits">
+    <div class="container">
+      <SectionHead
+        kicker="Photo credits"
+        title="照片来源与许可"
+        description="人物照片仅用于识别与评论，并以黑白背景衬底呈现。每张照片的作者、许可与 Commons 来源如下。"
+      />
+      <details style="border:1px solid var(--line); border-radius:var(--radius-sm); background:color-mix(in srgb, var(--panel) 55%, transparent); padding:0 16px;">
+        <summary style="cursor:pointer; padding:14px 0; font-weight:600; font-size:0.9rem;">
+          查看 30 张照片的作者、许可与来源
+        </summary>
+        <div class="table-wrap" style="margin:8px 0 16px;">
+          <table>
+            <thead><tr><th>大师</th><th>作者</th><th>许可</th><th>来源</th></tr></thead>
+            <tbody>
+              {PLAYERS.map((player) => {
+                const photo = PLAYER_PHOTOS[player.id];
+                const credit = photo ? photo.credit.replace(/\s+/g, " ").trim() : "";
+                return (
+                  <tr>
+                    <td><a href={`#${player.id}`}>{player.name}</a></td>
+                    <td>{photo ? credit || "Unknown" : "No open-license portrait"}</td>
+                    <td>{photo ? photo.license : "—"}</td>
+                    <td>{photo ? <a href={photo.source} target="_blank" rel="noopener noreferrer">Wikimedia Commons ↗</a> : "—"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <p class="small muted" style="margin-top: 14px;">
+        照片版权/许可归原作者；本站不主张照片版权。如果你希望更换或移除某张照片，请在 GitHub 提 issue。
+      </p>
+    </div>
+  </section>
+
 </BaseLayout>
 
 <script>

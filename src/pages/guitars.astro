@@ -1,0 +1,230 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { GUITAR_TIERS, GUITARS, GUITAR_SHOPS, TRY_CHECKLIST, GUITAR_TIPS } from "../data/guitars";
+import { url } from "../lib/url";
+
+---
+
+<BaseLayout
+  title="选琴指南"
+  description="法国市场爵士吉他选购指南：入门、进阶、演出三个等级的最佳品牌型号与参考价格（欧元，含税）。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Guitar buying guide · France</span>
+      <h1>选一把，<br />能陪你练下去的琴。</h1>
+      <p class="lead">
+        按入门、进阶、演出三个等级整理法国市场最值得试的爵士吉他型号与参考价格。
+        不是“越贵越好”，而是“这个阶段买什么最不浪费”。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">3 个等级</span>
+        <span class="pill">18 个型号</span>
+        <span class="pill">法国市场 € 参考价</span>
+        <span class="pill">2026 年 11 月</span>
+      </div>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href="#beginner">从入门开始 <span aria-hidden="true">↓</span></a>
+        <a class="btn btn-ghost" href="#checklist">试琴清单</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="stat-strip">
+        <div class="stat-cell"><strong>3</strong><span>等级</span></div>
+        <div class="stat-cell"><strong>18</strong><span>型号</span></div>
+        <div class="stat-cell"><strong>€329+</strong><span>入门起</span></div>
+        <div class="stat-cell"><strong>TTC</strong><span>法国含税参考</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="First decision"
+        title="先选琴型，再选品牌"
+        description="你买的是“工作方式”，不是 logo：archtop、半空心、实心琴在音量、反馈、手感与音色上完全不同。"
+      />
+      <div class="grid grid-3">
+        <article class="card reveal">
+          <span class="pill pill-accent">Archtop</span>
+          <h3 style="margin-top: 14px;">全空心拱面</h3>
+          <p>传统爵士音色，木质、圆润、有空气感。适合 chord melody、传统 jazz、blues。</p>
+          <p class="small muted" style="margin-top: 10px;">注意：更容易 feedback，琴体较大，通常只有一个或两个拾音器。</p>
+        </article>
+        <article class="card reveal">
+          <span class="pill pill-sage">Semi-hollow</span>
+          <h3 style="margin-top: 14px;">半空心 335</h3>
+          <p>中间有实木 block，抗反馈、通用、好转手。适合从练习到演出的绝大多数场景。</p>
+          <p class="small muted" style="margin-top: 10px;">注意：不是“最传统”的 archtop 声音，但最容易陪你走远。</p>
+        </article>
+        <article class="card reveal">
+          <span class="pill pill-blue">Solid body</span>
+          <h3 style="margin-top: 14px;">实心琴</h3>
+          <p>延音长、抗反馈、音色可塑性强。适合现代 jazz、fusion、效果器与高音量舞台。</p>
+          <p class="small muted" style="margin-top: 10px;">注意：要靠拾音器/音箱/触弦做出温暖感，不是“传统 jazz 外观”。</p>
+        </article>
+      </div>
+      <div class="callout callout-tip" style="margin-top: 24px;">
+        <strong class="callout-title">预算分配建议</strong>
+        <p>
+          吉他 60–70%，setup（琴颈/弦距/品丝/拾音器高度）€50–100，clean 音箱 €200–500，
+          硬盒/软包 €80–150，flatwound 弦与拨片 €30–60。不要把全部预算压在琴上。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <SectionHead
+        kicker="Quick picks"
+        title="如果只想听一个建议"
+        description="不是说别的不好，而是这三个价位里，它们最容易让大多数人“买得不后悔”。"
+      />
+      <div class="grid grid-3">
+        <a class="card card-link reveal" href="#beginner">
+          <span class="pill pill-sage">入门 · €329–379</span>
+          <h3 style="margin-top: 14px;">Ibanez AS53</h3>
+          <p>半空心、轻、便宜、好转手。先把预算留给 setup 和音箱。</p>
+        </a>
+        <a class="card card-link reveal" href="#intermediate">
+          <span class="pill pill-blue">进阶 · €1,549–1,699</span>
+          <h3 style="margin-top: 14px;">Eastman T386 / T486</h3>
+          <p>335 体型的认真升级：更好的木材、拾音器与硬盒，能直接上台。</p>
+        </a>
+        <a class="card card-link reveal" href="#pro">
+          <span class="pill pill-rust">演出 · €2,799–3,299</span>
+          <h3 style="margin-top: 14px;">Gibson ES-335</h3>
+          <p>行业标准、维修网络成熟、转手容易。试琴后买，别只看照片。</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {GUITAR_TIERS.map((tier) => {
+    const models = GUITARS.filter((guitar) => guitar.tier === tier.title);
+    return (
+      <section class="section" id={tier.id}>
+        <div class="container">
+          <div class="tier-head">
+            <div class="tier-num">{tier.number}</div>
+            <div class="tier-info">
+              <div class="tier-topline">
+                <h2>{tier.title}</h2>
+                <span class="tier-budget">{tier.budget}</span>
+              </div>
+              <p class="tier-subtitle">{tier.subtitle}</p>
+              <p>{tier.description}</p>
+            </div>
+          </div>
+          <div class="guitar-grid">
+            {models.map((guitar) => (
+              <article class="card guitar-card reveal">
+                <div class="guitar-top">
+                  <div>
+                    <span class="pill">{guitar.tier}</span>
+                    <h3>{guitar.brand} {guitar.model}</h3>
+                  </div>
+                  <div class="guitar-price">{guitar.price}<small>TTC</small></div>
+                </div>
+                <div class="guitar-meta">
+                  <span>{guitar.type}</span>
+                  <span>{guitar.pickups}</span>
+                </div>
+                <p class="guitar-why">{guitar.why}</p>
+                <p class="guitar-watch"><strong>注意：</strong>{guitar.watch}</p>
+                <div class="tag-row">
+                  {guitar.tags.map((tag) => <span class="pill">{tag}</span>)}
+                </div>
+                <div class="guitar-source">
+                  <a href={guitar.sourceUrl} target="_blank" rel="noopener noreferrer">{guitar.sourceLabel} ↗</a>
+                  <span>{guitar.priceNote}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  <section class="section" id="shops">
+    <div class="container">
+      <SectionHead
+        kicker="Where to buy"
+        title="法国购买渠道"
+        description="线上价格透明，线下能试手感。贵琴尽量去店里试；网购优先选有退货期与保修的店。"
+      />
+      <div class="grid grid-3">
+        {GUITAR_SHOPS.map((shop) => (
+          <a class="card card-link reveal" href={shop.url} target="_blank" rel="noopener noreferrer">
+            <div class="card-top">
+              <span class="pill">France / EU</span>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </div>
+            <h3>{shop.name}</h3>
+            <p>{shop.note}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="container">
+      <SectionHead
+        kicker="Try before you buy"
+        title="试琴清单：10 个必查"
+        description="带上自己的拨片、背带，最好再带一个懂琴的朋友。不要只弹开放和弦。"
+      />
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>在店里</h3>
+          <ol class="phase-list" style="list-style:none; padding:0; margin-top:14px;">
+            {TRY_CHECKLIST.map((item) => <li>{item}</li>)}
+          </ol>
+        </div>
+        <div class="card">
+          <h3>不要踩的坑</h3>
+          <div class="grid" style="gap:12px; margin-top:14px;">
+            {GUITAR_TIPS.map((tip) => (
+              <div>
+                <strong style="font-size:0.9rem;">{tip.title}</strong>
+                <p class="small muted" style="margin-top:3px;">{tip.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-warn" style="margin-top: 24px;">
+        <strong class="callout-title">价格说明</strong>
+        <p>
+          以上为 2026 年 11 月在 Thomann.fr、Woodbrass、Star's Music、Music Privilège、Euroguitar、
+          MusiX、Session、TFOA 等渠道看到的含税参考价（EUR TTC），不同颜色/批次/促销会变化。
+          本站不收取任何推广费；购买前请以商家当前页面为准。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card" style="padding: clamp(28px, 5vw, 50px); text-align:center;">
+        <span class="eyebrow" style="justify-content:center;">Next step</span>
+        <h2 style="font-size: clamp(1.9rem, 3.6vw, 3rem); margin: 14px auto; max-width: 760px;">琴只是工具，<br />曲子才是目标。</h2>
+        <p class="lead" style="max-width: 620px; margin: 0 auto 24px;">
+          选好琴之后，用 12 个月路线图把它练成“能 jam”的状态。每天 30 分钟，比换十把琴更有用。
+        </p>
+        <div class="btn-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={url("/roadmap/")}>打开路线图</a>
+          <a class="btn btn-ghost" href={url("/standards/")}>选第一首曲子</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

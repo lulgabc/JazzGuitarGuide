@@ -1867,6 +1867,91 @@ tbody tr:hover td {
   border-color: var(--line-strong);
 }
 
+.player-body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.player-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+  filter: grayscale(1) contrast(1.08) brightness(.82);
+  opacity: .58;
+}
+
+.player-photo-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(8, 10, 14, .38) 0%, rgba(8, 10, 14, .58) 38%, rgba(8, 10, 14, .95) 100%),
+    linear-gradient(90deg, rgba(8, 10, 14, .25), transparent 65%);
+  pointer-events: none;
+}
+
+.player-card.has-photo {
+  color: #f3eee4;
+}
+
+.player-card.has-photo::before {
+  opacity: .16;
+}
+
+.player-card.has-photo .player-initial {
+  display: none;
+}
+
+.player-card.has-photo .player-years,
+.player-card.has-photo .player-role,
+.player-card.has-photo h3,
+.player-card.has-photo .player-albums,
+.player-card.has-photo .player-albums span,
+.player-card.has-photo details,
+.player-card.has-photo summary {
+  color: #f3eee4;
+}
+
+.player-card.has-photo p {
+  color: rgba(243, 238, 228, .78);
+}
+
+.player-card.has-photo .player-role {
+  color: #ffd98e;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .55);
+}
+
+.player-card.has-photo .player-years {
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(8, 10, 14, .42);
+  color: rgba(255, 255, 255, .82);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .55);
+}
+
+.player-card.has-photo .player-albums {
+  border-top-color: rgba(255, 255, 255, .2);
+}
+
+.player-card.has-photo .pill {
+  border-color: rgba(255, 255, 255, .22);
+  background: rgba(0, 0, 0, .24);
+  color: #f3eee4;
+}
+
+.player-card.has-photo .resource-link,
+.player-card.has-photo summary {
+  color: #ffd98e;
+}
+
 .player-card::before {
   content: "";
   position: absolute;
@@ -1878,6 +1963,7 @@ tbody tr:hover td {
 
 .player-card .player-years {
   position: absolute;
+  z-index: 3;
   top: 18px;
   right: 20px;
   font-family: var(--font-mono);
@@ -1888,6 +1974,7 @@ tbody tr:hover td {
 
 .player-card .player-initial {
   position: absolute;
+  z-index: 1;
   top: 18px;
   left: 22px;
   font-family: var(--font-display);
@@ -3569,6 +3656,10 @@ html[data-theme="light"] .fretboard-wrap {
     font-size: clamp(2.6rem, 14vw, 4.1rem);
   }
 
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 8.8vw, 2.8rem);
+  }
+
   .hero-visual {
     min-height: 330px;
   }
@@ -3677,5 +3768,201 @@ html[data-theme="light"] .fretboard-wrap {
   a {
     color: #000;
     text-decoration: underline;
+  }
+}
+
+/* ---------- guitar buying guide ---------- */
+
+.tier-head {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: start;
+  margin-bottom: clamp(24px, 4vw, 38px);
+}
+
+.tier-num {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 6vw, 5rem);
+  line-height: 0.82;
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+.tier-topline {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-bottom: 4px;
+}
+
+.tier-topline h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.tier-budget {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.tier-subtitle {
+  color: var(--text-soft);
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.tier-info > p:last-child {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.guitar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.guitar-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.guitar-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.guitar-top h3 {
+  margin-top: 10px;
+  font-size: 1.25rem;
+}
+
+.guitar-price {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  color: var(--accent);
+  text-align: right;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.guitar-price small {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-body);
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.guitar-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 10px 0 12px;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.guitar-meta span + span::before {
+  content: "·";
+  margin-right: 8px;
+  color: var(--faint);
+}
+
+.guitar-why {
+  flex: 1;
+  font-size: 0.84rem;
+  line-height: 1.68;
+  color: var(--text-soft);
+}
+
+.guitar-watch {
+  margin-top: 12px;
+  padding: 9px 12px;
+  border-left: 2px solid var(--rust);
+  border-radius: 0 6px 6px 0;
+  background: var(--rust-soft);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.guitar-watch strong {
+  color: var(--rust);
+}
+
+.guitar-card .tag-row {
+  margin-top: 12px;
+}
+
+.guitar-source {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 0.68rem;
+  color: var(--faint);
+}
+
+.guitar-source a {
+  flex-shrink: 0;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.guitar-source a:hover {
+  text-decoration: underline;
+}
+
+.guitar-source span {
+  text-align: right;
+  line-height: 1.45;
+}
+
+@media (max-width: 860px) {
+  .guitar-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tier-head {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tier-num {
+    font-size: 3.2rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .guitar-top {
+    gap: 8px;
+  }
+
+  .guitar-price {
+    font-size: 1.05rem;
+  }
+
+  .guitar-source {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .guitar-source span {
+    text-align: left;
   }
 }
