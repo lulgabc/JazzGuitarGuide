@@ -61,7 +61,7 @@ const heroLines = guide.hero.title.split("\n");
       <span class="eyebrow">{guide.hero.eyebrow}</span>
       <h1>
         {heroLines.map((line, i) => (
-          <span class="line" style={i === heroLines.length - 1 ? "color: var(--accent);" : ""}>{line}</span>
+          <span class="line" style={i === heroLines.length - 1 ? "color: var(--accent);" : ""}>{line}{i < heroLines.length - 1 ? " " : ""}</span>
         ))}
       </h1>
       <p class="lead">{guide.hero.lead}</p>
