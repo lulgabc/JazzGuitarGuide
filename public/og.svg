@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="82%" cy="8%" r="75%">
+      <stop offset="0" stop-color="#d8a95c" stop-opacity=".22"/>
+      <stop offset=".55" stop-color="#d8a95c" stop-opacity=".04"/>
+      <stop offset="1" stop-color="#0b0d11" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="label" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#efc377"/>
+      <stop offset="1" stop-color="#b8823a"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0b0d11"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g opacity=".18" stroke="#f3eee4" stroke-width="1">
+    <path d="M0 520h1200M0 560h1200M0 600h1200"/>
+  </g>
+  <circle cx="955" cy="300" r="190" fill="#14171b" stroke="#2a2e34" stroke-width="2"/>
+  <g opacity=".5" stroke="#3a3d42" stroke-width="1">
+    <circle cx="955" cy="300" r="166" fill="none"/>
+    <circle cx="955" cy="300" r="150" fill="none"/>
+    <circle cx="955" cy="300" r="132" fill="none"/>
+    <circle cx="955" cy="300" r="114" fill="none"/>
+    <circle cx="955" cy="300" r="96" fill="none"/>
+    <circle cx="955" cy="300" r="78" fill="none"/>
+  </g>
+  <circle cx="955" cy="300" r="58" fill="url(#label)"/>
+  <circle cx="955" cy="300" r="5" fill="#0b0d11"/>
+  <text x="955" y="289" font-family="Georgia, serif" font-size="21" fill="#21180a" text-anchor="middle" letter-spacing="2">JAZZ</text>
+  <text x="955" y="313" font-family="Georgia, serif" font-size="21" fill="#21180a" text-anchor="middle" letter-spacing="2">GUITAR</text>
+  <path d="M1084 120c40 42 40 84 0 126" fill="none" stroke="#d8a95c" stroke-width="3" opacity=".5"/>
+  <path d="M1108 96c62 64 62 128 0 192" fill="none" stroke="#d8a95c" stroke-width="2" opacity=".25"/>
+  <text x="88" y="116" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#d8a95c" letter-spacing="5">JAZZ GUITAR GUIDE</text>
+  <text x="88" y="216" font-family="Georgia, serif" font-size="76" fill="#f3eee4">把爵士吉他</text>
+  <text x="88" y="306" font-family="Georgia, serif" font-size="76" fill="#f3eee4">拆成每天练的</text>
+  <text x="88" y="396" font-family="Georgia, serif" font-size="76" fill="#d8a95c" font-style="italic">一小块。</text>
+  <text x="88" y="470" font-family="Helvetica, Arial, sans-serif" font-size="23" fill="#9d9587">从零基础到能 jam 的中文学习地图</text>
+  <g transform="translate(88, 520)" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#9d9587">
+    <text>12 个月路线图</text>
+    <text x="180">40 首标准曲</text>
+    <text x="340">免费课程</text>
+    <text x="470">练习工具箱</text>
+  </g>
+</svg>

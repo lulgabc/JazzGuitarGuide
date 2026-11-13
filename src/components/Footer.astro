@@ -1,0 +1,72 @@
+---
+import { SITE } from "../lib/site";
+import { url } from "../lib/url";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href={url("/")}>
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.1" opacity=".42" />
+              <path d="M14.2 8.5c-3.7 3.6-3.7 7.2 0 10.8s3.7 7.2 0 10.8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+              <path d="M25.8 8.5c3.7 3.6 3.7 7.2 0 10.8s-3.7 7.2 0 10.8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+              <path d="M20 5.5v29" stroke="currentColor" stroke-width="0.9" opacity=".55" />
+              <circle cx="20" cy="20" r="3.2" fill="currentColor" opacity=".92" />
+            </svg>
+          </span>
+          <span class="brand-text">
+            <span class="brand-name">Jazz Guitar Guide</span>
+            <span class="brand-sub">爵士吉他学习手册</span>
+          </span>
+        </a>
+        <p>
+          一份持续更新的中文爵士吉他自学资料。把复杂的东西拆成可以每天练的一小块，
+          然后一首一首曲子弹下去。
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h3>学习</h3>
+        <ul>
+          <li><a href={url("/basics/")}>入门知识</a></li>
+          <li><a href={url("/roadmap/")}>12 个月路线图</a></li>
+          <li><a href={url("/standards/")}>必学曲目</a></li>
+          <li><a href={url("/tools/")}>练习工具箱</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>资源</h3>
+        <ul>
+          <li><a href={url("/courses/")}>免费课程</a></li>
+          <li><a href={url("/players/")}>吉他大师</a></li>
+          <li><a href={url("/books/")}>教材书单</a></li>
+          <li><a href={url("/basics/glossary/")}>术语 &amp; FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>项目</h3>
+        <ul>
+          <li><a href={SITE.repo} target="_blank" rel="noopener noreferrer">GitHub 仓库 ↗</a></li>
+          <li><a href={`${SITE.repo}/issues`} target="_blank" rel="noopener noreferrer">纠错 / 建议 ↗</a></li>
+          <li><a href={url("/about/")}>关于本站</a></li>
+          <li><a href="#top">回到顶部 ↑</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {year} Jazz Guitar Guide · 个人学习项目，非商业用途</span>
+      <span>
+        用 Astro 构建 · 部署于 GitHub Pages ·
+        <a href={SITE.repo} target="_blank" rel="noopener noreferrer">源码</a>
+      </span>
+    </div>
+  </div>
+</footer>

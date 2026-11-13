@@ -1,0 +1,156 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { PLAYERS, ERA_ORDER } from "../data/players";
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="吉他大师"
+  description="爵士吉他大师名录：从 Django、Charlie Christian、Wes Montgomery 到 Julian Lage，按年代、风格与代表专辑整理。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">The lineage</span>
+      <h1>听谁，决定你像谁。</h1>
+      <p class="lead">
+        爵士吉他不是一串孤立的“大师名字”，而是一条影响的链：
+        Django 的旋律、Charlie Christian 的电吉他、Wes 的八度、Jim Hall 的空间、Joe Pass 的独奏……
+        找到你真正喜欢的声音，再决定学什么。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">{PLAYERS.length} 位吉他手</span>
+        <span class="pill">6 个时代/风格</span>
+        <span class="pill">代表专辑 + 听点</span>
+        <span class="pill">附 YouTube 搜索</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="callout callout-tip">
+        <strong class="callout-title">先听，再学</strong>
+        <p>
+          不要因为“他很有名”就去学他的语言。先听三张专辑，确认你真的喜欢，再决定要不要转录。
+          不喜欢的声音，学起来会很痛苦，也很难坚持。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="players">
+    <div class="container">
+      <SectionHead
+        kicker="The players"
+        title="按时代与风格认识他们"
+        description="每位都附上“为什么重要”“先听哪张”“听什么”。点 YouTube 搜索可以直接找专辑/现场。"
+      />
+
+      <div class="resource-toolbar">
+        <div class="filter-group" id="player-eras" role="group" aria-label="按年代筛选">
+          <button class="filter-btn is-active" type="button" data-era="全部">全部</button>
+          {ERA_ORDER.map((era) => <button class="filter-btn" type="button" data-era={era}>{era}</button>)}
+        </div>
+        <span class="small muted" id="player-count">显示 {PLAYERS.length} 位</span>
+      </div>
+
+      <div class="player-grid" id="player-grid">
+        {PLAYERS.map((player) => (
+          <article class="player-card player-card-full" id={player.id} data-era={player.era}>
+            <span class="player-years">{player.years}</span>
+            <span class="player-initial" aria-hidden="true">{player.name.charAt(0)}</span>
+            <div class="player-role">{player.era} · {player.style}</div>
+            <h3>{player.name}{player.nameZh ? ` · ${player.nameZh}` : ""}</h3>
+            <p>{player.oneLiner}</p>
+            <p style="margin-top: 8px;">{player.why}</p>
+            <div class="player-albums">
+              <span>先听：</span>{player.albums.map((album) => album.title).join(" · ")}
+            </div>
+            <details style="position:relative; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px;">
+              <summary style="cursor:pointer; color: var(--accent); font-size: 0.76rem;">专辑听点</summary>
+              <ul class="listen-list" style="list-style:none; padding: 8px 0 0; margin:0; display:grid; gap:8px;">
+                {player.albums.map((album) => (
+                  <li style="font-size:0.74rem; color:var(--muted); line-height:1.5;">
+                    <strong style="color:var(--text-soft);">{album.title}</strong>
+                    <span style="display:block; color:var(--faint);">{album.note}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+            <div class="tag-row" style="position:relative; margin-top: 12px;">
+              {player.tags.map((tag) => <span class="pill">{tag}</span>)}
+            </div>
+            <a class="resource-link" href={`https://www.youtube.com/results?search_query=${encodeURIComponent(player.listenQuery)}`} target="_blank" rel="noopener noreferrer" style="position:relative; margin-top: 12px;">在 YouTube 听 ↗</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Listening path"
+        title="一条 8 站的听力路线"
+        description="不要一次听 30 位。按这条线走，每站听 1–2 张，理解“他解决了什么问题”。"
+      />
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-year">1930s</div><h3>Django Reinhardt</h3><p>旋律、装饰音、Gypsy swing。先听 <em>Djangology</em>，注意他如何用最少的音唱歌。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1939–1941</div><h3>Charlie Christian</h3><p>电吉他单音 solo 的起点。听 <em>The Genius of the Electric Guitar</em>，注意句子如何像萨克斯。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1950s</div><h3>Wes Montgomery</h3><p>八度、拇指、和弦旋律。听 <em>The Incredible Jazz Guitar</em>，然后听 <em>Smokin' at the Half Note</em>。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1960s</div><h3>Jim Hall</h3><p>空间、互动、音色。听 <em>Undercurrent</em>，注意他“不弹”的地方。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1960s</div><h3>Joe Pass</h3><p>独奏吉他的完整乐队思维。听 <em>Virtuoso</em>，注意 bass、和弦、旋律如何分层。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1960s</div><h3>Grant Green</h3><p>单音线条、blues、空间。听 <em>Idle Moments</em>，注意一个音如何“说话”。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1990s–2000s</div><h3>John Scofield / Pat Metheny</h3><p>现代 groove、音色、fusion。听 <em>A Go Go</em> 与 <em>Bright Size Life</em>。</p></div>
+        <div class="timeline-item"><div class="timeline-year">2010s–现在</div><h3>Julian Lage / Kurt Rosenwinkel</h3><p>当代触弦、现代和声、跨风格。听 <em>Arclight</em> 与 <em>The Next Step</em>。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Listening method"
+        title="听一位吉他手的 5 个步骤"
+        description="不要只是“背景播放”。每次只听一位，做一点笔记。"
+      />
+      <div class="step-grid">
+        <article class="step-card"><h3>整张听 3 遍</h3><p>第一遍听整体，第二遍只听吉他，第三遍听鼓/贝斯。</p></article>
+        <article class="step-card"><h3>选一个 solo</h3><p>不要选最难的。选你能跟着哼的 8–16 小节。</p></article>
+        <article class="step-card"><h3>唱出来</h3><p>能唱，才说明你真的听到了，而不是“知道有这段”。</p></article>
+        <article class="step-card"><h3>转录 4 小节</h3><p>不用整段。4 小节足够你理解他的音色、节奏与句子。</p></article>
+        <article class="step-card"><h3>写 3 个特点</h3><p>“他喜欢在弱拍进入”“他的八度很厚”“他的句子很短”。具体，才能学。</p></article>
+      </div>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href={url("/standards/")}>去曲目库选一首</a>
+        <a class="btn btn-ghost" href={url("/courses/")}>找免费课程</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const wrap = document.getElementById("player-eras") as HTMLElement;
+  const grid = document.getElementById("player-grid") as HTMLElement;
+  const count = document.getElementById("player-count") as HTMLElement;
+
+  if (wrap && grid && count) {
+    const cards = [...grid.querySelectorAll<HTMLElement>(".player-card")];
+    wrap.addEventListener("click", (event) => {
+      const btn = (event.target as Element).closest<HTMLButtonElement>("[data-era]");
+      if (!btn) return;
+      const era = btn.dataset.era || "全部";
+      wrap.querySelectorAll<HTMLButtonElement>("[data-era]").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+      });
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = era === "全部" || card.dataset.era === era;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      count.textContent = `显示 ${visible} 位`;
+    });
+  }
+</script>

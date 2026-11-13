@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { CHAPTERS, type Chapter } from "../lib/site";
+import { url } from "../lib/url";
+
+interface Props {
+  chapter: Chapter;
+  toc: { id: string; label: string }[];
+  description?: string;
+}
+
+const { chapter, toc, description = chapter.description } = Astro.props;
+const index = CHAPTERS.findIndex((c) => c.slug === chapter.slug);
+const prev = index > 0 ? CHAPTERS[index - 1] : null;
+const next = index >= 0 && index < CHAPTERS.length - 1 ? CHAPTERS[index + 1] : null;
+---
+
+<BaseLayout title={chapter.title} description={description}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="small muted" aria-label="面包屑" style="margin-bottom: 18px;">
+        <a href={url("/")}>首页</a>
+        <span aria-hidden="true"> / </span>
+        <a href={url("/basics/")}>入门知识</a>
+        <span aria-hidden="true"> / </span>
+        <span>{chapter.short}</span>
+      </nav>
+      <span class="eyebrow">Chapter {chapter.number} · {chapter.level}</span>
+      <h1>{chapter.title}</h1>
+      <p class="lead">{description}</p>
+      <div class="chapter-meta" style="margin-top: 22px;">
+        <span class="pill pill-accent">{chapter.minutes} 分钟阅读</span>
+        <span class="pill">{chapter.level}</span>
+        <span class="pill">中文原创整理</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="doc-layout">
+        <aside class="doc-sidebar">
+          <div class="doc-sidebar-title">本章目录</div>
+          <nav aria-label="本章目录">
+            <ul class="toc">
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.label}</a></li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+
+        <article class="doc-content prose">
+          <slot />
+
+          <nav class="chapter-nav" aria-label="章节导航">
+            <div>
+              {prev && (
+                <a href={url(`/basics/${prev.slug}/`)}>
+                  <small>← 上一章</small>
+                  <strong>{prev.short}</strong>
+                </a>
+              )}
+            </div>
+            <div style="text-align: right;">
+              {next && (
+                <a href={url(`/basics/${next.slug}/`)}>
+                  <small>下一章 →</small>
+                  <strong>{next.short}</strong>
+                </a>
+              )}
+            </div>
+          </nav>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

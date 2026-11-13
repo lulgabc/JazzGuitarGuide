@@ -1,0 +1,204 @@
+---
+---
+
+<div class="tool-panel" id="panel-ear" role="tabpanel" aria-labelledby="tab-ear" hidden>
+  <div class="tool-head">
+    <div>
+      <h2>听音小测验</h2>
+      <p>先听，再选。音程与和弦性质是爵士耳朵的地基。每天 5 分钟，比一次做 50 题有效。</p>
+    </div>
+    <span class="pill pill-accent">练耳</span>
+  </div>
+
+  <div class="tool-controls">
+    <div class="field">
+      <label for="ear-mode">模式</label>
+      <select id="ear-mode">
+        <option value="interval">音程</option>
+        <option value="chord">和弦性质</option>
+      </select>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="ear-reset" type="button">重置分数</button>
+  </div>
+
+  <div class="quiz-card">
+    <div class="card-top" style="margin-bottom: 8px;">
+      <span class="pill">第 <span id="ear-q">1</span> 题</span>
+      <span class="quiz-score">得分 <span id="ear-score">0</span> / <span id="ear-total">0</span></span>
+    </div>
+    <div class="quiz-prompt" id="ear-prompt">听两个音，选择音程</div>
+    <div class="quiz-sub" id="ear-sub">点击“播放”，然后选择你的答案。</div>
+    <div class="quiz-options" id="ear-options"></div>
+    <div class="quiz-feedback" id="ear-feedback"></div>
+    <div class="btn-row" style="margin-top: 16px;">
+      <button class="btn btn-primary btn-sm" id="ear-play" type="button">播放</button>
+      <button class="btn btn-ghost btn-sm" id="ear-next" type="button">下一题 →</button>
+    </div>
+  </div>
+
+  <p class="small muted" style="margin-top: 14px;">
+    技巧：先唱出两个音的方向，再判断距离。不要只靠“感觉像什么歌”。
+  </p>
+</div>
+
+<script>
+  const modeSel = document.getElementById("ear-mode") as HTMLSelectElement;
+  const prompt = document.getElementById("ear-prompt") as HTMLElement;
+  const sub = document.getElementById("ear-sub") as HTMLElement;
+  const optionsWrap = document.getElementById("ear-options") as HTMLElement;
+  const feedback = document.getElementById("ear-feedback") as HTMLElement;
+  const playBtn = document.getElementById("ear-play") as HTMLButtonElement;
+  const nextBtn = document.getElementById("ear-next") as HTMLButtonElement;
+  const resetBtn = document.getElementById("ear-reset") as HTMLButtonElement;
+  const qNum = document.getElementById("ear-q") as HTMLElement;
+  const scoreEl = document.getElementById("ear-score") as HTMLElement;
+  const totalEl = document.getElementById("ear-total") as HTMLElement;
+
+  if (optionsWrap) {
+    const INTERVALS = [
+      { semitones: 1, label: "小二度" },
+      { semitones: 2, label: "大二度" },
+      { semitones: 3, label: "小三度" },
+      { semitones: 4, label: "大三度" },
+      { semitones: 5, label: "纯四度" },
+      { semitones: 6, label: "三全音" },
+      { semitones: 7, label: "纯五度" },
+      { semitones: 10, label: "小七度" },
+      { semitones: 11, label: "大七度" },
+      { semitones: 12, label: "八度" },
+    ];
+    const CHORDS = [
+      { intervals: [0, 4, 7, 11], label: "maj7" },
+      { intervals: [0, 3, 7, 10], label: "m7" },
+      { intervals: [0, 4, 7, 10], label: "7" },
+      { intervals: [0, 3, 6, 10], label: "m7♭5" },
+      { intervals: [0, 3, 6, 9], label: "dim7" },
+      { intervals: [0, 3, 7, 11], label: "mMaj7" },
+    ];
+
+    let audioCtx: AudioContext | null = null;
+    let master: GainNode | null = null;
+    let mode: "interval" | "chord" = "interval";
+    let current: { root: number; answer: string; semitones?: number; intervals?: number[] } | null = null;
+    let answered = false;
+    let score = 0;
+    let total = 0;
+    let question = 1;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        audioCtx = new Ctx();
+        master = audioCtx.createGain();
+        master.gain.value = 0.18;
+        master.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === "suspended") void audioCtx.resume();
+      return audioCtx;
+    }
+
+    function tone(midi: number, start: number, duration: number, gainValue = 0.5) {
+      const ctx = ensureAudio();
+      if (!ctx || !master) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(gainValue, start + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      osc.connect(gain).connect(master);
+      osc.start(start);
+      osc.stop(start + duration + 0.03);
+    }
+
+    function randomRoot() {
+      return 48 + Math.floor(Math.random() * 12);
+    }
+
+    function newQuestion() {
+      answered = false;
+      feedback.textContent = "";
+      const root = randomRoot();
+      if (mode === "interval") {
+        const item = INTERVALS[Math.floor(Math.random() * INTERVALS.length)];
+        current = { root, answer: item.label, semitones: item.semitones };
+        prompt.textContent = "听两个音，选择音程";
+        sub.textContent = "先判断方向，再判断距离。";
+      } else {
+        const item = CHORDS[Math.floor(Math.random() * CHORDS.length)];
+        current = { root, answer: item.label, intervals: item.intervals };
+        prompt.textContent = "听和弦，选择性质";
+        sub.textContent = "注意 3 音与 7 音：它们决定和弦性质。";
+      }
+      qNum.textContent = String(question);
+      renderOptions();
+    }
+
+    function renderOptions() {
+      optionsWrap.innerHTML = "";
+      const labels = mode === "interval" ? INTERVALS.map((i) => i.label) : CHORDS.map((c) => c.label);
+      labels.forEach((label) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "quiz-option";
+        btn.textContent = label;
+        btn.addEventListener("click", () => choose(label, btn));
+        optionsWrap.appendChild(btn);
+      });
+    }
+
+    function choose(label: string, btn: HTMLButtonElement) {
+      if (!current || answered) return;
+      answered = true;
+      total++;
+      const correct = label === current.answer;
+      if (correct) score++;
+      optionsWrap.querySelectorAll<HTMLButtonElement>(".quiz-option").forEach((option) => {
+        option.disabled = true;
+        if (option.textContent === current!.answer) option.classList.add("is-correct");
+      });
+      if (!correct) btn.classList.add("is-wrong");
+      feedback.textContent = correct ? "对了。再听一次，确认你记住的是声音，不是答案。" : `答案是 ${current.answer}。再听一次，注意它的色彩。`;
+      scoreEl.textContent = String(score);
+      totalEl.textContent = String(total);
+      question++;
+    }
+
+    function play() {
+      if (!current) return;
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      const now = ctx.currentTime + 0.05;
+      const q = current;
+      if (mode === "interval" && q.semitones != null) {
+        tone(q.root, now, 0.45);
+        tone(q.root + q.semitones, now + 0.55, 0.55);
+      } else if (q.intervals) {
+        q.intervals.forEach((interval, i) => tone(q.root + interval, now + i * 0.012, 0.9, 0.3));
+      }
+    }
+
+    modeSel.addEventListener("change", () => {
+      mode = modeSel.value as "interval" | "chord";
+      score = 0;
+      total = 0;
+      question = 1;
+      scoreEl.textContent = "0";
+      totalEl.textContent = "0";
+      newQuestion();
+    });
+    playBtn.addEventListener("click", play);
+    nextBtn.addEventListener("click", newQuestion);
+    resetBtn.addEventListener("click", () => {
+      score = 0;
+      total = 0;
+      question = 1;
+      scoreEl.textContent = "0";
+      totalEl.textContent = "0";
+      newQuestion();
+    });
+
+    newQuestion();
+  }
+</script>

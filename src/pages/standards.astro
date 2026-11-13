@@ -1,0 +1,238 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { STANDARDS, FIRST_WAVE } from "../data/standards";
+---
+
+<BaseLayout
+  title="必学曲目"
+  description="40 首爵士吉他必学标准曲：调性、曲式、难度、练习重点与推荐录音。按第一波 12 首的顺序开始。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">The repertoire</span>
+      <h1>40 首，够你玩很多年。</h1>
+      <p class="lead">
+        曲目不是“学得越多越好”，而是“每一首都真的能玩”。
+        这 40 首覆盖了 blues、bossa、ballad、bebop 与 rhythm changes，按难度与学习顺序排列。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">40 首</span>
+        <span class="pill">12 首入门</span>
+        <span class="pill">16 首进阶</span>
+        <span class="pill">12 首高级</span>
+      </div>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href="#first-wave">从第一波 12 首开始 <span aria-hidden="true">↓</span></a>
+        <a class="btn btn-ghost" href="#library">浏览完整曲库</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" id="first-wave">
+    <div class="container">
+      <SectionHead
+        kicker="First wave"
+        title="第一波：12 首能 jam 的曲子"
+        description="按这个顺序学。每一首都至少做到：背旋律、背和弦、能跟 backing track 完整走两遍、录一次音。"
+      />
+      <div class="standard-grid">
+        {FIRST_WAVE.map((tune) => (
+          <article class="standard-card first-wave-card" id={tune.id}>
+            <div class="standard-top">
+              <div>
+                <h3><span class="mono muted">#{String(tune.order).padStart(2, "0")}</span> {tune.title}</h3>
+                <div class="composer">{tune.composer}</div>
+              </div>
+              <span class="pill pill-accent">{tune.level}</span>
+            </div>
+            <div class="standard-facts">
+              <span class="pill">{tune.key}</span>
+              <span class="pill">{tune.form}</span>
+            </div>
+            <p class="standard-why">{tune.why}</p>
+            <div class="tag-row">
+              {tune.focus.map((item) => <span class="pill pill-sage">{item}</span>)}
+            </div>
+            <details>
+              <summary>听什么</summary>
+              <ul class="listen-list">
+                {tune.listen.map((item) => (
+                  <li>
+                    <strong>{item.artist}</strong>{item.album ? ` — ${item.album}` : ""}
+                    <span>{item.note}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="library">
+    <div class="container">
+      <SectionHead
+        kicker="The library"
+        title="完整曲库：按难度与风格筛选"
+        description="调性与曲式以常见 jam / Real Book 版本为准。不同版本会有差异；跟别人玩时，先问一句“什么调？”。"
+      />
+
+      <div class="resource-toolbar">
+        <div class="filter-group" id="standard-levels" role="group" aria-label="按难度筛选">
+          <button class="filter-btn is-active" data-level="全部" type="button">全部</button>
+          <button class="filter-btn" data-level="入门" type="button">入门</button>
+          <button class="filter-btn" data-level="进阶" type="button">进阶</button>
+          <button class="filter-btn" data-level="高级" type="button">高级</button>
+        </div>
+        <div class="filter-group">
+          <select class="glossary-search" id="standard-category" aria-label="按类型筛选" style="min-width: 170px;">
+            <option value="全部">全部类型</option>
+            <option value="入门标准">入门标准</option>
+            <option value="Blues">Blues</option>
+            <option value="Bossa / Latin">Bossa / Latin</option>
+            <option value="Ballad">Ballad</option>
+            <option value="Bebop">Bebop</option>
+            <option value="Modal / Modern">Modal / Modern</option>
+            <option value="Rhythm Changes">Rhythm Changes</option>
+          </select>
+          <input class="glossary-search" id="standard-search" type="search" placeholder="搜索曲名 / 作曲家…" aria-label="搜索曲目" />
+        </div>
+      </div>
+      <p class="small muted" id="standard-count" style="margin-bottom: 18px;">显示 40 首</p>
+
+      <div class="standard-grid" id="standard-grid">
+        {STANDARDS.map((tune) => (
+          <article
+            class="standard-card"
+            id={`library-${tune.id}`}
+            data-level={tune.level}
+            data-category={tune.category}
+            data-search={`${tune.title} ${tune.composer} ${tune.key} ${tune.form} ${tune.focus.join(" ")} ${tune.tags.join(" ")}`.toLowerCase()}
+          >
+            <div class="standard-top">
+              <div>
+                <h3><span class="mono muted">#{String(tune.order).padStart(2, "0")}</span> {tune.title}</h3>
+                <div class="composer">{tune.composer}</div>
+              </div>
+              <span class:list={["pill", tune.level === "入门" ? "pill-sage" : tune.level === "高级" ? "pill-rust" : "pill-blue"]}>{tune.level}</span>
+            </div>
+            <div class="standard-facts">
+              <span class="pill">{tune.key}</span>
+              <span class="pill">{tune.form}</span>
+              <span class="pill">{tune.category}</span>
+            </div>
+            <p class="standard-why">{tune.why}</p>
+            <div class="tag-row">
+              {tune.focus.map((item) => <span class="pill">{item}</span>)}
+            </div>
+            <details>
+              <summary>听什么 / 学习重点</summary>
+              <ul class="listen-list">
+                {tune.listen.map((item) => (
+                  <li>
+                    <strong>{item.artist}</strong>{item.album ? ` — ${item.album}` : ""}
+                    <span>{item.note}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="How to learn a tune"
+        title="学一首标准曲的 7 个步骤"
+        description="不要“照着谱弹一遍”就算学会。真正的标准是你能在 jam 里不看谱、跟别人一起走完。"
+      />
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>1–4：先把声音装进耳朵</h3>
+          <ol class="phase-list" style="list-style: none; padding: 0; margin-top: 14px;">
+            <li>1. 听 3 个不同版本：一个 vocal、一个吉他、一个管乐。</li>
+            <li>2. 唱旋律，直到能不看词/谱哼完整首。</li>
+            <li>3. 在琴上找旋律，不要先看 TAB。</li>
+            <li>4. 学和弦的“功能”，不是一个个符号：哪里是 ii–V–I、哪里转调。</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>5–7：把它变成能玩的曲子</h3>
+          <ol class="phase-list" style="list-style: none; padding: 0; margin-top: 14px;">
+            <li>5. 跟 backing track 走完整曲式：先只弹根音/3/7。</li>
+            <li>6. 加 comping 节奏与简单 solo：2 个 chorus，留白。</li>
+            <li>7. 录音 + 去 jam/合奏；回来只改一个最明显的问题。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-top: 24px;">
+        <table>
+          <thead><tr><th>阶段</th><th>要做什么</th><th>做到什么程度</th></tr></thead>
+          <tbody>
+            <tr><td>听</td><td>3 个版本，听旋律、曲式、编配</td><td>能说出“这首曲子大概长什么样”</td></tr>
+            <tr><td>唱</td><td>旋律、bass line、简单 solo</td><td>不弹琴也能哼</td></tr>
+            <tr><td>弹</td><td>旋律 + 和弦 + comping</td><td>跟 backing 完整两遍，不迷路</td></tr>
+            <tr><td>析</td><td>标出 ii–V–I、转调、blues 句法</td><td>能解释“为什么这里这样走”</td></tr>
+            <tr><td>移</td><td>移到 2–3 个调</td><td>不是背形状，而是理解和声</td></tr>
+            <tr><td>用</td><td>jam、录音、演出</td><td>能不看谱、跟别人一起玩</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn" style="margin-top: 24px;">
+        <strong class="callout-title">关于调性与曲式</strong>
+        <p>
+          同一首标准曲在不同 Real Book 版本、不同歌手/乐队那里可能有不同调性、长度或和弦。
+          本站的“常见调/曲式”用于练习参考；跟别人合奏时，先问“什么调、什么曲式、怎么 ending”。
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const levelWrap = document.getElementById("standard-levels") as HTMLElement;
+  const categorySel = document.getElementById("standard-category") as HTMLSelectElement;
+  const search = document.getElementById("standard-search") as HTMLInputElement;
+  const grid = document.getElementById("standard-grid") as HTMLElement;
+  const count = document.getElementById("standard-count") as HTMLElement;
+
+  if (grid && levelWrap && categorySel && search && count) {
+    let level = "全部";
+    const cards = [...grid.querySelectorAll<HTMLElement>(".standard-card")];
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      const cat = categorySel.value;
+      let visible = 0;
+      cards.forEach((card) => {
+        const levelOk = level === "全部" || card.dataset.level === level;
+        const catOk = cat === "全部" || card.dataset.category === cat;
+        const searchOk = !q || (card.dataset.search || "").includes(q);
+        const show = levelOk && catOk && searchOk;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      count.textContent = `显示 ${visible} 首`;
+    }
+
+    levelWrap.addEventListener("click", (event) => {
+      const btn = (event.target as Element).closest<HTMLButtonElement>("[data-level]");
+      if (!btn) return;
+      level = btn.dataset.level || "全部";
+      levelWrap.querySelectorAll<HTMLButtonElement>("[data-level]").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+      });
+      apply();
+    });
+    categorySel.addEventListener("change", apply);
+    search.addEventListener("input", apply);
+    apply();
+  }
+</script>

@@ -1,0 +1,195 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("history")!;
+const toc = [
+  { id: "before", label: "1900–1930：吉他的前史" },
+  { id: "swing", label: "1930s：Swing 与电吉他" },
+  { id: "bebop", label: "1940s：Bebop 的革命" },
+  { id: "cool", label: "1950s：Cool、Hard Bop、Soul Jazz" },
+  { id: "modal", label: "1960s：Modal、Bossa 与 Fusion 前夜" },
+  { id: "fusion", label: "1970s–80s：Fusion 与效果器" },
+  { id: "modern", label: "1990s–2000s：现代爵士" },
+  { id: "now", label: "2010s–现在：没有单一中心" },
+  { id: "map", label: "风格地图" },
+  { id: "albums", label: "20 张听力时间线" },
+  { id: "how", label: "怎样听历史" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    学爵士吉他，不能只学“现在的样子”。每一种语言都有它的来处：
+    Swing 的节奏、Bebop 的句子、Modal 的空间、Fusion 的音色。
+    理解历史，不是为了考试，而是为了知道“我为什么要这样弹”。
+  </p>
+
+  <h2 id="before">1900–1930：吉他的前史</h2>
+  <p>
+    在爵士诞生之前，吉他在流行音乐里主要是节奏乐器。早期的爵士/布鲁斯吉他手
+    把吉他从小乐队伴奏推向独奏：Eddie Lang 与 Joe Venuti 的小提琴二重奏、
+    Lonnie Johnson 的布鲁斯线条，都是重要的起点。
+  </p>
+  <p>
+    这个时期的吉他还没有电 amplification，音量小，所以更多是节奏/和弦角色。
+    但 Eddie Lang 已经证明：吉他可以像管乐一样演奏旋律。
+  </p>
+
+  <h2 id="swing">1930s：Swing 与电吉他</h2>
+  <p>
+    1930 年代是大乐队 Swing 的黄金时代。吉他在乐队里通常是节奏角色，
+    Freddie Green 在 Count Basie 乐队把“四拍、短音、少音”的 comping 做到了极致。
+  </p>
+  <p>
+    同时，Django Reinhardt 在欧洲创造了 Gypsy Jazz 的吉他语言：强烈的旋律、装饰音、
+    与 Stéphane Grappelli 的小提琴对话。Charlie Christian 则用电吉他（Gibson ES-150）
+    把单音 solo 带进 Benny Goodman 的乐队，直接预示了 Bebop。
+  </p>
+  <div class="callout callout-listen">
+    <strong class="callout-title">听什么</strong>
+    <p>Django Reinhardt 的 <em>Djangology</em>；Charlie Christian 的 <em>The Genius of the Electric Guitar</em>；Count Basie 的 <em>The Complete Decca Recordings</em>。</p>
+  </div>
+
+  <h2 id="bebop">1940s：Bebop 的革命</h2>
+  <p>
+    Bebop 把爵士从“跳舞音乐”变成“听的艺术”：速度更快、和声更复杂、即兴更强调线条与和弦音。
+    Charlie Parker、Dizzy Gillespie、Bud Powell、Thelonious Monk 是核心人物。
+  </p>
+  <p>
+    吉他方面，Charlie Christian 的句子被进一步发展为更长的 bebop lines。
+    Barney Kessel、Tal Farlow、Jimmy Raney 等人把吉他从节奏角色推向真正的单音独奏。
+    Bebop 的语言（包围音、approach notes、ii–V–I、Rhythm Changes）至今仍是爵士吉他的基础。
+  </p>
+
+  <h2 id="cool">1950s：Cool、Hard Bop、Soul Jazz</h2>
+  <p>
+    1950 年代出现多条分支：
+  </p>
+  <ul>
+    <li><strong>Cool Jazz</strong>：更内敛、编曲化。Jim Hall、Johnny Smith、Jimmy Raney 代表了更轻、更透明的吉他声音。</li>
+    <li><strong>Hard Bop</strong>：Bebop + Blues + Gospel，更有身体感。Wes Montgomery、Grant Green、Kenny Burrell 是核心。</li>
+    <li><strong>Soul Jazz</strong>：更强调 groove 与 organ trio，George Benson 的早期录音是代表。</li>
+  </ul>
+  <p>
+    Wes Montgomery 用拇指拨弦、八度、和弦旋律，把爵士吉他推向了最广泛的影响。
+    Joe Pass 则开始发展“一个人一把琴”的 solo guitar 语言。
+  </p>
+
+  <h2 id="modal">1960s：Modal、Bossa 与 Fusion 前夜</h2>
+  <p>
+    Miles Davis 的 <em>Kind of Blue</em>（1959）让 Modal Jazz 成为主流：和声变化减少，
+    即兴在调式/音阶上展开，空间与节奏变得更重要。
+  </p>
+  <p>
+    同时，Bossa Nova 从巴西传来：João Gilberto 的吉他节奏、Antônio Carlos Jobim 的和声、
+    Baden Powell 的独奏，让爵士吉他多了一种“轻、切分、内省”的声音。
+  </p>
+  <p>
+    Jim Hall 在这个时期把“空间”和“互动”推到了新高度；Wes Montgomery 继续影响所有人；
+    Grant Green 的 soul jazz 线条成为后来采样/hip-hop 的宝库。
+  </p>
+
+  <h2 id="fusion">1970s–80s：Fusion 与效果器</h2>
+  <p>
+    Miles Davis 的 <em>Bitches Brew</em>（1970）打开了 Fusion 的大门。
+    吉他手开始使用失真、wah、chorus、合成器，节奏更 funk/rock，和声更现代。
+  </p>
+  <ul>
+    <li><strong>John McLaughlin</strong>：Mahavishnu Orchestra，速度、印度节奏、fusion 的野心。</li>
+    <li><strong>Allan Holdsworth</strong>：legato、和弦 voicing、和声的异类。</li>
+    <li><strong>Pat Metheny</strong>：音色、作曲、乐队声音，把 fusion 变得更抒情。</li>
+    <li><strong>John Scofield / Mike Stern</strong>：现代 blues/groove 与 fusion 语言。</li>
+    <li><strong>Bill Frisell</strong>：音色、空间、Americana，把爵士吉他带到另一个方向。</li>
+  </ul>
+
+  <h2 id="modern">1990s–2000s：现代爵士</h2>
+  <p>
+    “现代爵士吉他”没有一个统一风格，但有一些共同倾向：
+  </p>
+  <ul>
+    <li><strong>Kurt Rosenwinkel</strong>：现代和声、voice leading、节奏位移、音色。</li>
+    <li><strong>Peter Bernstein</strong>：传统 straight-ahead 的当代守护者，tone 与 comping 极佳。</li>
+    <li><strong>Gilad Hekselman / Lage Lund</strong>：现代和声、节奏与线条的精致化。</li>
+    <li><strong>Julian Lage</strong>：触弦、动态、跨风格（爵士/民谣/蓝草/古典）。</li>
+    <li><strong>Mary Halvorson</strong>：avant-garde、扩展技巧、自由即兴。</li>
+    <li><strong>Pasquale Grasso</strong>：传统 bebop 技术的当代高峰。</li>
+  </ul>
+
+  <h2 id="now">2010s–现在：没有单一中心</h2>
+  <p>
+    今天的爵士吉他比以往更多元：传统 bebop、现代和声、fusion、自由即兴、巴西/拉丁、
+    非洲节奏、电子/效果器、独奏吉他……都可以成立。互联网让学习材料爆炸，
+    也让“选择”变得更难。
+  </p>
+  <p>
+    这也是这个网站存在的理由：不是给你更多材料，而是帮你建立顺序、判断力与自己的声音。
+  </p>
+
+  <h2 id="map">风格地图</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>风格</th><th>时间</th><th>吉他关键词</th><th>代表</th></tr></thead>
+      <tbody>
+        <tr><td>Swing</td><td>1930s–40s</td><td>四拍 comping、大乐队、原声/早期电吉他</td><td>Freddie Green、Django、Charlie Christian</td></tr>
+        <tr><td>Bebop</td><td>1940s</td><td>快速 lines、approach notes、Rhythm Changes</td><td>Barney Kessel、Tal Farlow、Jimmy Raney</td></tr>
+        <tr><td>Cool Jazz</td><td>1950s</td><td>轻音色、空间、编曲</td><td>Jim Hall、Johnny Smith</td></tr>
+        <tr><td>Hard Bop</td><td>1950s–60s</td><td>Blues/gospel、groove、八度</td><td>Wes Montgomery、Grant Green、Kenny Burrell</td></tr>
+        <tr><td>Bossa Nova</td><td>1960s</td><td>切分、bass+chord、轻触</td><td>João Gilberto、Baden Powell</td></tr>
+        <tr><td>Modal</td><td>1960s</td><td>调式、四度、空间</td><td>Jim Hall、Wes、Herbie Hancock（钢琴）</td></tr>
+        <tr><td>Fusion</td><td>1970s–80s</td><td>失真、效果器、funk/rock 节奏</td><td>McLaughlin、Holdsworth、Metheny、Stern</td></tr>
+        <tr><td>Modern</td><td>1990s–现在</td><td>现代和声、节奏位移、音色</td><td>Kurt Rosenwinkel、Gilad、Lage Lund、Julian Lage</td></tr>
+        <tr><td>Avant-garde</td><td>1960s–现在</td><td>自由即兴、扩展技巧、噪音</td><td>Derek Bailey、Mary Halvorson、Marc Ribot</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="albums">20 张听力时间线</h2>
+  <p>按时间顺序听，不要一次听完。每次只听一张，听 3 遍，再读一点背景。</p>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-year">1930s</div><h3>Django Reinhardt — Djangology</h3><p>Gypsy jazz 的旋律、节奏与装饰音。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1939–1941</div><h3>Charlie Christian — The Genius of the Electric Guitar</h3><p>电吉他单音 solo 的起点。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1950s</div><h3>Count Basie — The Complete Decca Recordings</h3><p>Freddie Green 的四拍 comping。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1952</div><h3>Johnny Smith — Moonlight in Vermont</h3><p>Cool jazz 吉他的干净音色与和弦旋律。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1956</div><h3>Tal Farlow — The Swinging Guitar</h3><p>Bebop 吉他的速度与旋律。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1957</div><h3>Barney Kessel — The Poll Winners</h3><p>三重奏里的 comping 与和声。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1959</div><h3>Miles Davis — Kind of Blue</h3><p>Modal jazz 的空间与时间感（Jim Hall 不在里面，但必听）。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1960</div><h3>Wes Montgomery — The Incredible Jazz Guitar</h3><p>八度、拇指、和弦旋律。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1961</div><h3>Bill Evans — Explorations</h3><p>Nardis 与钢琴三重奏的互动。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1962</div><h3>Jim Hall & Bill Evans — Undercurrent</h3><p>空间、音色、对话。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1963</div><h3>Grant Green — Idle Moments</h3><p>Soul jazz 的留白与 blues。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1963</div><h3>Kenny Burrell — Midnight Blue</h3><p>温暖音色与 blues 语汇。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1964</div><h3>Getz/Gilberto</h3><p>Bossa Nova 的节奏与轻声。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1965</div><h3>Herbie Hancock — Maiden Voyage</h3><p>Modal 和声、四度叠置。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1967</div><h3>Miles Davis — Miles Smiles</h3><p>Wayne Shorter 的现代和声与 Footprints。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1973</div><h3>Joe Pass — Virtuoso</h3><p>独奏吉他的里程碑。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1976</div><h3>Pat Metheny — Bright Size Life</h3><p>Fusion/现代爵士的抒情声音。</p></div>
+    <div class="timeline-item"><div class="timeline-year">1998</div><h3>John Scofield — A Go Go</h3><p>现代 groove 爵士。</p></div>
+    <div class="timeline-item"><div class="timeline-year">2000</div><h3>Kurt Rosenwinkel — The Enemies of Energy</h3><p>现代和声与节奏语言。</p></div>
+    <div class="timeline-item"><div class="timeline-year">2016</div><h3>Julian Lage — Arclight</h3><p>当代触弦、动态与跨风格。</p></div>
+  </div>
+
+  <h2 id="how">怎样听历史</h2>
+  <ol>
+    <li><strong>一次一张</strong>：不要刷歌单。整张专辑听 3 遍。</li>
+    <li><strong>先听整体</strong>：节奏、情绪、编制，不要一开始就分析音。</li>
+    <li><strong>再听一个声部</strong>：第二遍只听吉他，第三遍只听鼓/贝斯。</li>
+    <li><strong>读一点背景</strong>：录音年代、乐手、风格。知道“为什么这样弹”。</li>
+    <li><strong>写一句</strong>：这张唱片和你现在的演奏有什么关系？</li>
+  </ol>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能说出 Swing、Bebop、Cool、Hard Bop、Modal、Fusion 的基本区别。</li>
+    <li>我知道 Charlie Christian、Django、Wes、Jim Hall、Joe Pass 各自的重要性。</li>
+    <li>我至少完整听过 5 张历史唱片，并写下听感。</li>
+    <li>我能把一位吉他手放进正确的年代/风格。</li>
+    <li>我知道“现代爵士”不是单一风格。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>查词、看和弦符号、回答常见问题。进入 <a href="../glossary/">术语表与常见问题 →</a></p>
+  </div>
+</ChapterLayout>

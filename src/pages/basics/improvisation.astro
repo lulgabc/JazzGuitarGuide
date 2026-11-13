@@ -1,0 +1,235 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("improvisation")!;
+const toc = [
+  { id: "myth", label: "即兴不是“无中生有”" },
+  { id: "materials", label: "三层材料：和弦音、音阶、词汇" },
+  { id: "chord-tones", label: "从和弦音开始" },
+  { id: "target", label: "Guide tone 与目标音" },
+  { id: "approach", label: "Approach notes 与包围音" },
+  { id: "motif", label: "动机发展：一个想法讲一分钟" },
+  { id: "phrasing", label: "Phrasing：让句子呼吸" },
+  { id: "vocabulary", label: "如何积累自己的词汇" },
+  { id: "transcription", label: "转录：把别人的声音变成自己的" },
+  { id: "plan", label: "10 天转录计划" },
+  { id: "constraints", label: "限制练习：少即是多" },
+  { id: "recording", label: "录音与自我评估" },
+  { id: "troubleshooting", label: "卡住了怎么办" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    即兴不是“凭空创造”，而是把听过的、练过的、分析过的材料，在当下重新组合。
+    你不需要“很有灵感”才能开始；你需要的是材料、限制与录音。
+  </p>
+
+  <h2 id="myth">即兴不是“无中生有”</h2>
+  <p>
+    很多人以为即兴是“想到什么弹什么”。但爵士即兴更像“说话”：
+    你有词汇、有语法、有语气，然后在具体语境里组合它们。
+    你不需要每次都说新句子，但你要知道自己在说什么。
+  </p>
+  <p>一个更现实的模型：</p>
+  <ul>
+    <li><strong>材料</strong>：和弦音、音阶、琶音、lick、节奏型。</li>
+    <li><strong>语法</strong>：ii–V–I、guide tone、解决、曲式。</li>
+    <li><strong>语气</strong>：swing、articulation、动态、空间。</li>
+    <li><strong>内容</strong>：你想表达的情绪/故事。</li>
+  </ul>
+
+  <h2 id="materials">三层材料：和弦音、音阶、词汇</h2>
+  <p>
+    初学即兴最容易犯的错，是直接从“音阶”开始。更稳的顺序是：
+  </p>
+  <ol>
+    <li><strong>和弦音</strong>：1、3、5、7。先确保你“在 chord 上”。</li>
+    <li><strong>连接音</strong>：音阶音、接近音、经过音。让和弦音之间不空。</li>
+    <li><strong>词汇</strong>：lick、bebop 句型、转录句子。让线条有“爵士味”。</li>
+  </ol>
+  <p>
+    如果你只练第一层，solo 会很“干”；只练第三层，solo 会像“背句子”。
+    三层结合，才能既清楚又有话说。
+  </p>
+
+  <h2 id="chord-tones">从和弦音开始</h2>
+  <p>
+    练习：在 ii–V–I 上，只弹和弦音，不弹音阶。每个和弦只选 2–3 个音。
+    目标是让听众听出和声变化，而不是听到一堆音。
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>和弦</th><th>和弦音</th><th>优先目标</th></tr></thead>
+      <tbody>
+        <tr><td>Dm7</td><td>D F A C</td><td>F（3）、C（7）</td></tr>
+        <tr><td>G7</td><td>G B D F</td><td>B（3）、F（7）</td></tr>
+        <tr><td>Cmaj7</td><td>C E G B</td><td>E（3）、B（7）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    一个非常有效的限制：<strong>每个和弦只弹两个音</strong>，而且必须是 3 音或 7 音。
+    你会发现，即使只有两个音，只要节奏与解决对，solo 也能成立。
+  </p>
+
+  <h2 id="target">Guide tone 与目标音</h2>
+  <p>
+    Guide tone 是 3 音与 7 音，它们最能定义和弦性质。目标音是你想让句子“落到”的音，
+    通常落在强拍或和弦变化的第一拍。
+  </p>
+  <p>
+    练习：在 ii–V–I 上，规定每个和弦的第一拍必须落在 3 音或 7 音。
+    从任意音开始，用音阶/半音接近目标音。录下来，听“和声是否清楚”。
+  </p>
+  <div class="callout callout-tip">
+    <strong class="callout-title">目标音不是“必须解决”</strong>
+    <p>你可以故意停在 9、♯11、13 上制造悬疑，但要清楚自己在做什么，以及下一步往哪走。</p>
+  </div>
+
+  <h2 id="approach">Approach notes 与包围音</h2>
+  <p>
+    接近音让目标音更有方向。三种基本方式：
+  </p>
+  <ul>
+    <li><strong>半音接近</strong>：从目标音下方/上方半音进入。</li>
+    <li><strong>音阶接近</strong>：用调内相邻音进入。</li>
+    <li><strong>包围音</strong>：上方音 + 下方音 → 目标音。</li>
+  </ul>
+  <p>
+    练习：选一个目标音（比如 G7 的 3 音 B），用三种方式接近它，每种在 3 个把位。
+    然后把它放进 ii–V–I，让目标音落在第 1 拍。
+  </p>
+
+  <h2 id="motif">动机发展：一个想法讲一分钟</h2>
+  <p>
+    即兴最怕“每两拍换一个新材料”。真正有说服力的 solo，往往从一个短动机开始，
+    通过重复、模进、倒影、节奏变化来发展。
+  </p>
+  <p>练习：</p>
+  <ol>
+    <li>写一个 3–5 个音的动机（例如 E–G–A）。</li>
+    <li>在 12-bar blues 上，第 1 个 chorus 只重复它。</li>
+    <li>第 2 个 chorus 移调/模进。</li>
+    <li>第 3 个 chorus 改变节奏（提前/延迟/扩值）。</li>
+    <li>第 4 个 chorus 只保留动机的前两个音。</li>
+  </ol>
+  <p>
+    这比“随便弹 4 个 chorus”更能训练结构感。听众会记住你的想法，而不是一堆音。
+  </p>
+
+  <h2 id="phrasing">Phrasing：让句子呼吸</h2>
+  <p>同样的音，phrasing 不同，音乐性完全不同。注意：</p>
+  <ul>
+    <li><strong>起音</strong>：从弱拍/后半拍进入，比从第 1 拍开始更有爵士味。</li>
+    <li><strong>重音</strong>：不是每个音一样响。让某些音“说话”。</li>
+    <li><strong>音长</strong>：长音与短音形成对比。</li>
+    <li><strong>休止</strong>：句子之间留空，让听众消化。</li>
+    <li><strong>方向</strong>：句子要有起点、顶点、落点。</li>
+    <li><strong>结尾</strong>：不要每个句子都“解决”；有时悬着更有意思。</li>
+  </ul>
+  <p>
+    一个有效练习：录 30 秒 solo，然后数自己有多少次“连续弹超过 8 小节没有休止”。
+    如果有，强制自己在第 4 小节后停两拍。
+  </p>
+
+  <h2 id="vocabulary">如何积累自己的词汇</h2>
+  <p>
+    不要“收集 100 条 lick”。更有效的方式是：
+  </p>
+  <ol>
+    <li>选 1 条你真正喜欢的句子。</li>
+    <li>分析它：用了什么和弦音、什么节奏、什么解决。</li>
+    <li>移到 3 个调。</li>
+    <li>放进 3 首不同的曲子。</li>
+    <li>改变结尾/节奏，变成 3 个变体。</li>
+    <li>录下来，确认它在实际音乐里成立。</li>
+  </ol>
+  <p>
+    这样 1 条句子会变成 9 个可用的素材，而不是 1 条“背过的 lick”。
+  </p>
+
+  <h2 id="transcription">转录：把别人的声音变成自己的</h2>
+  <p>
+    转录是爵士吉他最重要的“慢功夫”。它不是找谱，而是用耳朵把声音拆开，再重组。
+    详细步骤见 <a href="../scales/#transcription">音阶章节的转录 8 步</a>。
+  </p>
+  <p>选材建议：</p>
+  <ul>
+    <li>不要选最快的。选你能唱、能跟的。</li>
+    <li>从 2–4 小节开始，不要整首。</li>
+    <li>先选旋律性强的（Wes、Grant Green、Chet Baker 的句子）。</li>
+    <li>先学节奏，再学音高。</li>
+    <li>学完必须移调/应用，否则会忘。</li>
+  </ul>
+
+  <h2 id="plan">10 天转录计划</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>天</th><th>任务</th><th>时间</th></tr></thead>
+      <tbody>
+        <tr><td>Day 1</td><td>选 2 小节，听 20 遍，唱出来</td><td>10 分钟</td></tr>
+        <tr><td>Day 2</td><td>找调/起点，确定节奏</td><td>10 分钟</td></tr>
+        <tr><td>Day 3</td><td>逐音在琴上找，不看 TAB</td><td>15 分钟</td></tr>
+        <tr><td>Day 4</td><td>连起来，慢速弹</td><td>15 分钟</td></tr>
+        <tr><td>Day 5</td><td>写下来/分析和弦关系</td><td>10 分钟</td></tr>
+        <tr><td>Day 6</td><td>移调到 2 个新调</td><td>15 分钟</td></tr>
+        <tr><td>Day 7</td><td>放进一首标准曲</td><td>15 分钟</td></tr>
+        <tr><td>Day 8</td><td>改变节奏/结尾，做 2 个变体</td><td>15 分钟</td></tr>
+        <tr><td>Day 9</td><td>录音，对比原版</td><td>10 分钟</td></tr>
+        <tr><td>Day 10</td><td>在 jam/backing 上使用，复盘</td><td>15 分钟</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="constraints">限制练习：少即是多</h2>
+  <p>限制会逼你创造，而不是依赖手指习惯。试试这些：</p>
+  <ul>
+    <li><strong>只弹一个音</strong>：用节奏、音长、动态做音乐。</li>
+    <li><strong>只弹两个音</strong>：每个和弦只选 3/7。</li>
+    <li><strong>只弹四分音符</strong>：没有八分，强迫你想旋律。</li>
+    <li><strong>只在第 2、4 拍弹</strong>：练后拍与空间。</li>
+    <li><strong>每个句子最多 5 个音</strong>：练呼吸。</li>
+    <li><strong>不弹根音</strong>：练 3/7/9 与和声。</li>
+    <li><strong>只用一个把位</strong>：练指板局部。</li>
+  </ul>
+
+  <h2 id="recording">录音与自我评估</h2>
+  <p>录音后不要只说“好听/不好听”。按下面四项打分（1–5）：</p>
+  <ol>
+    <li><strong>时间</strong>：有没有赶/拖？与节拍器/唱片是否对齐？</li>
+    <li><strong>和声</strong>：强拍是否落在和弦音？是否听得出和弦变化？</li>
+    <li><strong>句子</strong>：有没有重复/发展？有没有呼吸？</li>
+    <li><strong>音色/发音</strong>：音头是否清楚？动态是否有变化？</li>
+  </ol>
+  <p>
+    每次只选一个最低分项，作为下一周的练习目标。不要一次改四个。
+  </p>
+
+  <h2 id="troubleshooting">卡住了怎么办</h2>
+  <ul>
+    <li><strong>“我不知道弹什么”</strong>：回到和弦音，只弹 3/7。</li>
+    <li><strong>“我一直在跑音阶”</strong>：限制自己每个句子最多 5 个音，加入休止。</li>
+    <li><strong>“我总是一个套路”</strong>：换起音（弱拍/后半拍），换目标音，换节奏。</li>
+    <li><strong>“我跟不上和弦”</strong>：先只弹根音/3/7，慢速；不要急着 solo。</li>
+    <li><strong>“我没有灵感”</strong>：先唱，再弹。唱不出来，说明耳朵还没听到。</li>
+    <li><strong>“我练了很久没进步”</strong>：录音对比，找一个具体问题；或者换一首曲子。</li>
+  </ul>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能在 ii–V–I 上只用 3/7 音 solo，并听出和声变化。</li>
+    <li>我能用三种 approach note 接近一个目标音。</li>
+    <li>我能用一个 3 音动机发展 4 个 chorus。</li>
+    <li>我完成过一次 2–4 小节的转录，并移调/应用。</li>
+    <li>我录音后能用四项标准给自己打分。</li>
+    <li>我知道“少即是多”，并至少用过一个限制练习。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>把旋律放到最上面。进入 <a href="../chord-melody/">和弦旋律与独奏吉他 →</a></p>
+  </div>
+</ChapterLayout>

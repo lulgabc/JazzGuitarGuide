@@ -1,0 +1,196 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+import { ROUTINES } from "../../data/roadmap";
+
+const chapter = chapterBySlug("practice")!;
+const toc = [
+  { id: "deliberate", label: "刻意练习：不是“多弹”" },
+  { id: "goals", label: "把目标写到可以执行" },
+  { id: "time", label: "时间分配：少而频" },
+  { id: "routines", label: "30 / 60 / 90 分钟菜单" },
+  { id: "record", label: "录音与复盘" },
+  { id: "ear", label: "耳朵训练" },
+  { id: "memory", label: "背谱与记忆" },
+  { id: "plateau", label: "平台期怎么办" },
+  { id: "jam", label: "Jam Session 礼仪" },
+  { id: "anxiety", label: "上台焦虑" },
+  { id: "review", label: "每周/每月复盘" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    “每天练两小时”不是计划，“今天把 Autumn Leaves 的第 9–16 小节在 80 BPM 弹顺”才是。
+    这一章讲的是如何把时间变成进步，而不是把练习变成打卡。
+  </p>
+
+  <h2 id="deliberate">刻意练习：不是“多弹”</h2>
+  <p>
+    刻意练习（deliberate practice）有四个特征：
+  </p>
+  <ol>
+    <li><strong>有明确目标</strong>：具体到小节、和弦、速度、次数。</li>
+    <li><strong>在能力边缘</strong>：不能太简单（重复已会），也不能太难（完全失控）。</li>
+    <li><strong>即时反馈</strong>：录音、节拍器、老师/朋友、谱面分析。</li>
+    <li><strong>反复修正</strong>：不是“再来一遍”，而是“这次只改一个地方”。</li>
+  </ol>
+  <p>
+    最常见的“假练习”是：把已经会的东西弹得很熟，感觉很爽，但没有进步。
+    真正的练习通常有点不舒服：慢、卡、需要集中注意力。
+  </p>
+
+  <h2 id="goals">把目标写到可以执行</h2>
+  <p>把模糊目标改成可执行目标：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>模糊</th><th>可执行</th></tr></thead>
+      <tbody>
+        <tr><td>“我要练好即兴”</td><td>“今天在 C 大调 ii–V–I 上，只用 3/7 音，节拍器 80 BPM，录 2 分钟”</td></tr>
+        <tr><td>“我要学 Autum Leaves”</td><td>“今天只练第 9–16 小节，旋律 + 根音，慢速 3 遍”</td></tr>
+        <tr><td>“我要提高速度”</td><td>“这个音阶在 60 BPM 弹干净，连续 3 次，再加 5 BPM”</td></tr>
+        <tr><td>“我要练耳”</td><td>“今天听 2 小节 solo，唱出来，找到 3 个音”</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="time">时间分配：少而频</h2>
+  <p>
+    15 分钟每天，比周末 3 小时更有效。原因很简单：运动记忆与听觉记忆需要重复，
+    而不是一次性的“暴饮暴食”。
+  </p>
+  <ul>
+    <li><strong>固定时间</strong>：早上/午休/睡前，选一个你最容易坚持的时段。</li>
+    <li><strong>固定地点</strong>：琴放在看得见的地方，减少启动成本。</li>
+    <li><strong>固定开场</strong>：同一个热身，帮你快速进入状态。</li>
+    <li><strong>固定结束</strong>：录一句/写一句，给练习一个“收尾”。</li>
+  </ul>
+  <div class="callout callout-tip">
+    <strong class="callout-title">最小行动</strong>
+    <p>如果今天很累，只做 5 分钟：2 分钟节拍器 + 3 分钟一首曲子。不要因为“不能练一小时”就完全不练。</p>
+  </div>
+
+  <h2 id="routines">30 / 60 / 90 分钟菜单</h2>
+  <div class="grid grid-3" style="margin-block: 24px;">
+    {ROUTINES.map((routine) => (
+      <article class="card routine-card">
+        <h3>{routine.minutes} 分钟 · {routine.label}</h3>
+        <p class="small muted" style="margin-bottom: 14px;">{routine.description}</p>
+        <ul class="routine-list">
+          {routine.blocks.map((block) => (
+            <li><span>{block.name}</span><span>{block.minutes} min</span></li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+  <p>
+    注意：这些是“模板”，不是“必须”。如果你今天只有 20 分钟，选 30 分钟菜单里最重要的两块。
+    如果你今天状态很好，可以在曲目/即兴上多花 10 分钟。
+  </p>
+
+  <h2 id="record">录音与复盘</h2>
+  <p>
+    录音是唯一不会骗你的老师。你不需要专业设备，手机就够。建议：
+  </p>
+  <ul>
+    <li><strong>每周至少 1 次</strong>：录 1–3 分钟，完整曲目或练习片段。</li>
+    <li><strong>固定位置</strong>：同一个角度/距离，方便对比。</li>
+    <li><strong>只听 1–2 个维度</strong>：时间、和声、句子、音色，不要一次全听。</li>
+    <li><strong>写一句改进</strong>：具体到小节/和弦，不要写“再多练练”。</li>
+    <li><strong>每月对比</strong>：把 1 个月前和现在的录音放在一起听。</li>
+  </ul>
+  <div class="callout callout-warn">
+    <strong class="callout-title">不要只录“最好的一条”</strong>
+    <p>录下真实状态，才能发现问题。只录完美版本，会让你误判自己的水平。</p>
+  </div>
+
+  <h2 id="ear">耳朵训练</h2>
+  <p>耳朵训练不需要每天一小时。每天 5–10 分钟，分三类：</p>
+  <ol>
+    <li><strong>音程/和弦</strong>：用 App 或钢琴/吉他，听辨大小三度、七和弦性质。</li>
+    <li><strong>旋律</strong>：听 2–4 小节，唱出来，再在琴上找。</li>
+    <li><strong>和声</strong>：听标准曲，判断哪里是 ii–V–I、哪里转调。</li>
+  </ol>
+  <p>
+    推荐工具：Functional Ear Trainer、Tenuto、Perfect Ear、EarMaster（付费）。
+    但最好的训练是：听真实唱片，唱，再找。
+  </p>
+
+  <h2 id="memory">背谱与记忆</h2>
+  <p>
+    背谱不是“用眼睛记住谱面”，而是“用耳朵和手指记住声音与结构”。
+  </p>
+  <ul>
+    <li><strong>先记曲式</strong>：AABA / 12-bar / 16-bar，知道现在到哪。</li>
+    <li><strong>记和弦的“功能”</strong>：ii–V–I、turnaround、转调，而不是一个个符号。</li>
+    <li><strong>记旋律的轮廓</strong>：上行/下行、跳进/级进、长音位置。</li>
+    <li><strong>分块</strong>：4 小节一块，不要一次背 32 小节。</li>
+    <li><strong>用耳朵复述</strong>：不弹琴，在脑子里过一遍。</li>
+    <li><strong>间隔重复</strong>：今天、明天、三天后、一周后各复习一次。</li>
+  </ul>
+
+  <h2 id="plateau">平台期怎么办</h2>
+  <p>平台期通常不是“你不行”，而是“练习方式需要换”。试试：</p>
+  <ul>
+    <li><strong>换材料</strong>：一直练同一首曲子，会进入自动驾驶。换一首风格不同的。</li>
+    <li><strong>降速</strong>：你以为自己会了，其实只是“弹过去了”。降到 60 BPM 检查。</li>
+    <li><strong>换限制</strong>：只弹 3 个音、只弹四分音符、只用一个把位。</li>
+    <li><strong>找反馈</strong>：老师、朋友、录音、jam。外部耳朵能听到你忽略的问题。</li>
+    <li><strong>休息</strong>：连续高强度练习会让动作变形。休息一天，回来可能更好。</li>
+    <li><strong>回到音乐</strong>：去听现场/唱片，重新找回“为什么想弹”。</li>
+  </ul>
+
+  <h2 id="jam">Jam Session 礼仪</h2>
+  <p>第一次去 jam，紧张是正常的。记住几条：</p>
+  <ul>
+    <li><strong>准备 3–5 首</strong>能完整弹的曲子（旋律 + 和弦 + 简单 solo）。</li>
+    <li><strong>知道调与曲式</strong>：别人说“Autumn Leaves in G minor”，你要能跟上。</li>
+    <li><strong>音量小一点</strong>：尤其 comping 时，不要盖住萨克斯/歌手。</li>
+    <li><strong>听鼓和贝斯</strong>：不要只盯着自己的琴。</li>
+    <li><strong> solo 不要太长</strong>：2–3 个 chorus 足够；新手 1–2 个更好。</li>
+    <li><strong>不要怕错</strong>：错了继续走，不要停下来道歉。保持时间感比“弹对”更重要。</li>
+    <li><strong>结束后问一句</strong>：“有什么建议？”大多数乐手愿意分享。</li>
+  </ul>
+
+  <h2 id="anxiety">上台焦虑</h2>
+  <p>
+    焦虑不会完全消失，但可以被管理：
+  </p>
+  <ul>
+    <li><strong>准备“保底版本”</strong>：一首你能闭眼弹的曲子，紧张时回到它。</li>
+    <li><strong>慢呼吸</strong>：上台前 4 秒吸、6 秒呼，重复 5 次。</li>
+    <li><strong>关注音乐，不关注自己</strong>：听贝斯/鼓，和它们一起玩。</li>
+    <li><strong>接受不完美</strong>：现场不是录音，错音是演出的一部分。</li>
+    <li><strong>多上台</strong>：暴露疗法比“等准备好”有效。</li>
+  </ul>
+
+  <h2 id="review">每周/每月复盘</h2>
+  <p>每周花 10 分钟，回答四个问题：</p>
+  <ol>
+    <li>这周我练了什么？（具体材料/曲目）</li>
+    <li>哪个地方进步了？（录音/节拍器/感觉）</li>
+    <li>哪个地方卡住了？（具体小节/概念）</li>
+    <li>下周只改哪一件事？</li>
+  </ol>
+  <p>
+    每月再看一次更大的图：曲目库、技术、耳朵、理论、演出。
+    不要用“练了多少小时”衡量，用“能做什么”衡量。
+  </p>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我有一个具体到小节/速度的今日目标。</li>
+    <li>我每天至少能安排 15–30 分钟，并固定时间。</li>
+    <li>我每周录一次音，并写一句改进。</li>
+    <li>我有一个 30/60/90 分钟菜单，能按状态选择。</li>
+    <li>我知道平台期时该换材料/降速/找反馈。</li>
+    <li>我准备好 3 首能去 jam 的曲子。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>理解音乐从哪来。进入 <a href="../history/">爵士吉他简史 →</a></p>
+  </div>
+</ChapterLayout>

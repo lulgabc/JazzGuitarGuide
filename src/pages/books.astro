@@ -1,0 +1,173 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { BOOKS, BOOK_CATEGORY_ORDER, bookLink } from "../data/books";
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="教材书单"
+  description="爵士吉他教材书单：方法书、和声、即兴、和弦/指板、曲集、历史与心态。按水平与阅读顺序整理。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">The library</span>
+      <h1>书不用多，<br />读对顺序。</h1>
+      <p class="lead">
+        爵士吉他教材汗牛充栋，但你真正需要的可能只有四本：一本方法、一本和声、一本曲集、一本转录。
+        先选一条主线，其余当参考。不要用“买书”代替“练琴”。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">{BOOKS.length} 本</span>
+        <span class="pill">6 个类别</span>
+        <span class="pill">入门 → 高级</span>
+        <span class="pill">附查找链接</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="How to choose"
+        title="选书的四个原则"
+        description="不是“最厚的最权威”，也不是“最贵的最好”。适合你现在的阶段，才是好教材。"
+      />
+      <div class="grid grid-4">
+        <article class="card reveal"><div class="card-index">01</div><h3>一次一本主线</h3><p>方法书选一本，从头做到尾。不要同时开五本。</p></article>
+        <article class="card reveal"><div class="card-index">02</div><h3>能读谱更好</h3><p>很多经典教材没有 TAB。会读谱会打开更多材料。</p></article>
+        <article class="card reveal"><div class="card-index">03</div><h3>配录音</h3><p>有音频/示范的教材更容易坚持。没有音频，就自己录。</p></article>
+        <article class="card reveal"><div class="card-index">04</div><h3>用完再买</h3><p>一本书至少用 3 个月。不要用“买书”代替“练琴”。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Reading paths"
+        title="三条阅读路径"
+        description="按你现在的位置选一条。每一条都只需要 3–5 本，不要一次全买。"
+      />
+      <div class="grid grid-3">
+        <article class="card">
+          <span class="pill pill-sage">入门</span>
+          <h3 style="margin-top: 14px;">先建立体系</h3>
+          <ol class="phase-list" style="list-style:none; padding:0; margin-top:14px;">
+            <li>Jody Fisher — Complete Jazz Guitar Method（Beginning）</li>
+            <li>Jane Miller — Introduction to Jazz Guitar</li>
+            <li>The Real Book Vol. 1（配合录音）</li>
+            <li>Jamey Aebersold Vol. 1 / 2 / 3</li>
+          </ol>
+        </article>
+        <article class="card">
+          <span class="pill pill-blue">进阶</span>
+          <h3 style="margin-top: 14px;">补和声与语言</h3>
+          <ol class="phase-list" style="list-style:none; padding:0; margin-top:14px;">
+            <li>Randy Vincent — The Drop 2 Book</li>
+            <li>Garrison Fewell — A Melodic Approach</li>
+            <li>Mark Levine — The Jazz Theory Book</li>
+            <li>Bert Ligon — Connecting Chords with Linear Harmony</li>
+          </ol>
+        </article>
+        <article class="card">
+          <span class="pill pill-rust">高级</span>
+          <h3 style="margin-top: 14px;">打开思维</h3>
+          <ol class="phase-list" style="list-style:none; padding:0; margin-top:14px;">
+            <li>Mick Goodrick — The Advancing Guitarist</li>
+            <li>Ted Greene — Chord Chemistry / Modern Chord Progressions</li>
+            <li>Barry Harris Workshop / Alan Kingstone</li>
+            <li>Ted Gioia — The Jazz Standards</li>
+          </ol>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="books">
+    <div class="container">
+      <SectionHead
+        kicker="The shelf"
+        title="完整书单"
+        description="按类别筛选。每本都写清楚“为什么值得读”和适合的水平。链接指向 Goodreads 搜索，方便查版本/评价。"
+      />
+
+      <div class="resource-toolbar">
+        <div class="filter-group" id="book-categories" role="group" aria-label="按类别筛选">
+          <button class="filter-btn is-active" type="button" data-category="全部">全部</button>
+          {BOOK_CATEGORY_ORDER.map((cat) => <button class="filter-btn" type="button" data-category={cat}>{cat}</button>)}
+        </div>
+        <span class="small muted" id="book-count">显示 {BOOKS.length} 本</span>
+      </div>
+
+      <div class="book-grid" id="book-grid">
+        {BOOKS.map((book) => (
+          <article class="book-card" id={book.id} data-category={book.category}>
+            <div class="book-cover">{book.title.split(":")[0]}</div>
+            <div>
+              <h3><a href={bookLink(book)} target="_blank" rel="noopener noreferrer">{book.title}</a></h3>
+              <div class="book-author">{book.author}{book.publisher ? ` · ${book.publisher}` : ""}</div>
+              <p>{book.why}</p>
+              <div class="tag-row" style="margin-top: 10px;">
+                {book.tags.map((tag) => <span class="pill">{tag}</span>)}
+              </div>
+              <div class="resource-meta" style="margin-top: 10px; padding-top: 9px;">
+                <span class="pill pill-sage">{book.level}</span>
+                <span class="pill">{book.category}</span>
+                <a class="resource-link" href={bookLink(book)} target="_blank" rel="noopener noreferrer" style="margin-top: 0; margin-left: auto;">查找 ↗</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout callout-warn">
+        <strong class="callout-title">关于版本与购买</strong>
+        <p>
+          同一本书可能有不同版本（原版/翻译版/附音频版）。购买前确认版本、是否有音频、是否包含 TAB。
+          本站不销售书籍，也不提供 PDF 下载；请通过正规渠道购买或借阅。
+        </p>
+      </div>
+      <div class="callout callout-tip" style="margin-top: 18px;">
+        <strong class="callout-title">免费替代</strong>
+        <p>
+          预算有限时，可以先用 <a href={url("/courses/")}>免费课程</a> + Real Book（图书馆/借阅）+ 自己的录音。
+          教材不是门槛，持续练习才是。
+        </p>
+      </div>
+      <div class="btn-row" style="margin-top: 24px;">
+        <a class="btn btn-primary" href={url("/roadmap/")}>回到路线图</a>
+        <a class="btn btn-ghost" href={url("/courses/")}>看免费课程</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const wrap = document.getElementById("book-categories") as HTMLElement;
+  const grid = document.getElementById("book-grid") as HTMLElement;
+  const count = document.getElementById("book-count") as HTMLElement;
+
+  if (wrap && grid && count) {
+    const cards = [...grid.querySelectorAll<HTMLElement>(".book-card")];
+    wrap.addEventListener("click", (event) => {
+      const btn = (event.target as Element).closest<HTMLButtonElement>("[data-category]");
+      if (!btn) return;
+      const cat = btn.dataset.category || "全部";
+      wrap.querySelectorAll<HTMLButtonElement>("[data-category]").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+      });
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = cat === "全部" || card.dataset.category === cat;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      count.textContent = `显示 ${visible} 本`;
+    });
+  }
+</script>

@@ -1,0 +1,221 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("comping")!;
+const toc = [
+  { id: "role", label: "Comping 的角色" },
+  { id: "listen", label: "先听，再弹" },
+  { id: "freddie", label: "Freddie Green：四拍的力量" },
+  { id: "swing", label: "Swing comping 的节奏型" },
+  { id: "bossa", label: "Bossa Nova 的右手" },
+  { id: "ballad", label: "Ballad：空间与触弦" },
+  { id: "waltz", label: "Jazz Waltz 与 5/4" },
+  { id: "modal", label: "Modal / Funk：四度与 vamp" },
+  { id: "bassist", label: "和贝斯手合作" },
+  { id: "singer", label: "给歌手伴奏" },
+  { id: "self", label: "给自己伴奏" },
+  { id: "practice", label: "伴奏练习菜单" },
+  { id: "mistakes", label: "常见错误" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    很多人把 comping 当成“背景和弦”。但爵士吉他手在乐队里大部分时间都在 comping，
+    它决定乐队听起来是“稳、松、有互动”，还是“各弹各的”。
+    好的 comping 不是弹得多，而是弹得准、留得对。
+  </p>
+
+  <h2 id="role">Comping 的角色</h2>
+  <p>
+    Comping（accompanying）是用和弦、节奏与留白支撑独奏者。它包含三个动作：
+  </p>
+  <ul>
+    <li><strong>给和声</strong>：让独奏者知道现在是什么和弦、往哪走。</li>
+    <li><strong>给时间</strong>：用节奏型与重音推动音乐。</li>
+    <li><strong>给空间</strong>：在合适的时候不弹，让独奏者呼吸。</li>
+  </ul>
+  <p>
+    一个常见的误解是：comping 越复杂越好。事实相反。你要做的是“让独奏者听起来更好”，
+    而不是“让伴奏听起来很忙”。
+  </p>
+
+  <h2 id="listen">先听，再弹</h2>
+  <p>
+    在练任何节奏型之前，先听三张唱片，只关注吉他 comping：
+  </p>
+  <ul>
+    <li>Count Basie — Freddie Green 的四拍。</li>
+    <li>Wes Montgomery — <em>Smokin' at the Half Note</em>，听 Wes 如何给 Wynton Kelly 伴奏。</li>
+    <li>Jim Hall — <em>Undercurrent</em>，听“少”与“空间”。</li>
+  </ul>
+  <p>
+    听的时候问自己：他在哪几拍弹？哪些拍不弹？和弦是长是短？音量多大？
+    你会发现，很多伟大的 comping 其实非常稀疏。
+  </p>
+
+  <h2 id="freddie">Freddie Green：四拍的力量</h2>
+  <p>
+    Freddie Green 的风格是：每拍一下、短音、两三个音、稳定如钟。他不弹 rootless 复杂和声，
+    也不加 fill；他的工作是让整个乐队“有脉搏”。
+  </p>
+  <p>练习：</p>
+  <ol>
+    <li>选一个 4 小节进行：Cmaj7 | Am7 | Dm7 | G7。</li>
+    <li>只弹 shell voicing（root + 3 + 7）。</li>
+    <li>每拍一下，音长控制在半拍以内。</li>
+    <li>节拍器 2 &amp; 4，60–100 BPM，连续 2 分钟。</li>
+    <li>录下来，听是否有“每拍都一样重”的问题。第 1 拍可以稍重，但不要“蹦擦擦”。</li>
+  </ol>
+  <div class="callout callout-tip">
+    <strong class="callout-title">“短”是关键</strong>
+    <p>如果和弦一直响，低频会糊，节奏也会消失。让和弦“断”掉，鼓和贝斯才有空间。</p>
+  </div>
+
+  <h2 id="swing">Swing comping 的节奏型</h2>
+  <p>掌握四拍后，可以加入更有“对话感”的节奏：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>节奏型</th><th>拍点</th><th>感觉</th><th>适用</th></tr></thead>
+      <tbody>
+        <tr><td>Quarter notes</td><td>1 2 3 4</td><td>稳定、传统</td><td>Freddie Green、大乐队</td></tr>
+        <tr><td>Charleston</td><td>1 + 2&amp;</td><td>经典、轻快</td><td>Medium swing、标准曲</td></tr>
+        <tr><td>“1 &amp; 3”</td><td>1 + 3</td><td>更空、更现代</td><td>与贝斯/钢琴配合</td></tr>
+        <tr><td>“2 &amp; 4”</td><td>2 + 4</td><td>强调后拍，推动感</td><td>Medium/up-tempo</td></tr>
+        <tr><td>Anticipation</td><td>和弦提前半拍/一拍</td><td>“推”</td><td>进入新段落、结尾</td></tr>
+        <tr><td>Call &amp; response</td><td>两小节问、两小节答</td><td>对话感</td><td>与独奏者互动</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    练习方法：选一个 8 小节循环，每 2 小节换一个节奏型。不要同时练所有型；
+    一次只练一个，直到能跟节拍器稳定。
+  </p>
+
+  <h2 id="bossa">Bossa Nova 的右手</h2>
+  <p>
+    Bossa 的吉他通常同时做两件事：拇指弹 bass，其他手指弹和弦。基本感觉是“轻、切分、不断流动”。
+  </p>
+  <ol>
+    <li>先只弹 bass：1 拍根音、3 拍五音（或 1、3 的切分）。</li>
+    <li>加入和弦：在 1、2&amp;、3&amp; 等位置轻轻点和弦。</li>
+    <li>保持音量轻，让 bass 与和弦分离。</li>
+    <li>套到 Blue Bossa / Girl from Ipanema / Corcovado。</li>
+  </ol>
+  <p>
+    常见错误是“把 bossa 弹成 swing”：太重、太满、太多切分。Bossa 的美在于“轻”和“持续”。
+  </p>
+
+  <h2 id="ballad">Ballad：空间与触弦</h2>
+  <p>
+    Ballad 的 comping 不是“慢速的 swing”。它需要：
+  </p>
+  <ul>
+    <li><strong>更长的音</strong>：让和弦延音，制造色彩。</li>
+    <li><strong>更轻的触弦</strong>：不要每拍都“敲”。</li>
+    <li><strong>更多空间</strong>：在旋律长音下留白。</li>
+    <li><strong>Arpeggio</strong>：用分解和弦代替柱式和弦。</li>
+    <li><strong>Rubato</strong>：允许速度微微自由，但要与独奏者同步。</li>
+  </ul>
+  <p>推荐练习：Misty、Body and Soul、'Round Midnight。先只弹根音与 3/7，不加入任何 fill。</p>
+
+  <h2 id="waltz">Jazz Waltz 与 5/4</h2>
+  <h3>3/4</h3>
+  <p>
+    常见 pattern：第 1 拍 bass/根音，第 2、3 拍和弦。也可以把和弦放在 2&amp; 或 3&amp;。
+    推荐：Someday My Prince Will Come、Waltz for Debby、Footprints。
+  </p>
+  <h3>5/4</h3>
+  <p>
+    把 5 拍分成 3+2 或 2+3。先用脚/手打出分组，再上琴。
+    Take Five 是经典，但不要只模仿鼓，要听钢琴/贝斯如何 comp。
+  </p>
+
+  <h2 id="modal">Modal / Funk：四度与 vamp</h2>
+  <p>
+    Modal 曲目（So What、Maiden Voyage、Cantaloupe Island）常用四度叠置与短 vamp。
+    这类 comping 的重点不是“换和弦”，而是“在同一个和声上制造节奏与层次”。
+  </p>
+  <ul>
+    <li>用 3–4 个音的四度 voicing，避免根音太厚。</li>
+    <li>重复一个短节奏型，但每次改变音区/密度。</li>
+    <li>留出长音与空间，让 solo 有呼吸。</li>
+    <li>不要每小节都换 voicing；重复是 modal 的力量。</li>
+  </ul>
+
+  <h2 id="bassist">和贝斯手合作</h2>
+  <p>
+    当有贝斯手时，吉他不需要弹根音。你可以：
+  </p>
+  <ul>
+    <li>只弹 3/7（guide tones），让和声清楚但不与贝斯撞。</li>
+    <li>把 voicing 放在中高音区，避免低频泥泞。</li>
+    <li>用 rootless voicing（3/5/7/9）。</li>
+    <li>在贝斯走音时留白，不要每个拍都填。</li>
+  </ul>
+  <p>
+    一个很好的练习：和 backing track 的贝斯一起弹，但自己完全不弹根音。
+    如果和声仍然清楚，说明你的 3/7 连接是对的。
+  </p>
+
+  <h2 id="singer">给歌手伴奏</h2>
+  <p>给歌手伴奏的第一原则：<strong>不要盖住歌词</strong>。</p>
+  <ul>
+    <li>音量比独奏时更小。</li>
+    <li>在歌手的乐句之间留空，不要在同一时间填和弦。</li>
+    <li>用长音/轻触，避免密集的切分。</li>
+    <li>跟着歌词的情绪走：悲伤的地方更稀疏，高潮可以更密。</li>
+    <li>结尾/转调处给明确的和声支撑。</li>
+  </ul>
+
+  <h2 id="self">给自己伴奏</h2>
+  <p>
+    独奏吉他/ chord melody 是“自己给自己伴奏”。它需要：
+  </p>
+  <ul>
+    <li><strong>Bass line</strong>：每小节 2 或 4 个低音，尽量级进。</li>
+    <li><strong>和弦</strong>：在旋律长音下加 shell/drop 2。</li>
+    <li><strong>旋律</strong>：始终在最高声部，不能被和弦盖住。</li>
+    <li><strong>节奏</strong>：不要每拍都弹，留出旋律的呼吸。</li>
+  </ul>
+  <p>
+    先从“旋律 + 根音”开始，再加入 3/7，最后才加 fill。不要一开始就弹完整编配。
+  </p>
+
+  <h2 id="practice">伴奏练习菜单</h2>
+  <ol>
+    <li><strong>5 分钟</strong>：Freddie Green 四拍，Cmaj7–Am7–Dm7–G7。</li>
+    <li><strong>5 分钟</strong>：Charleston，同一进行。</li>
+    <li><strong>10 分钟</strong>：跟唱片 comping 一首标准曲，只弹 3/7。</li>
+    <li><strong>10 分钟</strong>：Bossa pattern，Blue Bossa / Corcovado。</li>
+    <li><strong>5 分钟</strong>：Ballad，只弹根音 + 长音和弦。</li>
+    <li><strong>5 分钟</strong>：录下来，听“是否盖住独奏/是否太满”。</li>
+  </ol>
+
+  <h2 id="mistakes">常见错误</h2>
+  <ul>
+    <li><strong>每拍都弹满</strong>：没有空间，独奏者无法呼吸。</li>
+    <li><strong>音量太大</strong>：伴奏不是主角。</li>
+    <li><strong>和贝斯抢根音</strong>：低频糊成一团。</li>
+    <li><strong>和弦太长</strong>：节奏消失，音乐变“糊”。</li>
+    <li><strong>只弹形状，不听独奏</strong>：comping 是互动，不是播放器。</li>
+    <li><strong>Bossa 弹成 swing</strong>：重音与音长不对。</li>
+  </ul>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能在 2 &amp; 4 上稳定弹 2 分钟 Freddie Green comping。</li>
+    <li>我能切换 quarter / Charleston / 2&amp;4 三种节奏型。</li>
+    <li>我能用 shell voicing 给一首标准曲伴奏，不弹根音也清楚。</li>
+    <li>我能弹一个基本的 Bossa pattern。</li>
+    <li>我能在 ballad 上留白，不把每个音填满。</li>
+    <li>我录音听过自己的 comping，并发现至少一个“太多”的地方。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>伴奏是“支撑”，即兴是“说话”。进入 <a href="../improvisation/">即兴、乐句与转录 →</a></p>
+  </div>
+</ChapterLayout>

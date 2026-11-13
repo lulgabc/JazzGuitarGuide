@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { url } from "../lib/url";
+---
+
+<BaseLayout title="页面不存在" description="这个页面不存在，或者链接已经移动。" noindex>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">404 · Lost in the changes</span>
+      <h1>这个和弦<br />不在这首曲子里。</h1>
+      <p class="lead">
+        链接可能失效了，或者你输错了地址。别担心，回到主和弦就好。
+      </p>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href={url("/")}>回到首页</a>
+        <a class="btn btn-ghost" href={url("/roadmap/")}>看路线图</a>
+        <a class="btn btn-ghost" href={url("/standards/")}>找一首曲子</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="callout callout-listen">
+        <strong class="callout-title">也许你想找</strong>
+        <p>
+          <a href={url("/basics/")}>入门知识</a> ·
+          <a href={url("/courses/")}>免费课程</a> ·
+          <a href={url("/players/")}>吉他大师</a> ·
+          <a href={url("/books/")}>教材书单</a> ·
+          <a href={url("/tools/")}>练习工具箱</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

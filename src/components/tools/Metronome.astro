@@ -1,0 +1,225 @@
+---
+---
+
+<div class="tool-panel" id="panel-metronome" role="tabpanel" aria-labelledby="tab-metronome" hidden>
+  <div class="tool-head">
+    <div>
+      <h2>节拍器</h2>
+      <p>把重音放在 2 &amp; 4，是爵士练习的第一件事。支持细分、swing 与 tap tempo。</p>
+    </div>
+    <span class="pill pill-accent">Web Audio</span>
+  </div>
+
+  <div class="metro-display">
+    <div>
+      <div class="metro-bpm"><span id="metro-bpm">90</span><small>BPM</small></div>
+      <div class="beat-dots" id="beat-dots" aria-hidden="true"></div>
+    </div>
+    <div class="metro-controls">
+      <button class="btn btn-primary" id="metro-toggle" type="button" aria-pressed="false">开始</button>
+      <button class="btn btn-ghost btn-sm" id="metro-tap" type="button">Tap tempo</button>
+    </div>
+  </div>
+
+  <div class="tool-controls">
+    <div class="field" style="flex: 1 1 260px;">
+      <label for="metro-tempo">Tempo</label>
+      <input class="tempo-slider" id="metro-tempo" type="range" min="40" max="240" step="1" value="90" />
+    </div>
+    <div class="field">
+      <label for="metro-tempo-number">数值</label>
+      <input id="metro-tempo-number" type="number" min="40" max="240" step="1" value="90" style="width: 86px;" />
+    </div>
+    <div class="field">
+      <label for="metro-beats">每小节拍数</label>
+      <select id="metro-beats">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4" selected>4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="metro-subdivision">细分</label>
+      <select id="metro-subdivision">
+        <option value="1" selected>每拍 1 下</option>
+        <option value="2">每拍 2 下</option>
+        <option value="3">三连音</option>
+        <option value="4">十六分</option>
+      </select>
+    </div>
+    <label class="switch" for="metro-swing">
+      <input id="metro-swing" type="checkbox" />
+      Swing 八分
+    </label>
+    <label class="switch" for="metro-accent">
+      <input id="metro-accent" type="checkbox" checked />
+      重音第一拍
+    </label>
+  </div>
+
+  <p class="small muted">
+    练习建议：先只踩 2 &amp; 4，弹单音或 quarter-note comping；稳定后再加入八分音符与切分。
+  </p>
+</div>
+
+<script>
+  const bpmDisplay = document.getElementById("metro-bpm") as HTMLElement;
+  const dotsWrap = document.getElementById("beat-dots") as HTMLElement;
+  const toggleBtn = document.getElementById("metro-toggle") as HTMLButtonElement;
+  const tapBtn = document.getElementById("metro-tap") as HTMLButtonElement;
+  const tempoSlider = document.getElementById("metro-tempo") as HTMLInputElement;
+  const tempoNumber = document.getElementById("metro-tempo-number") as HTMLInputElement;
+  const beatsSel = document.getElementById("metro-beats") as HTMLSelectElement;
+  const subdivisionSel = document.getElementById("metro-subdivision") as HTMLSelectElement;
+  const swingCheck = document.getElementById("metro-swing") as HTMLInputElement;
+  const accentCheck = document.getElementById("metro-accent") as HTMLInputElement;
+
+  if (toggleBtn && dotsWrap) {
+    let audioCtx: AudioContext | null = null;
+    let master: GainNode | null = null;
+    let running = false;
+    let bpm = 90;
+    let beats = 4;
+    let currentBeat = 0;
+    let nextTime = 0;
+    let schedulerId: number | null = null;
+    let rafId: number | null = null;
+    let queue: { time: number; beat: number }[] = [];
+    let lastBeat = -1;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        audioCtx = new Ctx();
+        master = audioCtx.createGain();
+        master.gain.value = 0.22;
+        master.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === "suspended") void audioCtx.resume();
+      return audioCtx;
+    }
+
+    function click(time: number, accent: boolean, sub: boolean) {
+      if (!audioCtx || !master) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = accent ? 1280 : sub ? 620 : 880;
+      const peak = accent ? 0.6 : sub ? 0.18 : 0.4;
+      gain.gain.setValueAtTime(0.0001, time);
+      gain.gain.exponentialRampToValueAtTime(peak, time + 0.003);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.045);
+      osc.connect(gain).connect(master);
+      osc.start(time);
+      osc.stop(time + 0.06);
+    }
+
+    function rebuildDots() {
+      dotsWrap.innerHTML = "";
+      for (let i = 0; i < beats; i++) {
+        const dot = document.createElement("span");
+        dot.className = `beat-dot${i === 0 ? " is-accent" : ""}`;
+        dot.dataset.beat = String(i);
+        dotsWrap.appendChild(dot);
+      }
+      lastBeat = -1;
+    }
+
+    function updateDots(beat: number) {
+      if (beat === lastBeat) return;
+      lastBeat = beat;
+      dotsWrap.querySelectorAll<HTMLElement>(".beat-dot").forEach((dot, i) => {
+        dot.classList.toggle("is-on", i === beat);
+      });
+    }
+
+    function scheduleBeat(time: number) {
+      const secondsPerBeat = 60 / bpm;
+      const subs = Number(subdivisionSel.value);
+      for (let s = 0; s < subs; s++) {
+        let offset = (s * secondsPerBeat) / subs;
+        if (swingCheck.checked && subs === 2 && s === 1) offset = secondsPerBeat * 0.66;
+        click(time + offset, currentBeat === 0 && accentCheck.checked && s === 0, s > 0);
+      }
+      queue.push({ time, beat: currentBeat });
+      currentBeat = (currentBeat + 1) % beats;
+      nextTime += secondsPerBeat;
+    }
+
+    function scheduler() {
+      if (!audioCtx) return;
+      while (nextTime < audioCtx.currentTime + 0.12) scheduleBeat(nextTime);
+    }
+
+    function draw() {
+      if (!audioCtx) return;
+      while (queue.length && queue[0].time <= audioCtx.currentTime) {
+        const item = queue.shift();
+        if (item) updateDots(item.beat);
+      }
+      if (running) rafId = requestAnimationFrame(draw);
+    }
+
+    function start() {
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      running = true;
+      currentBeat = 0;
+      lastBeat = -1;
+      queue = [];
+      nextTime = ctx.currentTime + 0.08;
+      toggleBtn.textContent = "停止";
+      toggleBtn.setAttribute("aria-pressed", "true");
+      scheduler();
+      schedulerId = window.setInterval(scheduler, 25);
+      rafId = requestAnimationFrame(draw);
+    }
+
+    function stop() {
+      running = false;
+      if (schedulerId) window.clearInterval(schedulerId);
+      if (rafId) cancelAnimationFrame(rafId);
+      schedulerId = null;
+      rafId = null;
+      queue = [];
+      toggleBtn.textContent = "开始";
+      toggleBtn.setAttribute("aria-pressed", "false");
+      dotsWrap.querySelectorAll<HTMLElement>(".beat-dot").forEach((dot) => dot.classList.remove("is-on"));
+      lastBeat = -1;
+    }
+
+    function setBpm(value: number) {
+      bpm = Math.max(40, Math.min(240, Math.round(value)));
+      bpmDisplay.textContent = String(bpm);
+      tempoSlider.value = String(bpm);
+      tempoNumber.value = String(bpm);
+    }
+
+    toggleBtn.addEventListener("click", () => (running ? stop() : start()));
+
+    tempoSlider.addEventListener("input", () => setBpm(Number(tempoSlider.value)));
+    tempoNumber.addEventListener("change", () => setBpm(Number(tempoNumber.value)));
+    beatsSel.addEventListener("change", () => {
+      beats = Number(beatsSel.value);
+      currentBeat = 0;
+      rebuildDots();
+    });
+    let taps: number[] = [];
+    tapBtn.addEventListener("click", () => {
+      const now = performance.now();
+      taps.push(now);
+      if (taps.length > 5) taps.shift();
+      if (taps.length >= 2) {
+        const intervals = taps.slice(1).map((t, i) => t - taps[i]);
+        const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+        setBpm(60000 / avg);
+      }
+    });
+
+    setBpm(90);
+    rebuildDots();
+  }
+</script>

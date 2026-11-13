@@ -1,0 +1,260 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import VideoCard from "../components/VideoCard.astro";
+import { CHANNELS, VIDEOS, SITES, FEATURED_VIDEOS } from "../data/courses";
+import { url } from "../lib/url";
+
+const topics = ["全部", "路线图", "和弦", "节奏", "伴奏", "即兴", "曲目", "和弦旋律", "练耳", "练习方法", "历史"];
+const chineseSites = SITES.filter((site) => site.lang.includes("中文"));
+---
+
+<BaseLayout
+  title="免费课程"
+  description="精选爵士吉他免费课程：YouTube 频道、单课、免费网站、中文资源与练习工具。按难度与主题筛选。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Free resources, curated</span>
+      <h1>免费的东西很多，<br />顺序很少。</h1>
+      <p class="lead">
+        这里不追求“收录最多”，而是把真正值得看的频道、单课与网站挑出来，
+        按主题和难度整理。先看三支，练一周，再回来。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">18 个频道</span>
+        <span class="pill">30+ 支单课</span>
+        <span class="pill">20 个网站/工具</span>
+        <span class="pill">含中文资源</span>
+      </div>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href="#videos">浏览单课 <span aria-hidden="true">↓</span></a>
+        <a class="btn btn-ghost" href="#channels">看频道推荐</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Start here"
+        title="先看这三支，别急着收藏 100 个"
+        description="一支建立全局，一支给你第一套和弦，一支让你开始玩 jazz blues。看完就关掉视频去练。"
+      />
+      <div class="video-grid">
+        {FEATURED_VIDEOS.slice(0, 3).map((video) => <VideoCard video={video} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="How to use YouTube"
+        title="看视频的正确姿势"
+        description="看视频不是学习。看完之后的 10 分钟，才是学习发生的时刻。"
+      />
+      <div class="step-grid">
+        <article class="step-card"><h3>一次只看一个</h3><p>不要一边看一边刷推荐。选一个主题，看完，关掉。</p></article>
+        <article class="step-card"><h3>记 3 个概念</h3><p>不是抄谱，而是写下“今天我要练什么”。最多 3 条。</p></article>
+        <article class="step-card"><h3>关掉视频，慢练</h3><p>用 50% 速度练 10 分钟。不要一边播放一边跟。</p></article>
+        <article class="step-card"><h3>录 30 秒</h3><p>录音会告诉你是否真的会了。只挑一个问题改。</p></article>
+        <article class="step-card"><h3>放进一首曲子</h3><p>概念不放进曲子，就只是视频里的事。</p></article>
+        <article class="step-card"><h3>一周后复习</h3><p>回看笔记，确认还能弹。不能，就再来一遍。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="channels">
+    <div class="container">
+      <SectionHead
+        kicker="Channels"
+        title="值得订阅的频道"
+        description="不是每个都适合现在。先选 1–2 个主频道，其他当补充。"
+      />
+      <div class="grid grid-3">
+        {CHANNELS.map((channel) => (
+          <article class="channel-card reveal">
+            <div class="channel-top">
+              <div class="channel-avatar" aria-hidden="true">{channel.name.charAt(0)}</div>
+              <div>
+                <h3><a href={channel.url} target="_blank" rel="noopener noreferrer">{channel.name}</a></h3>
+                <div class="channel-handle">{channel.handle} · {channel.lang}</div>
+              </div>
+            </div>
+            <p>{channel.description}</p>
+            <div class="tag-row">
+              {channel.tags.map((tag) => <span class="pill">{tag}</span>)}
+            </div>
+            <div class="channel-best"><strong>适合：</strong>{channel.bestFor}</div>
+            <div class="resource-meta" style="margin-top: 0; padding-top: 10px;">
+              <span class="pill pill-sage">{channel.level}</span>
+              <span class="pill">{channel.price}</span>
+              <a class="resource-link" href={channel.url} target="_blank" rel="noopener noreferrer" style="margin-top: 0; margin-left: auto;">访问频道 ↗</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="videos">
+    <div class="container">
+      <SectionHead
+        kicker="Lesson library"
+        title="30+ 支精选单课"
+        description="按主题与难度筛选。每支都附上“为什么看”，避免你掉进推荐算法的黑洞。"
+      />
+
+      <div class="resource-toolbar">
+        <div class="filter-group" id="video-levels" role="group" aria-label="按难度筛选">
+          <button class="filter-btn is-active" type="button" data-level="全部">全部</button>
+          <button class="filter-btn" type="button" data-level="入门">入门</button>
+          <button class="filter-btn" type="button" data-level="进阶">进阶</button>
+          <button class="filter-btn" type="button" data-level="全阶段">全阶段</button>
+        </div>
+        <div class="filter-group">
+          <select class="glossary-search" id="video-topic" aria-label="按主题筛选" style="min-width: 160px;">
+            {topics.map((topic) => <option value={topic}>{topic}</option>)}
+          </select>
+          <input class="glossary-search" id="video-search" type="search" placeholder="搜索视频 / 频道…" aria-label="搜索视频" />
+        </div>
+      </div>
+      <p class="small muted" id="video-count" style="margin-bottom: 18px;">显示 {VIDEOS.length} 支</p>
+
+      <div class="video-grid" id="video-grid">
+        {VIDEOS.map((video) => (
+          <div class="video-item" data-level={video.level} data-topic={video.topic} data-search={`${video.title} ${video.channel} ${video.topic} ${video.description}`.toLowerCase()}>
+            <VideoCard video={video} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Websites & tools"
+        title="网站、课程与工具"
+        description="免费/付费状态可能变化。点进去前先看当前说明；本站不收取任何推广费用。"
+      />
+      <div class="grid grid-3">
+        {SITES.map((site) => (
+          <article class="card resource-card reveal">
+            <div class="resource-top">
+              <div class="resource-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M4 5h16v14H4z" stroke-linejoin="round" />
+                  <path d="M4 9h16M8 5v4" stroke-linecap="round" />
+                </svg>
+              </div>
+              <span class="pill">{site.kind}</span>
+            </div>
+            <h3><a href={site.url} target="_blank" rel="noopener noreferrer">{site.name}</a></h3>
+            <p>{site.description}</p>
+            <div class="tag-row">
+              {site.tags.map((tag) => <span class="pill">{tag}</span>)}
+            </div>
+            <div class="resource-meta">
+              <span class="pill pill-sage">{site.level}</span>
+              <span class="pill">{site.price}</span>
+              <span class="pill">{site.lang}</span>
+            </div>
+            <a class="resource-link" href={site.url} target="_blank" rel="noopener noreferrer">访问 ↗</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="中文资源"
+        title="中文讲解与国内学习入口"
+        description="英文不是门槛，但中文讲解能帮你更快理解术语。以下只是入口，质量需要你自己判断。"
+      />
+      <div class="grid grid-3">
+        {chineseSites.map((site) => (
+          <article class="card resource-card reveal">
+            <div class="resource-top">
+              <div class="resource-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M4 6h16v10H8l-4 4V6Z" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <span class="pill pill-rust">{site.kind}</span>
+            </div>
+            <h3><a href={site.url} target="_blank" rel="noopener noreferrer">{site.name}</a></h3>
+            <p>{site.description}</p>
+            <div class="resource-meta">
+              <span class="pill pill-sage">{site.level}</span>
+              <span class="pill">{site.price}</span>
+              <span class="pill">{site.lang}</span>
+            </div>
+            <a class="resource-link" href={site.url} target="_blank" rel="noopener noreferrer">访问 ↗</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout callout-warn">
+        <strong class="callout-title">关于链接与版权</strong>
+        <p>
+          本站只链接公开的 YouTube 频道/视频与网站，不托管、不销售任何课程或谱例。
+          视频版权归原作者；如果链接失效或内容变更，欢迎在 GitHub 提 issue。
+          免费/付费状态以对方页面为准。
+        </p>
+      </div>
+      <div class="btn-row" style="margin-top: 24px;">
+        <a class="btn btn-primary" href={url("/roadmap/")}>回到路线图，开始练</a>
+        <a class="btn btn-ghost" href={url("/books/")}>看教材书单</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const levelWrap = document.getElementById("video-levels") as HTMLElement;
+  const topicSel = document.getElementById("video-topic") as HTMLSelectElement;
+  const search = document.getElementById("video-search") as HTMLInputElement;
+  const grid = document.getElementById("video-grid") as HTMLElement;
+  const count = document.getElementById("video-count") as HTMLElement;
+
+  if (grid && levelWrap && topicSel && search && count) {
+    let level = "全部";
+    const cards = [...grid.querySelectorAll<HTMLElement>(".video-item")];
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      const topic = topicSel.value;
+      let visible = 0;
+      cards.forEach((card) => {
+        const levelOk = level === "全部" || (card.dataset.level || "").includes(level);
+        const topicOk = topic === "全部" || card.dataset.topic === topic;
+        const searchOk = !q || (card.dataset.search || "").includes(q);
+        const show = levelOk && topicOk && searchOk;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      count.textContent = `显示 ${visible} 支`;
+    }
+
+    levelWrap.addEventListener("click", (event) => {
+      const btn = (event.target as Element).closest<HTMLButtonElement>("[data-level]");
+      if (!btn) return;
+      level = btn.dataset.level || "全部";
+      levelWrap.querySelectorAll<HTMLButtonElement>("[data-level]").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+      });
+      apply();
+    });
+    topicSel.addEventListener("change", apply);
+    search.addEventListener("input", apply);
+    apply();
+  }
+</script>

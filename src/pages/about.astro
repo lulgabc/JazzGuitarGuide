@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../lib/site";
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="关于本站"
+  description="Jazz Guitar Guide 是一个中文爵士吉他自学项目：内容原则、资料来源、版权与隐私说明。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">About this project</span>
+      <h1>为什么做这个站。</h1>
+      <p class="lead">
+        因为“学爵士吉他”最难的不是找资料，而是知道今天该练什么、练到什么程度、下一步去哪。
+        这个站试图把这件事讲清楚。
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="doc-layout">
+        <aside class="doc-sidebar">
+          <div class="doc-sidebar-title">目录</div>
+          <ul class="toc">
+            <li><a href="#why">为什么做</a></li>
+            <li><a href="#what">这里有什么</a></li>
+            <li><a href="#how">内容怎么来的</a></li>
+            <li><a href="#privacy">隐私</a></li>
+            <li><a href="#license">版权与使用</a></li>
+            <li><a href="#contribute">纠错与贡献</a></li>
+          </ul>
+        </aside>
+
+        <article class="doc-content prose">
+          <h2 id="why">为什么做</h2>
+          <p>
+            网上有大量爵士吉他资料：YouTube、教材、论坛、课程、PDF。但初学者最常遇到的不是“没东西看”，
+            而是“东西太多，不知道顺序”。于是很容易陷入：
+          </p>
+          <ul>
+            <li>收藏了 100 个视频，却没有一首能完整弹的曲子。</li>
+            <li>练了 10 个调式，但一跟伴奏就迷路。</li>
+            <li>买了很多教材，每一本都停在第 10 页。</li>
+          </ul>
+          <p>
+            这个站想提供一个“顺序”：先练什么、为什么、练到什么程度、怎么检查。
+            它不承诺让你成为大师，但希望让你少走一点弯路，并且真的开始玩音乐。
+          </p>
+
+          <h2 id="what">这里有什么</h2>
+          <ul>
+            <li><strong>11 章入门知识</strong>：从乐器/音色到节奏、和声、音阶、指板、伴奏、即兴、和弦旋律、练习与历史。</li>
+            <li><strong>12 个月路线图</strong>：四个阶段、前 12 周逐周计划、30/60/90 分钟菜单、可勾选进度。</li>
+            <li><strong>40 首标准曲</strong>：调性、曲式、难度、练习重点、推荐录音。</li>
+            <li><strong>免费课程与书单</strong>：精选频道、单课、网站、中文资源与教材。</li>
+            <li><strong>练习工具箱</strong>：指板、节拍器、伴奏、计时器、听音测验。</li>
+          </ul>
+
+          <h2 id="how">内容怎么来的</h2>
+          <p>
+            内容是基于公开的爵士教育资料、经典教材、唱片听感与演奏实践，用中文重新整理和写作的。
+            我们不会复制教材段落或谱例；所有解释、路线、练习建议都是原创组织。
+          </p>
+          <p>几个原则：</p>
+          <ol>
+            <li><strong>先音乐，后理论</strong>：每个概念都要能落到曲子里。</li>
+            <li><strong>不神化“天赋”</strong>：把可练的步骤拆出来。</li>
+            <li><strong>不堆砌资料</strong>：宁可少，也要能执行。</li>
+            <li><strong>承认差异</strong>：调性、曲式、教材版本可能不同，本站给出“常见版本”，不是唯一答案。</li>
+          </ol>
+          <p>
+            外部链接（YouTube、网站、教材）版权归原作者；本站只做推荐与索引，不托管、不销售。
+            免费/付费状态可能变化，以对方页面为准。
+          </p>
+
+          <h2 id="privacy">隐私</h2>
+          <p>
+            本站是静态站点，没有账号、没有广告、没有第三方统计脚本。
+            路线图的勾选进度保存在你浏览器的 localStorage 中，不会上传到服务器。
+            清除浏览器数据会丢失进度。
+          </p>
+          <p>
+            本站链接到 YouTube 等外部网站；打开后适用对方的隐私政策与 Cookie 设置。
+          </p>
+
+          <h2 id="license">版权与使用</h2>
+          <p>
+            本站原创文字与图表采用 <strong>CC BY-NC-SA 4.0</strong>（署名—非商业—相同方式共享）授权。
+            代码部分采用 MIT 授权。转载/引用请注明来源与链接。
+          </p>
+          <p>
+            本站不提供标准曲的完整谱例、Real Book PDF 或教材下载。标准曲的作曲版权归各自权利人；
+            学习时请使用合法购买/借阅的谱例与录音。
+          </p>
+
+          <h2 id="contribute">纠错与贡献</h2>
+          <p>
+            如果你发现错误、失效链接、或者有更好的免费资源推荐，欢迎在 GitHub 提 issue 或 PR：
+          </p>
+          <ul>
+            <li><a href={SITE.repo} target="_blank" rel="noopener noreferrer">github.com/lulgabc/JazzGuitarGuide</a></li>
+            <li><a href={`${SITE.repo}/issues`} target="_blank" rel="noopener noreferrer">提交 issue</a></li>
+          </ul>
+          <p>
+            这个项目会继续更新：更多曲目、更多练习、更多中文资源。你可以把它当成一个长期维护的学习笔记。
+          </p>
+
+          <div class="callout callout-tip" style="margin-top: 30px;">
+            <strong class="callout-title">开始吧</strong>
+            <p>不用等“准备好”。选一首你喜欢的曲子，听三遍，唱一遍，然后在琴上找到第一个音。</p>
+          </div>
+
+          <div class="btn-row" style="margin-top: 24px;">
+            <a class="btn btn-primary" href={url("/roadmap/")}>打开路线图</a>
+            <a class="btn btn-ghost" href={url("/basics/")}>看入门知识</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

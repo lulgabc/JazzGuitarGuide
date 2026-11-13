@@ -1,0 +1,193 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("chord-melody")!;
+const toc = [
+  { id: "what", label: "什么是 Chord Melody" },
+  { id: "melody", label: "旋律永远在第一" },
+  { id: "method", label: "五步编配法" },
+  { id: "bass", label: "Bass line：让一个人像一支乐队" },
+  { id: "voicings", label: "和弦怎么选" },
+  { id: "fills", label: "Fills、经过和弦与装饰" },
+  { id: "intro", label: "Intro / Outro 与 Rubato" },
+  { id: "levels", label: "五个难度层级" },
+  { id: "tunes", label: "适合入门的曲目" },
+  { id: "technique", label: "右手技术：拨片 + 手指" },
+  { id: "listening", label: "听力作业" },
+  { id: "mistakes", label: "常见错误" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    Chord melody 是“用一把吉他同时弹旋律、和声与低音”。它听起来很高级，
+    但核心只有一句话：<strong>旋律必须清楚，其他都是支撑</strong>。
+    Joe Pass、Ted Greene 的演奏之所以惊人，不是因为他们弹得多，而是因为他们知道什么时候不弹。
+  </p>
+
+  <h2 id="what">什么是 Chord Melody</h2>
+  <p>
+    Chord melody（和弦旋律）是把一首标准曲的旋律放在最高声部，同时在下面加入和弦与低音，
+    让一把吉他听起来像一个完整的编曲。它可以是：
+  </p>
+  <ul>
+    <li><strong>Solo guitar</strong>：完全独奏，没有伴奏。</li>
+    <li><strong>Chord solo</strong>：在乐队里用和弦弹旋律/即兴。</li>
+    <li><strong>Rubato ballad</strong>：自由速度的抒情独奏。</li>
+    <li><strong>Fingerstyle arrangement</strong>：用拇指/手指独立控制低音、和弦、旋律。</li>
+  </ul>
+
+  <h2 id="melody">旋律永远在第一</h2>
+  <p>
+    这是最重要的原则。听众首先听到的是旋律；如果旋律被和弦盖住、节奏被拉散，
+    编配再复杂也失败。
+  </p>
+  <ul>
+    <li>先把旋律在 1–2 个八度内弹熟，能唱。</li>
+    <li>旋律音尽量放在 1、2 弦，音色更清楚。</li>
+    <li>和弦音不要和旋律音打架；不协和的音要么解决，要么去掉。</li>
+    <li>旋律的长音可以加和弦；短音/经过音不一定要加。</li>
+  </ul>
+
+  <h2 id="method">五步编配法</h2>
+  <ol>
+    <li><strong>定调与曲式</strong>：确定 key、32 小节结构、哪里是 A/B。</li>
+    <li><strong>旋律</strong>：写下/记住旋律，标出长音与呼吸点。</li>
+    <li><strong>低音</strong>：在每小节第 1 拍（必要时第 3 拍）放根音，尽量级进。</li>
+    <li><strong>和弦</strong>：在旋律长音下加 shell voicing（根音 + 3/7），优先 3/7。</li>
+    <li><strong>装饰</strong>：加入经过和弦、半音低音、fill、harmonics；最后才做。</li>
+  </ol>
+  <div class="callout callout-tip">
+    <strong class="callout-title">先做“减法版本”</strong>
+    <p>第一版只要求：旋律 + 每小节一个低音 + 长音下的 3/7。能完整弹下来，再加东西。</p>
+  </div>
+
+  <h2 id="bass">Bass line：让一个人像一支乐队</h2>
+  <p>
+    Bass line 是 chord melody 的“地板”。没有低音，和弦会飘；低音太复杂，又会拖慢旋律。
+  </p>
+  <ul>
+    <li><strong>每小节 1 个低音</strong>：第 1 拍根音，最简单。</li>
+    <li><strong>每小节 2 个低音</strong>：第 1 拍根音、第 3 拍五音/经过音。</li>
+    <li><strong>Walking bass</strong>：每拍一个音，级进 + 和弦音；适合 swing。</li>
+    <li><strong>半音下行</strong>：Cmaj7 → B7 → B♭maj7 → A7，制造平滑的低音线。</li>
+    <li><strong>留白</strong>：不是每个低音都必须弹；旋律密集时可以省略。</li>
+  </ul>
+  <p>
+    练习：只用低音 + 旋律弹一首曲子。如果这样都好听，说明你的框架是稳的。
+  </p>
+
+  <h2 id="voicings">和弦怎么选</h2>
+  <p>入门优先使用：</p>
+  <ol>
+    <li><strong>Shell voicing</strong>：根音 + 3 + 7。三个音就够。</li>
+    <li><strong>三音 voicing</strong>：3 + 7 + 9（省略根音，交给 bass）。</li>
+    <li><strong>Drop 2</strong>：四音，声部更完整；适合旋律长音。</li>
+    <li><strong>四度/挂留</strong>：现代色彩；用在 modal 或结尾。</li>
+  </ol>
+  <p>
+    不要在每个旋律音下都塞一个完整和弦。和弦换得越少，旋律越清楚。
+    一小节一个和弦，甚至两小节一个，都可以。
+  </p>
+
+  <h2 id="fills">Fills、经过和弦与装饰</h2>
+  <p>当框架稳定后，可以加入：</p>
+  <ul>
+    <li><strong>经过和弦</strong>：Cmaj7 → C♯dim7 → Dm7。</li>
+    <li><strong>半音低音</strong>：在根音之间加半音，让 bass 线更顺。</li>
+    <li><strong>Harmonics</strong>：在结尾/段落之间制造色彩。</li>
+    <li><strong>Chord slides</strong>：同一个形状滑到目标品，制造“进入”感。</li>
+    <li><strong>Rubato</strong>：在 ballad 里自由处理速度，但旋律不能散。</li>
+    <li><strong>人工泛音/八度</strong>：Wes 风格的八度，适合单音旋律。</li>
+  </ul>
+
+  <h2 id="intro">Intro / Outro 与 Rubato</h2>
+  <p>
+    一首独奏曲的开头与结尾，决定了听众的“进入”和“离开”。
+  </p>
+  <ul>
+    <li><strong>Intro</strong>：可以用最后 4 小节的和声、一个 pedal、或一段 rubato 旋律。</li>
+    <li><strong>Outro</strong>：重复主题的最后一句、加一个延伸和弦、或渐弱。</li>
+    <li><strong>Rubato</strong>：先让旋律自由，再回到 tempo；不要一开始就卡死。</li>
+    <li><strong>呼吸</strong>：开头留 1–2 秒，让听众进入；结尾不要突然停。</li>
+  </ul>
+
+  <h2 id="levels">五个难度层级</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>层级</th><th>做什么</th><th>例子</th></tr></thead>
+      <tbody>
+        <tr><td>Level 1</td><td>旋律 + 每小节根音</td><td>Autumn Leaves 前 8 小节</td></tr>
+        <tr><td>Level 2</td><td>旋律 + 根音 + 长音下的 3/7</td><td>Summertime</td></tr>
+        <tr><td>Level 3</td><td>加入 Drop 2 与经过和弦</td><td>Misty</td></tr>
+        <tr><td>Level 4</td><td>Walking bass + 和弦 + 旋律</td><td>All of Me / Autumn Leaves</td></tr>
+        <tr><td>Level 5</td><td>完整独奏编配、rubato、fill、outro</td><td>Body and Soul / 'Round Midnight</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="tunes">适合入门的曲目</h2>
+  <ul>
+    <li><strong>Autumn Leaves</strong>：旋律清楚，和弦熟悉，首选。</li>
+    <li><strong>Summertime</strong>：慢，空间大，适合练长音与触弦。</li>
+    <li><strong>Misty</strong>：ballad，和声色彩丰富，适合 Level 2–3。</li>
+    <li><strong>All of Me</strong>：和声简单，适合练 bass line。</li>
+    <li><strong>Body and Soul</strong>：进阶，和声复杂，适合 Level 4–5。</li>
+  </ul>
+
+  <h2 id="technique">右手技术：拨片 + 手指</h2>
+  <p>
+    Chord melody 常用“拨片 + 手指”混合：
+  </p>
+  <ul>
+    <li><strong>拨片</strong>：弹旋律/高音，音头清楚。</li>
+    <li><strong>拇指</strong>：弹低音，音色温暖。</li>
+    <li><strong>食指/中指/无名指</strong>：弹和弦内声部。</li>
+    <li><strong>指弹</strong>：完全用手指，音色更柔和，适合 ballad。</li>
+  </ul>
+  <p>
+    不需要一开始就练复杂指法。先让拇指弹低音、拨片弹旋律，其他手指补和弦。
+    慢速、分离、听每个声部是否清楚。
+  </p>
+
+  <h2 id="listening">听力作业</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>唱片</th><th>听什么</th></tr></thead>
+      <tbody>
+        <tr><td>Joe Pass — <em>Virtuoso</em></td><td>Bass、和弦、旋律如何互不打架</td></tr>
+        <tr><td>Ted Greene — <em>Solo Guitar</em></td><td>声部连接与和声色彩</td></tr>
+        <tr><td>Jim Hall — <em>Alone Together</em></td><td>空间、触弦、极简编配</td></tr>
+        <tr><td>Lenny Breau — <em>The Hallmark Sessions</em></td><td>fingerstyle 与和声的独立性</td></tr>
+        <tr><td>Julian Lage — <em>View with a Room</em></td><td>现代触弦与空间</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="mistakes">常见错误</h2>
+  <ul>
+    <li><strong>和弦太多</strong>：旋律被淹没。少即是多。</li>
+    <li><strong>旋律不在最高声部</strong>：听众听不到主题。</li>
+    <li><strong>低音太厚</strong>：糊成一团；中高音区留空间。</li>
+    <li><strong>没有节奏</strong>：全是 rubato，听起来像练习。</li>
+    <li><strong>每个音都加和弦</strong>：没有呼吸。</li>
+    <li><strong>只弹不唱</strong>：旋律没有歌唱性。</li>
+  </ul>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能用“旋律 + 根音”完整弹一首 16 小节曲子。</li>
+    <li>我能在旋律长音下加 shell voicing，且旋律清楚。</li>
+    <li>我知道 walking bass 的基本构造。</li>
+    <li>我能在 Autumn Leaves 上做 Level 1–2 的编配。</li>
+    <li>我听过 Joe Pass / Ted Greene / Jim Hall 的独奏录音。</li>
+    <li>我录音后能听出“和弦太多/旋律被盖住”的问题。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>最后一块拼图：如何练、如何听、如何上台。进入 <a href="../practice/">听力、练习与进步 →</a></p>
+  </div>
+</ChapterLayout>

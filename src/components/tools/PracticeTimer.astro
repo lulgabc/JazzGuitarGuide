@@ -1,0 +1,179 @@
+<div class="tool-panel" id="panel-timer" role="tabpanel" aria-labelledby="tab-timer" hidden>
+  <div class="tool-head">
+    <div>
+      <h2>练习计时器</h2>
+      <p>把练习拆成块，按顺序走。到点会响一声，自动进入下一块。</p>
+    </div>
+    <span class="pill pill-accent">专注</span>
+  </div>
+
+  <div class="tool-controls">
+    <div class="filter-group" id="timer-presets" role="group" aria-label="选择练习时长">
+      <button class="filter-btn is-active" type="button" data-preset="30">30 分钟</button>
+      <button class="filter-btn" type="button" data-preset="60">60 分钟</button>
+      <button class="filter-btn" type="button" data-preset="90">90 分钟</button>
+    </div>
+    <button class="btn btn-primary" id="timer-start" type="button">开始</button>
+    <button class="btn btn-ghost btn-sm" id="timer-reset" type="button">重置</button>
+  </div>
+
+  <div class="timer-display">
+    <div class="timer-clock" id="timer-clock">30:00</div>
+    <div class="timer-phase" id="timer-phase">准备 · 最低有效剂量</div>
+  </div>
+
+  <div class="timer-segments" id="timer-segments"></div>
+  <p class="small muted" id="timer-note">按开始后，计时器会按顺序走完每个练习块。</p>
+</div>
+
+<script>
+  import { ROUTINES } from "../../data/roadmap";
+
+  const routines = ROUTINES;
+  const clock = document.getElementById("timer-clock") as HTMLElement;
+  const phase = document.getElementById("timer-phase") as HTMLElement;
+  const segmentWrap = document.getElementById("timer-segments") as HTMLElement;
+  const startBtn = document.getElementById("timer-start") as HTMLButtonElement;
+  const resetBtn = document.getElementById("timer-reset") as HTMLButtonElement;
+  const note = document.getElementById("timer-note") as HTMLElement;
+  const presetWrap = document.getElementById("timer-presets") as HTMLElement;
+
+  if (clock && segmentWrap) {
+    let selected = 30;
+    let segments: { name: string; minutes: number; detail: string }[] = [];
+    let index = 0;
+    let remaining = 0;
+    let running = false;
+    let endAt = 0;
+    let intervalId: number | null = null;
+    let audioCtx: AudioContext | null = null;
+
+    function chime() {
+      try {
+        if (!audioCtx) {
+          const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+          audioCtx = new Ctx();
+        }
+        if (audioCtx.state === "suspended") void audioCtx.resume();
+        const now = audioCtx.currentTime;
+        [880, 1320].forEach((freq, i) => {
+          const osc = audioCtx!.createOscillator();
+          const gain = audioCtx!.createGain();
+          osc.type = "sine";
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.0001, now + i * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.18, now + i * 0.12 + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.12 + 0.35);
+          osc.connect(gain).connect(audioCtx!.destination);
+          osc.start(now + i * 0.12);
+          osc.stop(now + i * 0.12 + 0.4);
+        });
+      } catch {
+        /* audio not available */
+      }
+    }
+
+    function format(seconds: number) {
+      const s = Math.max(0, Math.ceil(seconds));
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
+    }
+
+    function renderSegments() {
+      segmentWrap.innerHTML = "";
+      segments.forEach((seg, i) => {
+        const row = document.createElement("div");
+        row.className = `timer-segment${i === index ? " is-active" : ""}${i < index ? " is-done" : ""}`;
+        row.innerHTML = `<span>${i + 1}. ${seg.name}</span><span>${seg.minutes} 分钟</span>`;
+        segmentWrap.appendChild(row);
+      });
+    }
+
+    function updateClock() {
+      clock.textContent = format(remaining);
+      const current = segments[index];
+      if (current) {
+        phase.textContent = running ? `${index + 1}/${segments.length} · ${current.name}` : `准备 · ${routines.find((r) => r.minutes === selected)?.label ?? ""}`;
+      }
+    }
+
+    function loadPreset(minutes: number) {
+      stop();
+      selected = minutes;
+      const routine = routines.find((r) => r.minutes === minutes);
+      segments = routine ? routine.blocks.map((b) => ({ name: b.name, minutes: b.minutes, detail: b.detail })) : [];
+      index = 0;
+      remaining = (segments[0]?.minutes ?? 0) * 60;
+      note.textContent = routine?.description ?? "";
+      presetWrap.querySelectorAll<HTMLButtonElement>("[data-preset]").forEach((btn) => {
+        btn.classList.toggle("is-active", btn.dataset.preset === String(minutes));
+      });
+      renderSegments();
+      updateClock();
+    }
+
+    function tick() {
+      remaining = Math.max(0, (endAt - Date.now()) / 1000);
+      updateClock();
+      if (remaining > 0.05) return;
+      if (index >= segments.length - 1) {
+        running = false;
+        if (intervalId) window.clearInterval(intervalId);
+        intervalId = null;
+        startBtn.textContent = "开始";
+        startBtn.setAttribute("aria-pressed", "false");
+        phase.textContent = "完成 · 今天辛苦了";
+        clock.textContent = "00:00";
+        chime();
+        return;
+      }
+      index++;
+      remaining = segments[index].minutes * 60;
+      endAt = Date.now() + remaining * 1000;
+      chime();
+      renderSegments();
+      updateClock();
+    }
+
+    function start() {
+      if (!segments.length) return;
+      if (remaining <= 0) {
+        index = 0;
+        remaining = segments[0].minutes * 60;
+      }
+      running = true;
+      endAt = Date.now() + remaining * 1000;
+      startBtn.textContent = "暂停";
+      startBtn.setAttribute("aria-pressed", "true");
+      if (intervalId) window.clearInterval(intervalId);
+      intervalId = window.setInterval(tick, 200);
+      renderSegments();
+      updateClock();
+    }
+
+    function stop() {
+      running = false;
+      if (intervalId) window.clearInterval(intervalId);
+      intervalId = null;
+      startBtn.textContent = "开始";
+      startBtn.setAttribute("aria-pressed", "false");
+    }
+
+    function pause() {
+      remaining = Math.max(0, (endAt - Date.now()) / 1000);
+      stop();
+      startBtn.textContent = "继续";
+      updateClock();
+    }
+
+    startBtn.addEventListener("click", () => (running ? pause() : start()));
+    resetBtn.addEventListener("click", () => loadPreset(selected));
+    presetWrap.addEventListener("click", (event) => {
+      const btn = (event.target as Element).closest<HTMLButtonElement>("[data-preset]");
+      if (btn) loadPreset(Number(btn.dataset.preset));
+    });
+
+    loadPreset(30);
+  }
+</script>

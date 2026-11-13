@@ -1,0 +1,276 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("scales")!;
+const toc = [
+  { id: "warning", label: "音阶不是 solo" },
+  { id: "major-modes", label: "大调七个调式" },
+  { id: "melodic-minor", label: "旋律小调与它的调式" },
+  { id: "harmonic-diminished", label: "和声小调、减音阶、全音" },
+  { id: "pentatonic", label: "五声、Blues 与 Bebop 音阶" },
+  { id: "chord-scale", label: "Chord–Scale：什么时候用哪个" },
+  { id: "arpeggios", label: "琶音：比音阶更直接" },
+  { id: "approach", label: "接近音与包围音" },
+  { id: "motif", label: "动机发展：让 solo 像说话" },
+  { id: "phrasing", label: "Phrasing：呼吸、空间、动态" },
+  { id: "transcription", label: "转录的 8 个步骤" },
+  { id: "practice", label: "练习菜单" },
+  { id: "traps", label: "常见陷阱" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    “我应该练什么音阶？”是自学者的经典问题。更准确的问题是：
+    “我想在这个和弦上听到什么颜色？我准备怎么解决？”
+    音阶只是音的集合，句子来自节奏、目标音与呼吸。
+  </p>
+
+  <h2 id="warning">音阶不是 solo</h2>
+  <p>
+    很多人的 solo 听起来像“音阶练习”，原因是：从根音开始、上下跑、每个音一样重、没有目标。
+    音阶本身没有错，错的是把它当成音乐。正确的顺序是：
+  </p>
+  <ol>
+    <li>先听到一个想表达的句子（唱出来）。</li>
+    <li>找到它对应的和弦音/音阶音。</li>
+    <li>用节奏与发音把它弹出来。</li>
+    <li>再分析它用了什么音阶。</li>
+  </ol>
+  <p>
+    换句话说：<strong>先有句子，再有音阶</strong>。下面的表是“字典”，不是“范文”。
+  </p>
+
+  <h2 id="major-modes">大调七个调式</h2>
+  <p>
+    大调音阶的七个调式，分别从不同音级开始。它们不是七条要背的新音阶，
+    而是同一条大调音阶在不同“重心”上的样子。最关键的是：每个调式对应什么和弦、什么避免音。
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>调式</th><th>音级公式</th><th>对应和弦</th><th>声音/用法</th><th>注意</th></tr></thead>
+      <tbody>
+        <tr><td>Ionian</td><td>1 2 3 4 5 6 7</td><td>maj7</td><td>大调主和弦，明亮稳定</td><td>4 音（11）与 3 音冲突，不作长音</td></tr>
+        <tr><td>Dorian</td><td>1 2 ♭3 4 5 6 ♭7</td><td>m7</td><td>小七的默认选择，带大六度</td><td>常用于 modal、bossa、funk</td></tr>
+        <tr><td>Phrygian</td><td>1 ♭2 ♭3 4 5 ♭6 ♭7</td><td>sus♭9 / m7</td><td>西班牙/弗拉门戈色彩</td><td>♭2 很有特点，别滥用</td></tr>
+        <tr><td>Lydian</td><td>1 2 3 ♯4 5 6 7</td><td>maj7♯11</td><td>明亮、悬浮、现代</td><td>没有明显 avoid note，适合长音</td></tr>
+        <tr><td>Mixolydian</td><td>1 2 3 4 5 6 ♭7</td><td>7</td><td>属七的默认选择，blues/rock 也常用</td><td>4 音（11）与 3 音冲突</td></tr>
+        <tr><td>Aeolian</td><td>1 2 ♭3 4 5 ♭6 ♭7</td><td>m7 / m7♭13</td><td>自然小调，柔和、内省</td><td>♭6 是色彩，不是错误</td></tr>
+        <tr><td>Locrian</td><td>1 ♭2 ♭3 4 ♭5 ♭6 ♭7</td><td>m7♭5</td><td>半减和弦，忧郁、不稳定</td><td>♭2 很有张力，常解决到 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-tip">
+    <strong class="callout-title">不要按“调式名字”思考</strong>
+    <p>在 C 大调里，Dm7 用 Dorian，G7 用 Mixolydian，Cmaj7 用 Ionian——它们其实是同一组音。真正要听的是“和弦音 + 色彩音 + 解决方向”。</p>
+  </div>
+
+  <h2 id="melodic-minor">旋律小调与它的调式</h2>
+  <p>
+    爵士里的旋律小调通常指“上行形式”：1 2 ♭3 4 5 6 7。
+    它比自然小调多了一个大七度，因此更适合做小调主和弦（mMaj7），也衍生出现代爵士最重要的几个调式：
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>调式</th><th>公式</th><th>对应和弦</th><th>用法</th></tr></thead>
+      <tbody>
+        <tr><td>Melodic minor</td><td>1 2 ♭3 4 5 6 7</td><td>mMaj7 / m6</td><td>小调主和弦、悬疑色彩</td></tr>
+        <tr><td>Dorian ♭2</td><td>1 ♭2 ♭3 4 5 6 ♭7</td><td>sus♭9</td><td>Phrygian 的“更爵士”版本</td></tr>
+        <tr><td>Lydian augmented</td><td>1 2 3 ♯4 ♯5 6 7</td><td>maj7♯5</td><td>明亮、悬浮</td></tr>
+        <tr><td>Lydian dominant</td><td>1 2 3 ♯4 5 6 ♭7</td><td>7♯11</td><td>属七的明亮色彩，常用在解决前</td></tr>
+        <tr><td>Mixolydian ♭6</td><td>1 2 3 4 5 ♭6 ♭7</td><td>7♭13</td><td>属七的暗色，常解决到小调</td></tr>
+        <tr><td>Locrian ♯2</td><td>1 2 ♭3 4 ♭5 ♭6 ♭7</td><td>m7♭5</td><td>比 Locrian 更自然，现代常用</td></tr>
+        <tr><td>Altered</td><td>1 ♭2 ♭3 ♭4 ♭5 ♭6 ♭7</td><td>7alt</td><td>属七的最大张力，解决到 I/i</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    入门先掌握 Altered、Lydian dominant、Locrian ♯2 三个，足够应付大多数现代标准曲。
+    不要一次背七个。
+  </p>
+
+  <h2 id="harmonic-diminished">和声小调、减音阶、全音</h2>
+  <h3>和声小调</h3>
+  <p>
+    1 2 ♭3 4 5 ♭6 7。它的第五调式是 <strong>Phrygian dominant</strong>（1 ♭2 3 4 5 ♭6 ♭7），
+    常用于 7♭9（尤其解决到小调）。它的第七调式是 <strong>Altered diminished</strong>，
+    但入门不必展开。
+  </p>
+  <h3>减音阶</h3>
+  <p>
+    八音对称音阶，有两种常用形式：
+  </p>
+  <ul>
+    <li><strong>Whole–Half</strong>：1 2 ♭3 4 ♭5 ♭6 6 7，用于 dim7 和弦。</li>
+    <li><strong>Half–Whole</strong>：1 ♭2 ♭3 3 ♯4 5 6 ♭7，用于 7♭9（以及 7♯9/7♯11 的某些语境）。</li>
+  </ul>
+  <p>
+    减音阶的好处是“对称”：每三个半音重复一次。这让你可以在指板上快速找到形状，
+    但也容易弹得像练习。用短句、目标音与解决来控制它。
+  </p>
+  <h3>全音音阶</h3>
+  <p>
+    1 2 3 ♯4 ♯5 ♭7（等音），全部由全音组成。用于 7♯5 与印象派色彩。
+    因为太对称，不适合长时间停留；当作一个“颜色”使用。
+  </p>
+
+  <h2 id="pentatonic">五声、Blues 与 Bebop 音阶</h2>
+  <h3>五声音阶</h3>
+  <p>
+    大调五声：1 2 3 5 6；小调五声：1 ♭3 4 5 ♭7。
+    它们没有半音冲突，容易在多种和弦上使用，但也容易“听起来像 rock”。
+    在爵士里，五声常用来制造空间、blues 味或现代 superimposed 声音。
+  </p>
+  <h3>Blues scale</h3>
+  <p>
+    小调五声 + ♭5：1 ♭3 4 ♭5 5 ♭7。它是 blues 语言的核心，但在爵士里要注意：
+    不要把 ♭5 当成经过音随便塞，最好把它当作有方向的张力音。
+  </p>
+  <h3>Bebop scales</h3>
+  <p>
+    在七声音阶里加一个半音经过音，让强拍落音更稳定：
+  </p>
+  <ul>
+    <li><strong>Bebop dominant</strong>：Mixolydian + 大七度（1 2 3 4 5 6 ♭7 7）。</li>
+    <li><strong>Bebop major</strong>：Major + ♯5（1 2 3 4 5 ♯5 6 7）。</li>
+    <li><strong>Bebop minor</strong>：Dorian + 大七度（1 2 ♭3 4 5 6 ♭7 7）。</li>
+    <li><strong>Bebop Dorian</strong>：Dorian + 大三度（1 2 ♭3 3 4 5 6 ♭7）。</li>
+  </ul>
+  <p>
+    Bebop scale 不是“必须用”的音阶，而是一种让八分音符线条更顺手的工具。
+    真正让线条像 bebop 的，是和弦音、包围音与节奏。
+  </p>
+
+  <h2 id="chord-scale">Chord–Scale：什么时候用哪个</h2>
+  <p>一个简化的起点（不是唯一答案）：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>和弦</th><th>首选音阶</th><th>备选/色彩</th><th>目标音</th></tr></thead>
+      <tbody>
+        <tr><td>maj7</td><td>Ionian</td><td>Lydian（♯11）</td><td>3、7、9</td></tr>
+        <tr><td>m7</td><td>Dorian</td><td>Aeolian、minor pentatonic</td><td>♭3、♭7、9</td></tr>
+        <tr><td>7</td><td>Mixolydian</td><td>Lydian dominant、altered、diminished HW</td><td>3、♭7、9/13</td></tr>
+        <tr><td>m7♭5</td><td>Locrian</td><td>Locrian ♯2</td><td>♭3、♭5、♭7</td></tr>
+        <tr><td>dim7</td><td>Whole–Half diminished</td><td>—</td><td>♭3、♭5、♭7</td></tr>
+        <tr><td>7alt</td><td>Altered</td><td>Half–Whole diminished、whole tone</td><td>♭9、♯9、♯11、♭13</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    一个实用原则：<strong>先弹和弦音，再用音阶音连接</strong>。
+    如果你不知道用什么音阶，先只用 1、3、5、7，通常不会错。
+  </p>
+
+  <h2 id="arpeggios">琶音：比音阶更直接</h2>
+  <p>
+    琶音把和弦音依次奏出，能直接表达和声。练习顺序：
+  </p>
+  <ol>
+    <li>大七、小七、属七、半减、减七，每个至少 3 个把位。</li>
+    <li>从根音开始，再从 3、5、7 开始（转位）。</li>
+    <li>在 ii–V–I 上连接：Dm7 琶音 → G7 琶音 → Cmaj7 琶音。</li>
+    <li>加入 9 音，变成五音琶音。</li>
+    <li>用节奏变化：三连音、附点、切分。</li>
+  </ol>
+  <p>
+    琶音练习的最大陷阱是“上下行”。一旦你能弹，就立刻把它拆成 2–3 个音的动机，
+    加入休止与方向，否则它还是练习。
+  </p>
+
+  <h2 id="approach">接近音与包围音</h2>
+  <p>
+    接近音（approach note）是在目标和弦音之前加入的音，制造方向感。三种基本类型：
+  </p>
+  <ul>
+    <li><strong>半音接近</strong>：目标音下方或上方半音，如 B→C。</li>
+    <li><strong>音阶接近</strong>：用音阶里的相邻音，如 D→C。</li>
+    <li><strong>包围音（enclosure）</strong>：目标音上方 + 下方，再落到目标音，如 D–B→C。</li>
+  </ul>
+  <p>
+    练习：选一个目标音（比如 Cmaj7 的 3 音 E），用三种方式接近它，每种在 3 个把位。
+    然后把这个动作放进 ii–V–I，让目标音落在强拍。
+  </p>
+
+  <h2 id="motif">动机发展：让 solo 像说话</h2>
+  <p>
+    即兴不是“不断换新材料”。真正有说服力的 solo，往往从一个短动机开始，然后发展它。
+    发展方法：
+  </p>
+  <ul>
+    <li><strong>重复</strong>：同一动机再说一遍，建立熟悉感。</li>
+    <li><strong>模进</strong>：移到不同音高，保持形状。</li>
+    <li><strong>倒影</strong>：上下方向翻转。</li>
+    <li><strong>扩值/减值</strong>：节奏拉长或缩短。</li>
+    <li><strong>节奏位移</strong>：同一句移到不同拍点。</li>
+    <li><strong>截断</strong>：只保留动机的前两个音。</li>
+  </ul>
+  <p>
+    练习：用一个 3 音动机，在 12 小节 blues 上发展 12 个 chorus。每个 chorus 只改一个参数。
+    这比背 50 条 lick 更能建立自己的语言。
+  </p>
+
+  <h2 id="phrasing">Phrasing：呼吸、空间、动态</h2>
+  <p>同样一串音，phrasing 不同，音乐性天差地别。注意：</p>
+  <ul>
+    <li><strong>呼吸</strong>：句子之间留空。不要填满每一拍。</li>
+    <li><strong>起音</strong>：句子从弱拍、后半拍、或第 2 拍进入，会更有爵士味。</li>
+    <li><strong>重音</strong>：不是每个音一样响。让某些音“说话”。</li>
+    <li><strong>音长</strong>：长音与短音形成对比，避免全部一样。</li>
+    <li><strong>动态</strong>：整体有起伏，不要从头到尾一个音量。</li>
+    <li><strong>结尾</strong>：句子要有“落地”或“悬而未决”的感觉，而不是突然停。</li>
+  </ul>
+
+  <h2 id="transcription">转录的 8 个步骤</h2>
+  <p>转录（transcription）不是“找谱”，而是用耳朵把声音变成自己的。步骤：</p>
+  <ol>
+    <li><strong>选短句</strong>：2–4 小节，不要一上来整首。</li>
+    <li><strong>听 10 遍</strong>：先听整体，不碰琴。</li>
+    <li><strong>唱出来</strong>：能唱，才能弹。</li>
+    <li><strong>找调/起点</strong>：用琴找一个音，确定调性。</li>
+    <li><strong>慢放</strong>：用 Soundslice/YouTube 0.5x，循环。</li>
+    <li><strong>逐音找</strong>：不要看 TAB，先靠耳朵。</li>
+    <li><strong>写/分析</strong>：写出音名、和弦关系、节奏。</li>
+    <li><strong>移调/应用</strong>：移到 3 个调，放进 3 首曲子。</li>
+  </ol>
+  <div class="callout callout-tip">
+    <strong class="callout-title">每天 10 分钟</strong>
+    <p>转录不需要一次做一小时。每天 10 分钟，一次 2 小节，一个月就能积累 20–30 个句子。</p>
+  </div>
+
+  <h2 id="practice">练习菜单</h2>
+  <ol>
+    <li><strong>音阶</strong>：一个调式，5 个把位，慢速；只弹 2 个八度。</li>
+    <li><strong>琶音</strong>：ii–V–I 三个和弦，每个 3 个把位。</li>
+    <li><strong>接近音</strong>：目标音 + 三种 approach，每个 3 个调。</li>
+    <li><strong>动机</strong>：3 音动机，在 12-bar blues 上发展 4 个 chorus。</li>
+    <li><strong>转录</strong>：2 小节，唱→找→弹→写。</li>
+    <li><strong>应用</strong>：把今天的一个句子放进一首标准曲。</li>
+  </ol>
+
+  <h2 id="traps">常见陷阱</h2>
+  <ul>
+    <li><strong>从根音开始、上下跑</strong>：听起来像练习。从 3/5/7 或弱拍进入。</li>
+    <li><strong>每个音一样重</strong>：没有 articulation，就没有爵士语气。</li>
+    <li><strong>只练音阶，不练和弦音</strong>：solo 会“飘”，听不出和声。</li>
+    <li><strong>忽略休止</strong>：音符之间的空间也是音乐。</li>
+    <li><strong>一次学太多调式</strong>：先掌握 3 个，能用再说。</li>
+    <li><strong>只背 lick，不分析</strong>：不知道它为什么这样，就换不了场景。</li>
+  </ul>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能说出大调七个调式对应的和弦。</li>
+    <li>我能在 3 个把位弹大七/小七/属七/半减/减七琶音。</li>
+    <li>我能用三种 approach note 接近一个目标音。</li>
+    <li>我能用一个 3 音动机发展出 4 个不同的 chorus。</li>
+    <li>我完成过一次 2–4 小节的转录，并移调。</li>
+    <li>我知道“音阶不是 solo”，句子优先。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>现在把音放到指板上。进入 <a href="../fretboard/">指板、Voicing 与声部连接 →</a></p>
+  </div>
+</ChapterLayout>

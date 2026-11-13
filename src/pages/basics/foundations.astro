@@ -1,0 +1,206 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("foundations")!;
+const toc = [
+  { id: "role", label: "爵士吉他的四种角色" },
+  { id: "types", label: "琴型：不是非 archtop 不可" },
+  { id: "tone", label: "音色链：手 → 弦 → 拾音器 → 音箱" },
+  { id: "setup", label: "弦、拨片与音箱设置" },
+  { id: "posture", label: "姿势、手型与拨弦" },
+  { id: "warmup", label: "热身与每日 10 分钟" },
+  { id: "gear", label: "预算与购买建议" },
+  { id: "mistakes", label: "常见误区" },
+  { id: "listening", label: "听力作业：5 种音色" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    在学任何音阶之前，先解决一件事：让琴发出你愿意听的声音。
+    这不是“器材党”的问题，而是你每天练习的动力来源。一个舒服的音色，会让最简单的音阶练习也变得像音乐。
+  </p>
+
+  <h2 id="role">爵士吉他的四种角色</h2>
+  <p>
+    爵士吉他不是一个单一职位。你在乐队里可能做四件事，每一种都需要不同的训练：
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>角色</th><th>做什么</th><th>代表</th><th>先练什么</th></tr></thead>
+      <tbody>
+        <tr><td><strong>节奏吉他</strong></td><td>用和弦与节奏支撑整个乐队，通常不显眼但决定 groove</td><td>Freddie Green、Count Basie 乐队</td><td>四拍 comping、Shell Voicing、短音</td></tr>
+        <tr><td><strong>单音独奏</strong></td><td>在和弦进行上即兴，像萨克斯/小号一样构建线条</td><td>Wes Montgomery、Grant Green</td><td>和弦音、琶音、guide tone、swing 八分</td></tr>
+        <tr><td><strong>和弦旋律</strong></td><td>同时弹旋律、和弦与贝斯，一个人就是一支乐队</td><td>Joe Pass、Ted Greene</td><td>旋律优先、bass line、drop 2、声部连接</td></tr>
+        <tr><td><strong>现代/融合</strong></td><td>用音色、效果器、和声与节奏拓展爵士的边界</td><td>John Scofield、Pat Metheny</td><td>音色控制、groove、现代和声、动机发展</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    入门阶段不需要四件事同时学。建议先用 <strong>80% 时间练“节奏吉他 + 单音独奏”</strong>，
+    因为这两项决定你能不能和别人一起玩；和弦旋律可以晚一点再深入。
+  </p>
+
+  <h2 id="types">琴型：不是非 archtop 不可</h2>
+  <p>
+    很多人以为“弹爵士必须买一把大型 archtop”。事实是：音色更多来自你的手、拾音器、弦和音箱，
+    琴型只是其中一环。不同琴型各有取舍：
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>琴型</th><th>声音特点</th><th>优点</th><th>注意</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Archtop（空心拱面）</strong></td><td>温暖、圆润、中频饱满，反馈快</td><td>传统爵士音色，和弦旋律很有“木头味”</td><td>大音量/高增益容易 feedback；价格跨度大</td></tr>
+        <tr><td><strong>Semi-hollow（半空心）</strong></td><td>比 archtop 更集中，低频更紧</td><td>通用性强，能弹爵士/ blues/ fusion</td><td>不是“最传统”的 archtop 声音，但很好用</td></tr>
+        <tr><td><strong>Solid body（实心）</strong></td><td>延音长、抗反馈、音色可塑性强</td><td>适合现代爵士、fusion、效果器</td><td>需要靠拾音器/音箱/触弦做出温暖感</td></tr>
+        <tr><td><strong>Acoustic / Nylon</strong></td><td>自然、动态大、 fingerstyle 友好</td><td>Gypsy jazz、bossa、独奏</td><td>音量与反馈取决于现场；不是“只能弹古典”</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    如果你已经有一把能正常演奏的电吉他，<strong>先用它</strong>。把预算留给音箱、setup 和课程，
+    比买一把不合手的“爵士琴”更划算。真正需要 archtop 的时候，你会自己知道。
+  </p>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">一个实用判断</strong>
+    <p>如果一把琴弹 30 分钟后你的手不累、音准稳定、没有打品，并且你愿意每天拿起来，它就是一把握得住的好琴。价格不是第一标准。</p>
+  </div>
+
+  <h2 id="tone">音色链：手 → 弦 → 拾音器 → 音箱</h2>
+  <p>
+    爵士音色不是“把 tone 调到 0”。它是一个链条，每一环都会影响结果：
+  </p>
+  <ol>
+    <li><strong>手</strong>：拨片角度、触弦位置、力度。靠近琴桥更亮，靠近琴颈更暖；轻触更柔，重触更有攻击性。</li>
+    <li><strong>弦</strong>：flatwound（平卷）更温暖、噪音小、延音短；roundwound（圆卷）更亮、更有颗粒感。爵士常见 flatwound 或半平卷。</li>
+    <li><strong>拾音器</strong>：双线圈（humbucker）通常更厚、更暖；单线圈更清晰但可能有噪音。琴颈拾音器是爵士的常用位置。</li>
+    <li><strong>音箱</strong>：clean、足够 headroom、不要太早破音。EQ 通常把高频收一点、低频不要过肥，中频保持清楚。</li>
+    <li><strong>空间</strong>：少量 reverb 可以让音色更自然，但太多会糊。练习时干声更容易听清自己的问题。</li>
+  </ol>
+  <p>
+    一个经典的起点：<strong>琴颈拾音器 + tone 7–8 + 音箱 clean + 少量中频 + 一点 reverb</strong>。
+    然后用手去调整，而不是一直拧旋钮。
+  </p>
+
+  <h2 id="setup">弦、拨片与音箱设置</h2>
+  <h3>弦</h3>
+  <p>
+    电吉他常见规格是 10–46、11–49、12–52、13–56。爵士吉他手常用 12 或 13 的 flatwound，
+    因为更粗的弦能带来更厚的低频与更稳定的音准，但也会更费力。不要一上来就换 13：
+    先确认琴颈、琴桥、nut 能承受，再做 setup。
+  </p>
+  <h3>拨片</h3>
+  <p>
+    爵士常用较厚的拨片（1.0–2.0mm），声音更结实、控制更稳。形状有标准、三角、Jazz III 等。
+    厚拨片不是“必须”，但如果你现在用很薄的拨片，可以试试 1.14mm 左右，感受音头的差别。
+  </p>
+  <h3>音箱</h3>
+  <p>
+    练习音箱不需要很大。关键是 <strong>clean headroom</strong>：在你需要的音量下不破音。
+    如果音箱只有一个小喇叭，尽量把 bass 收一点，避免低频糊成一团。加一点 reverb 可以，
+    但练习时建议先关掉，听清楚自己的音头和音准。
+  </p>
+  <div class="callout callout-warn">
+    <strong class="callout-title">不要用失真代替音量</strong>
+    <p>爵士的“厚”来自中频与触弦，不是增益。过载会压缩你的动态，让你听不出自己弹得轻重。</p>
+  </div>
+
+  <h2 id="posture">姿势、手型与拨弦</h2>
+  <h3>坐姿与站姿</h3>
+  <p>
+    坐姿时，琴身不要压住右腿太多，琴颈略微向上（约 15–30 度），让左手手腕保持自然。
+    站姿时，背带长度以“左手不需要耸肩就能按到低把位”为准。琴太高会限制右手，太低会让左手吃力。
+  </p>
+  <h3>左手</h3>
+  <p>
+    拇指放在琴颈后方，不要用整个手掌把琴颈握住（和弦旋律时允许例外）。
+    按弦用指尖靠近品丝的位置，力度只要让音清晰即可，不要“捏死”。
+    手腕尽量保持中立，避免长期折腕。
+  </p>
+  <h3>右手</h3>
+  <p>
+    拨片用拇指与食指轻轻夹住，露出一点点即可。手腕放松，动作来自小臂/手腕，而不是整条手臂。
+    爵士常见几种拨弦方式：
+  </p>
+  <ul>
+    <li><strong>Alternate picking</strong>：下上交替，最基础。</li>
+    <li><strong>Economy picking</strong>：跨弦时顺势方向，减少多余动作。</li>
+    <li><strong>Hybrid picking</strong>：拨片 + 手指，和弦旋律与快速跨弦很好用。</li>
+    <li><strong>Fingerstyle</strong>：拇指负责低音，其他手指弹和弦/旋律，Joe Pass 常用拨片+手指。</li>
+  </ul>
+  <p>
+    不要追求“某种唯一正确的手型”。目标是：放松、可重复、能在慢速下控制音头。
+    如果练 10 分钟就酸痛，先减小力度、放慢速度，而不是硬撑。
+  </p>
+
+  <h2 id="warmup">热身与每日 10 分钟</h2>
+  <p>一个不伤手、又能把右手叫醒的热身：</p>
+  <ol>
+    <li><strong>1 分钟</strong>：自然呼吸，肩膀放松，空弦轻轻拨，听音色。</li>
+    <li><strong>2 分钟</strong>：半音阶（1-2-3-4）在 5–7 品，慢速，每个音都要清楚。</li>
+    <li><strong>2 分钟</strong>：一个把位的 C 大调音阶，节拍器 60–70 BPM，二分音符/四分音符。</li>
+    <li><strong>2 分钟</strong>：Shell Voicing 的 maj7/m7/7 在不同弦组上移动。</li>
+    <li><strong>2 分钟</strong>：一首正在练的曲子的前 4 小节，慢速。</li>
+    <li><strong>1 分钟</strong>：录下来，听一句。</li>
+  </ol>
+  <p>
+    热身不是“练技术”，而是把注意力从生活切换到声音。不要用热身代替真正的练习。
+  </p>
+
+  <h2 id="gear">预算与购买建议</h2>
+  <p>如果你刚开始，建议按这个顺序花钱：</p>
+  <ol>
+    <li><strong>让现有琴可弹</strong>：setup（琴颈、弦距、音准、品丝）比换琴更重要。</li>
+    <li><strong>节拍器/录音</strong>：手机就够。先养成录音习惯。</li>
+    <li><strong>音箱</strong>：一个干净的练习音箱，8–12 寸喇叭更好。</li>
+    <li><strong>弦与拨片</strong>：多试几种，找到适合你手感的。</li>
+    <li><strong>课程/教材</strong>：一本主线书 + 一个系统课程，比买十本“秘籍”有效。</li>
+    <li><strong>琴</strong>：最后再考虑。你真正需要的琴型，会在演奏中变得清楚。</li>
+  </ol>
+  <div class="callout callout-listen">
+    <strong class="callout-title">预算有限怎么办？</strong>
+    <p>一把 setup 良好的入门 semi-hollow 或 solid body + 一个 clean 音箱，足够你练两三年。别让“等我买了 archtop 再开始”成为拖延的理由。</p>
+  </div>
+
+  <h2 id="mistakes">常见误区</h2>
+  <ul>
+    <li><strong>把 tone 全关</strong>：会失去清晰度。先收一点高频，保留中频。</li>
+    <li><strong>用很薄的拨片 + 很轻的弦</strong>：声音容易飘，低频不足。可以试试更厚的拨片。</li>
+    <li><strong>只练左手</strong>：爵士的时间感、音色、articulation 大多在右手。</li>
+    <li><strong>追求“标准音色”</strong>：你的手和乐器不同，最后要找到的是“你自己的好声音”。</li>
+    <li><strong>音量太小</strong>：听不到细节，会养成错误的力度。用耳机/小音量也可以，但要能听清。</li>
+  </ul>
+
+  <h2 id="listening">听力作业：5 种音色</h2>
+  <p>找 5 张不同年代的唱片，只做一件事：听吉他音色的差异。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>唱片</th><th>听什么</th></tr></thead>
+      <tbody>
+        <tr><td>Charlie Christian — <em>The Genius of the Electric Guitar</em></td><td>早期电吉他的干净、直接、没有多余低频</td></tr>
+        <tr><td>Wes Montgomery — <em>The Incredible Jazz Guitar</em></td><td>拇指拨弦的温暖、八度的厚度</td></tr>
+        <tr><td>Jim Hall — <em>Undercurrent</em></td><td>极轻的触弦、空间感、音色与钢琴的融合</td></tr>
+        <tr><td>Joe Pass — <em>Virtuoso</em></td><td>独奏吉他的均衡：bass、和弦、旋律互不打架</td></tr>
+        <tr><td>Julian Lage — <em>Arclight</em></td><td>现代原声/电吉他混合的触弦与动态</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能用一句话说出爵士吉他的四种角色。</li>
+    <li>我知道自己的琴是什么类型，以及它的优缺点。</li>
+    <li>我能在一个舒服的音量下，弹出干净、不刺耳的音色。</li>
+    <li>我知道拨片角度与触弦位置会怎样改变音色。</li>
+    <li>我有一个 10 分钟热身流程，不需要思考就能开始。</li>
+    <li>我录过至少一次音，并听出了至少一个可以改进的地方。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>现在你已经能让琴发声了。下一章进入爵士真正的第一关：<a href="../rhythm/">节奏与 Swing →</a></p>
+  </div>
+</ChapterLayout>

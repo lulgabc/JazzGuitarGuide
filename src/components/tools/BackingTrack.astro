@@ -1,0 +1,377 @@
+---
+const keys = [
+  ["0", "C"], ["5", "F"], ["10", "B♭"], ["3", "E♭"], ["8", "A♭"], ["1", "D♭"],
+  ["7", "G"], ["2", "D"], ["9", "A"], ["4", "E"],
+];
+---
+
+<div class="tool-panel" id="panel-backing" role="tabpanel" aria-labelledby="tab-backing" hidden>
+  <div class="tool-head">
+    <div>
+      <h2>伴奏练习机</h2>
+      <p>一个简单的钢琴/贝斯/鼓循环，用来练 comping、solo 与曲式。不是替代真实乐队，但足够让你开始。</p>
+    </div>
+    <span class="pill pill-accent">Web Audio</span>
+  </div>
+
+  <div class="tool-controls">
+    <div class="field">
+      <label for="backing-key">调</label>
+      <select id="backing-key">
+        {keys.map(([value, label]) => <option value={value}>{label}</option>)}
+      </select>
+    </div>
+    <div class="field">
+      <label for="backing-pattern">进行</label>
+      <select id="backing-pattern">
+        <option value="ii-v-i">ii–V–I（4 小节）</option>
+        <option value="i-vi-ii-v">I–vi–ii–V（4 小节）</option>
+        <option value="blues">Jazz Blues（12 小节）</option>
+        <option value="rhythm">Rhythm Changes A 段（8 小节）</option>
+        <option value="bossa">Bossa 进行（4 小节）</option>
+        <option value="minor">小调 i–iv–V–i（4 小节）</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="backing-tempo">Tempo</label>
+      <input id="backing-tempo" type="number" min="50" max="260" step="1" value="120" style="width: 88px;" />
+    </div>
+    <label class="switch" for="backing-swing">
+      <input id="backing-swing" type="checkbox" checked />
+      Swing
+    </label>
+    <button class="btn btn-primary" id="backing-toggle" type="button" aria-pressed="false">开始</button>
+  </div>
+
+  <div class="chord-display" id="chord-display" aria-live="polite"></div>
+
+  <div class="backing-status">
+    <span class="status-dot" id="backing-dot"></span>
+    <span id="backing-status-text">准备 · 选择调与进行，然后开始</span>
+  </div>
+
+  <p class="small muted" style="margin-top: 12px;">
+    练习建议：先只弹 root + 3rd/7th 的 shell voicing；稳定后再加入切分与 fill。Solo 时先限制自己只弹 3 个音。
+  </p>
+</div>
+
+<script>
+  const keySel = document.getElementById("backing-key") as HTMLSelectElement;
+  const patternSel = document.getElementById("backing-pattern") as HTMLSelectElement;
+  const tempoInput = document.getElementById("backing-tempo") as HTMLInputElement;
+  const swingCheck = document.getElementById("backing-swing") as HTMLInputElement;
+  const toggleBtn = document.getElementById("backing-toggle") as HTMLButtonElement;
+  const chordDisplay = document.getElementById("chord-display") as HTMLElement;
+  const statusDot = document.getElementById("backing-dot") as HTMLElement;
+  const statusText = document.getElementById("backing-status-text") as HTMLElement;
+
+  if (toggleBtn && chordDisplay) {
+    const ROOT_NAMES = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
+    const QUALITIES: Record<string, { label: string; intervals: number[] }> = {
+      maj7: { label: "maj7", intervals: [0, 4, 7, 11] },
+      m7: { label: "m7", intervals: [0, 3, 7, 10] },
+      "7": { label: "7", intervals: [0, 4, 7, 10] },
+      m7b5: { label: "m7♭5", intervals: [0, 3, 6, 10] },
+    };
+
+    type Bar = { degree: number; quality: keyof typeof QUALITIES; roman: string };
+    const PATTERNS: Record<string, { label: string; bars: Bar[] }> = {
+      "ii-v-i": {
+        label: "ii–V–I",
+        bars: [
+          { degree: 2, quality: "m7", roman: "ii" },
+          { degree: 7, quality: "7", roman: "V" },
+          { degree: 0, quality: "maj7", roman: "I" },
+          { degree: 0, quality: "maj7", roman: "I" },
+        ],
+      },
+      "i-vi-ii-v": {
+        label: "I–vi–ii–V",
+        bars: [
+          { degree: 0, quality: "maj7", roman: "I" },
+          { degree: 9, quality: "m7", roman: "vi" },
+          { degree: 2, quality: "m7", roman: "ii" },
+          { degree: 7, quality: "7", roman: "V" },
+        ],
+      },
+      blues: {
+        label: "Jazz Blues",
+        bars: [
+          { degree: 0, quality: "7", roman: "I" },
+          { degree: 5, quality: "7", roman: "IV" },
+          { degree: 0, quality: "7", roman: "I" },
+          { degree: 0, quality: "7", roman: "I" },
+          { degree: 5, quality: "7", roman: "IV" },
+          { degree: 5, quality: "7", roman: "IV" },
+          { degree: 0, quality: "7", roman: "I" },
+          { degree: 0, quality: "7", roman: "I" },
+          { degree: 7, quality: "7", roman: "V" },
+          { degree: 5, quality: "7", roman: "IV" },
+          { degree: 0, quality: "7", roman: "I" },
+          { degree: 7, quality: "7", roman: "V" },
+        ],
+      },
+      rhythm: {
+        label: "Rhythm Changes A",
+        bars: [
+          { degree: 0, quality: "maj7", roman: "I" },
+          { degree: 9, quality: "m7", roman: "vi" },
+          { degree: 2, quality: "m7", roman: "ii" },
+          { degree: 7, quality: "7", roman: "V" },
+          { degree: 0, quality: "maj7", roman: "I" },
+          { degree: 9, quality: "m7", roman: "vi" },
+          { degree: 2, quality: "m7", roman: "ii" },
+          { degree: 7, quality: "7", roman: "V" },
+        ],
+      },
+      bossa: {
+        label: "Bossa",
+        bars: [
+          { degree: 0, quality: "maj7", roman: "I" },
+          { degree: 9, quality: "m7", roman: "vi" },
+          { degree: 2, quality: "m7", roman: "ii" },
+          { degree: 7, quality: "7", roman: "V" },
+        ],
+      },
+      minor: {
+        label: "Minor",
+        bars: [
+          { degree: 0, quality: "m7", roman: "i" },
+          { degree: 5, quality: "m7", roman: "iv" },
+          { degree: 7, quality: "7", roman: "V" },
+          { degree: 0, quality: "m7", roman: "i" },
+        ],
+      },
+    };
+
+    let audioCtx: AudioContext | null = null;
+    let master: GainNode | null = null;
+    let noiseBuffer: AudioBuffer | null = null;
+    let running = false;
+    let timerId: number | null = null;
+    let rafId: number | null = null;
+    let nextBarTime = 0;
+    let barIndex = 0;
+    let currentBars: { name: string; roman: string; rootPc: number; quality: keyof typeof QUALITIES }[] = [];
+    let visualQueue: { time: number; index: number }[] = [];
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        audioCtx = new Ctx();
+        master = audioCtx.createGain();
+        master.gain.value = 0.2;
+        master.connect(audioCtx.destination);
+
+        const length = Math.floor(audioCtx.sampleRate * 1);
+        noiseBuffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
+        const data = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
+      }
+      if (audioCtx.state === "suspended") void audioCtx.resume();
+      return audioCtx;
+    }
+
+    function buildBars() {
+      const keyPc = Number(keySel.value);
+      const pattern = PATTERNS[patternSel.value];
+      currentBars = pattern.bars.map((bar) => {
+        const rootPc = (keyPc + bar.degree) % 12;
+        return {
+          name: ROOT_NAMES[rootPc] + QUALITIES[bar.quality].label,
+          roman: bar.roman,
+          rootPc,
+          quality: bar.quality,
+        };
+      });
+      chordDisplay.innerHTML = "";
+      currentBars.forEach((bar, i) => {
+        const chip = document.createElement("div");
+        chip.className = "chord-chip";
+        chip.dataset.index = String(i);
+        chip.innerHTML = `<strong>${bar.name}</strong><small>${bar.roman} · ${i + 1}</small>`;
+        chordDisplay.appendChild(chip);
+      });
+      statusText.textContent = `${pattern.label} · ${currentBars.length} 小节循环 · ${tempoInput.value} BPM`;
+    }
+
+    function playChord(time: number, rootPc: number, quality: keyof typeof QUALITIES, duration = 0.38) {
+      if (!audioCtx || !master) return;
+      const intervals = QUALITIES[quality].intervals;
+      intervals.forEach((interval, i) => {
+        const osc = audioCtx!.createOscillator();
+        const gain = audioCtx!.createGain();
+        osc.type = i === 0 ? "triangle" : "sine";
+        osc.frequency.value = 440 * Math.pow(2, (60 + rootPc + interval - 69) / 12);
+        osc.detune.value = i % 2 === 0 ? -3 : 3;
+        const peak = i === 0 ? 0.1 : 0.07;
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.exponentialRampToValueAtTime(peak, time + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+        osc.connect(gain).connect(master!);
+        osc.start(time);
+        osc.stop(time + duration + 0.02);
+      });
+    }
+
+    function playBass(time: number, midi: number, duration = 0.42) {
+      if (!audioCtx || !master) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
+      gain.gain.setValueAtTime(0.0001, time);
+      gain.gain.exponentialRampToValueAtTime(0.24, time + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+      osc.connect(gain).connect(master);
+      osc.start(time);
+      osc.stop(time + duration + 0.02);
+    }
+
+    function playNoise(time: number, type: "ride" | "hat" | "snare") {
+      if (!audioCtx || !master || !noiseBuffer) return;
+      const source = audioCtx.createBufferSource();
+      source.buffer = noiseBuffer;
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+      let freq = 7000;
+      let q = 0.7;
+      let peak = 0.018;
+      let dur = 0.08;
+      if (type === "ride") { freq = 6200; peak = 0.016; dur = 0.14; }
+      if (type === "hat") { freq = 8500; peak = 0.012; dur = 0.06; }
+      if (type === "snare") { freq = 1900; q = 0.9; peak = 0.05; dur = 0.11; }
+      filter.type = "highpass";
+      filter.frequency.value = freq;
+      filter.Q.value = q;
+      gain.gain.setValueAtTime(0.0001, time);
+      gain.gain.exponentialRampToValueAtTime(peak, time + 0.004);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+      source.connect(filter).connect(gain).connect(master);
+      source.start(time);
+      source.stop(time + dur + 0.02);
+    }
+
+    function playKick(time: number) {
+      if (!audioCtx || !master) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(120, time);
+      osc.frequency.exponentialRampToValueAtTime(48, time + 0.11);
+      gain.gain.setValueAtTime(0.0001, time);
+      gain.gain.exponentialRampToValueAtTime(0.13, time + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.16);
+      osc.connect(gain).connect(master);
+      osc.start(time);
+      osc.stop(time + 0.18);
+    }
+
+    function scheduleBar() {
+      if (!audioCtx) return;
+      const bpm = Math.max(50, Math.min(260, Number(tempoInput.value) || 120));
+      const beat = 60 / bpm;
+      const barDuration = beat * 4;
+      const chord = currentBars[barIndex % currentBars.length];
+      const nextChord = currentBars[(barIndex + 1) % currentBars.length];
+      const isBossa = patternSel.value === "bossa";
+      const swing = swingCheck.checked;
+
+      // walking bass
+      const bassRoot = 36 + chord.rootPc;
+      const nextRoot = 36 + nextChord.rootPc;
+      playBass(nextBarTime, bassRoot);
+      playBass(nextBarTime + beat, bassRoot + 7);
+      playBass(nextBarTime + beat * 2, bassRoot + 12);
+      playBass(nextBarTime + beat * 3, nextRoot - 1 >= 36 ? nextRoot - 1 : nextRoot + 11);
+
+      // comping stabs
+      const stabs = isBossa ? [0, 1.5, 2.5, 3.5] : [0, 1.5, 2.5];
+      stabs.forEach((s, i) => {
+        playChord(nextBarTime + s * beat, chord.rootPc, chord.quality, i === 0 ? 0.5 : 0.28);
+      });
+
+      // drums
+      for (let b = 0; b < 4; b++) {
+        playNoise(nextBarTime + b * beat, "ride");
+        if (swing) playNoise(nextBarTime + b * beat + beat * 0.66, "ride");
+        else playNoise(nextBarTime + b * beat + beat * 0.5, "hat");
+      }
+      playNoise(nextBarTime + beat, "hat");
+      playNoise(nextBarTime + beat * 3, "hat");
+      playNoise(nextBarTime + beat * 1, "snare");
+      playNoise(nextBarTime + beat * 3, "snare");
+      playKick(nextBarTime);
+      playKick(nextBarTime + beat * 2);
+
+      visualQueue.push({ time: nextBarTime, index: barIndex % currentBars.length });
+      nextBarTime += barDuration;
+      barIndex++;
+    }
+
+    function scheduler() {
+      if (!audioCtx) return;
+      while (nextBarTime < audioCtx.currentTime + 0.35) scheduleBar();
+    }
+
+    function draw() {
+      if (!audioCtx) return;
+      while (visualQueue.length && visualQueue[0].time <= audioCtx.currentTime) {
+        const item = visualQueue.shift();
+        if (!item) continue;
+        chordDisplay.querySelectorAll<HTMLElement>(".chord-chip").forEach((chip, i) => {
+          chip.classList.toggle("is-on", i === item.index);
+        });
+      }
+      if (running) rafId = requestAnimationFrame(draw);
+    }
+
+    function start() {
+      const ctx = ensureAudio();
+      if (!ctx) return;
+      buildBars();
+      running = true;
+      barIndex = 0;
+      visualQueue = [];
+      nextBarTime = ctx.currentTime + 0.1;
+      toggleBtn.textContent = "停止";
+      toggleBtn.setAttribute("aria-pressed", "true");
+      statusDot.classList.add("is-live");
+      statusText.textContent = `播放中 · ${PATTERNS[patternSel.value].label} · ${tempoInput.value} BPM`;
+      scheduler();
+      timerId = window.setInterval(scheduler, 50);
+      rafId = requestAnimationFrame(draw);
+    }
+
+    function stop() {
+      running = false;
+      if (timerId) window.clearInterval(timerId);
+      if (rafId) cancelAnimationFrame(rafId);
+      timerId = null;
+      rafId = null;
+      visualQueue = [];
+      toggleBtn.textContent = "开始";
+      toggleBtn.setAttribute("aria-pressed", "false");
+      statusDot.classList.remove("is-live");
+      statusText.textContent = "已停止 · 选择调与进行，然后开始";
+      chordDisplay.querySelectorAll<HTMLElement>(".chord-chip").forEach((chip) => chip.classList.remove("is-on"));
+    }
+
+    toggleBtn.addEventListener("click", () => (running ? stop() : start()));
+    keySel.addEventListener("change", () => {
+      if (running) stop();
+      buildBars();
+    });
+    patternSel.addEventListener("change", () => {
+      if (running) stop();
+      buildBars();
+    });
+    tempoInput.addEventListener("change", () => {
+      if (running) {
+        statusText.textContent = `播放中 · ${PATTERNS[patternSel.value].label} · ${tempoInput.value} BPM`;
+      }
+    });
+
+    buildBars();
+  }
+</script>

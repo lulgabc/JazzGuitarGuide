@@ -1,0 +1,258 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { url } from "../lib/url";
+import { PHASES, FIRST_12_WEEKS, ROUTINES, PRINCIPLES } from "../data/roadmap";
+---
+
+<BaseLayout
+  title="学习路线图"
+  description="爵士吉他 12 个月学习路线图：四个阶段、每周计划、每日练习菜单、检查点与可勾选进度。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">The 12-month roadmap</span>
+      <h1>不是“学完”，<br />是“走到能玩”。</h1>
+      <p class="lead">
+        这条路线从“能弹完一首”到“能上台”，分成四个阶段。
+        每个阶段都有目标、曲目、检查点和可勾选的练习清单。你可以按周走，也可以按自己的节奏延长。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">52 周</span>
+        <span class="pill">4 个阶段</span>
+        <span class="pill">40+ 练习任务</span>
+        <span class="pill">进度自动保存</span>
+      </div>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href="#phase-1">从 Phase 1 开始 <span aria-hidden="true">↓</span></a>
+        <a class="btn btn-ghost" href="#weekly">看前 12 周</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="stat-strip">
+        <div class="stat-cell"><strong>3</strong><span>首曲子起步</span></div>
+        <div class="stat-cell"><strong>10</strong><span>首能 jam 的曲目</span></div>
+        <div class="stat-cell"><strong>2</strong><span>首 chord melody</span></div>
+        <div class="stat-cell"><strong>1</strong><span>套 30 分钟曲目</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="roadmap-progress" id="roadmap-progress">
+        <span class="progress-label">总进度 <strong id="progress-count">0 / 0</strong></span>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <span class="progress-label"><strong id="progress-percent">0%</strong></span>
+        <button class="btn btn-quiet btn-sm" id="progress-reset" type="button">重置</button>
+      </div>
+      <p class="small muted" style="margin-top: -14px;">
+        勾选会保存在这台设备的浏览器里（localStorage），不会上传。换设备/清缓存会丢失。
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="callout callout-tip">
+        <strong class="callout-title">怎么用这条路线</strong>
+        <p>
+          先看完整个阶段的目标，再开始勾任务。每周至少录一次音；每 4 周做一次复盘。
+          如果某一周没完成，不要跳；把那一周延长。曲目比练习项更重要——每学一个概念，都要放进一首曲子。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      {PHASES.map((phase) => (
+        <section class="phase-block" id={phase.id}>
+          <div class="phase-head">
+            <div class="phase-big-num">{phase.number}</div>
+            <div>
+              <h2>{phase.title}</h2>
+              <p>{phase.subtitle}</p>
+              <div class="phase-stats">
+                <span class="pill pill-accent">{phase.duration}</span>
+                <span class="small muted">目标：{phase.goal}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="margin-bottom: 20px;">
+            <div class="card">
+              <h3>本阶段重点</h3>
+              <p>{phase.description}</p>
+              <div class="tag-row" style="margin-top: 16px;">
+                {phase.focus.map((item) => <span class="pill pill-sage">{item}</span>)}
+              </div>
+              <div class="resource-meta" style="margin-top: 18px;">
+                <span class="small muted">建议曲目：</span>
+                {phase.tunes.map((tune) => <span class="pill">{tune}</span>)}
+              </div>
+            </div>
+            <div class="card">
+              <h3>阶段检查点</h3>
+              <p>做到这些，再进入下一阶段。做不到也没关系，延长这个阶段。</p>
+              <ul class="phase-list" style="margin-top: 16px;">
+                {phase.checkpoint.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </div>
+
+          <div class="checklist">
+            {phase.tasks.map((task) => (
+              <div class="check-item">
+                <input type="checkbox" id={task.id} data-task={task.id} />
+                <label for={task.id}>
+                  {task.label}
+                  {task.note && <span class="check-note">{task.note}</span>}
+                </label>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" id="weekly">
+    <div class="container">
+      <SectionHead
+        kicker="First 12 weeks"
+        title="前 12 周：一周一周地走"
+        description="这是 Phase 1 的展开版。每周只列一个重点、一首曲子、一个检查点。不要一次做三周的事。"
+      />
+      <div class="table-wrap">
+        <table class="week-table">
+          <thead><tr><th>周</th><th>重点</th><th>曲目</th><th>检查点</th></tr></thead>
+          <tbody>
+            {FIRST_12_WEEKS.map((week) => (
+              <tr>
+                <td>{week.week}</td>
+                <td>{week.focus}</td>
+                <td>{week.tune}</td>
+                <td>{week.checkpoint}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Daily routines"
+        title="每天 30 / 60 / 90 分钟"
+        description="选一个适合你今天的版本。不要因为时间少就不练；5 分钟也比 0 好。"
+      />
+      <div class="routine-grid">
+        {ROUTINES.map((routine) => (
+          <article class="card routine-card">
+            <h3>{routine.minutes} 分钟 · {routine.label}</h3>
+            <div class="routine-total">{routine.minutes}<span style="font-size: 0.9rem; color: var(--muted);"> min</span></div>
+            <p class="small muted" style="margin-bottom: 16px;">{routine.description}</p>
+            <ul class="routine-list">
+              {routine.blocks.map((block) => (
+                <li><span>{block.name}<br /><span class="tiny" style="color: var(--faint);">{block.detail}</span></span><span>{block.minutes}</span></li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Principles"
+        title="比练习菜单更重要的六件事"
+        description="如果有一天你只能记住一页，记住这些。"
+      />
+      <div class="grid grid-3">
+        {PRINCIPLES.map((item, i) => (
+          <article class="card reveal">
+            <div class="card-index">0{i + 1}</div>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card" style="padding: clamp(28px, 5vw, 50px); text-align:center;">
+        <span class="eyebrow" style="justify-content:center;">One small step</span>
+        <h2 style="font-size: clamp(1.9rem, 3.6vw, 3rem); margin: 14px auto; max-width: 760px;">
+          如果今天只有 15 分钟，<br />就练这三件事。
+        </h2>
+        <div class="grid grid-3" style="max-width: 900px; margin: 26px auto; text-align:left;">
+          <div class="card" style="padding: 18px;"><strong>5 分钟</strong><p style="margin-top: 6px;">节拍器 2 &amp; 4，弹 shell voicing。</p></div>
+          <div class="card" style="padding: 18px;"><strong>5 分钟</strong><p style="margin-top: 6px;">一首曲子的旋律 + 和弦。</p></div>
+          <div class="card" style="padding: 18px;"><strong>5 分钟</strong><p style="margin-top: 6px;">听 2 小节 solo，唱出来。</p></div>
+        </div>
+        <div class="btn-row" style="justify-content:center;">
+          <a class="btn btn-primary" href={url("/tools/")}>打开练习工具箱</a>
+          <a class="btn btn-ghost" href={url("/standards/")}>先选一首曲子</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const STORAGE_KEY = "jgg-progress-v1";
+  const boxes = [...document.querySelectorAll<HTMLInputElement>("input[data-task]")];
+  const fill = document.getElementById("progress-fill") as HTMLElement;
+  const count = document.getElementById("progress-count") as HTMLElement;
+  const percent = document.getElementById("progress-percent") as HTMLElement;
+  const reset = document.getElementById("progress-reset") as HTMLButtonElement;
+
+  if (boxes.length && fill) {
+    let saved: Record<string, boolean> = {};
+    try {
+      saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch {
+      saved = {};
+    }
+
+    function update() {
+      const total = boxes.length;
+      const done = boxes.filter((box) => box.checked).length;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      fill.style.width = `${pct}%`;
+      count.textContent = `${done} / ${total}`;
+      percent.textContent = `${pct}%`;
+      const state: Record<string, boolean> = {};
+      boxes.forEach((box) => {
+        if (box.checked) state[box.dataset.task || ""] = true;
+      });
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch {
+        /* ignore */
+      }
+    }
+
+    boxes.forEach((box) => {
+      box.checked = Boolean(saved[box.dataset.task || ""]);
+      box.addEventListener("change", update);
+    });
+
+    reset?.addEventListener("click", () => {
+      boxes.forEach((box) => (box.checked = false));
+      update();
+    });
+
+    update();
+  }
+</script>

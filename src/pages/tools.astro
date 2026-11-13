@@ -1,0 +1,151 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Fretboard from "../components/tools/Fretboard.astro";
+import Metronome from "../components/tools/Metronome.astro";
+import BackingTrack from "../components/tools/BackingTrack.astro";
+import PracticeTimer from "../components/tools/PracticeTimer.astro";
+import EarQuiz from "../components/tools/EarQuiz.astro";
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="练习工具箱"
+  description="爵士吉他练习工具箱：交互式指板、节拍器、ii–V–I 伴奏、练习计时器与听音测验。全部在浏览器运行。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Practice toolbox</span>
+      <h1>不用注册，<br />打开就能练。</h1>
+      <p class="lead">
+        五个小工具：指板探索器、节拍器、伴奏练习机、练习计时器、听音测验。
+        它们不会替你练，但会帮你把“今天练什么”变得具体。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">5 个工具</span>
+        <span class="pill">Web Audio</span>
+        <span class="pill">无需登录</span>
+        <span class="pill">数据留在本地</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="tool-shell">
+        <div class="tool-tabs" role="tablist" aria-label="练习工具">
+          <button class="tool-tab is-active" id="tab-fretboard" type="button" role="tab" aria-selected="true" aria-controls="panel-fretboard" data-panel="panel-fretboard">指板</button>
+          <button class="tool-tab" id="tab-metronome" type="button" role="tab" aria-selected="false" aria-controls="panel-metronome" data-panel="panel-metronome">节拍器</button>
+          <button class="tool-tab" id="tab-backing" type="button" role="tab" aria-selected="false" aria-controls="panel-backing" data-panel="panel-backing">伴奏</button>
+          <button class="tool-tab" id="tab-timer" type="button" role="tab" aria-selected="false" aria-controls="panel-timer" data-panel="panel-timer">计时器</button>
+          <button class="tool-tab" id="tab-ear" type="button" role="tab" aria-selected="false" aria-controls="panel-ear" data-panel="panel-ear">听音</button>
+        </div>
+
+        <Fretboard />
+        <Metronome />
+        <BackingTrack />
+        <PracticeTimer />
+        <EarQuiz />
+      </div>
+
+      <p class="small muted" style="margin-top: 14px;">
+        提示：音频需要一次点击才能启动（浏览器限制）。建议戴耳机，音量从低开始。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Recipes"
+        title="三种练习配方"
+        description="不知道怎么组合？按下面的顺序走一遍，15 分钟也算一次完整练习。"
+      />
+      <div class="grid grid-3">
+        <article class="card">
+          <span class="pill pill-sage">15 分钟</span>
+          <h3 style="margin-top: 14px;">保底练习</h3>
+          <ul class="routine-list" style="margin-top: 14px;">
+            <li><span>节拍器 2 &amp; 4，单音/Shell</span><span>5 min</span></li>
+            <li><span>指板：一个调式 3 个把位</span><span>5 min</span></li>
+            <li><span>伴奏：ii–V–I 跟 2 遍</span><span>5 min</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="pill pill-blue">30 分钟</span>
+          <h3 style="margin-top: 14px;">标准练习</h3>
+          <ul class="routine-list" style="margin-top: 14px;">
+            <li><span>节拍器 + 音阶/琶音</span><span>8 min</span></li>
+            <li><span>指板：Drop 2 / Shell 连接</span><span>7 min</span></li>
+            <li><span>伴奏：一首标准曲 comping</span><span>8 min</span></li>
+            <li><span>听音测验 / 转录</span><span>7 min</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="pill pill-rust">60 分钟</span>
+          <h3 style="margin-top: 14px;">深度练习</h3>
+          <ul class="routine-list" style="margin-top: 14px;">
+            <li><span>热身 + 技术</span><span>10 min</span></li>
+            <li><span>和声/Voicing</span><span>15 min</span></li>
+            <li><span>即兴限制练习</span><span>15 min</span></li>
+            <li><span>曲目 + 录音</span><span>15 min</span></li>
+            <li><span>耳朵</span><span>5 min</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-tip" style="margin-top: 26px;">
+        <strong class="callout-title">练习不是“玩工具”</strong>
+        <p>
+          工具用来暴露问题，不是用来消磨时间。每次用完，记下一个具体问题：
+          “第 3 小节的和弦没跟上”“2 &amp; 4 到 120 BPM 会漂”“听不出 m7♭5”。下一次只改一个。
+        </p>
+      </div>
+
+      <div class="btn-row" style="margin-top: 24px;">
+        <a class="btn btn-primary" href={url("/roadmap/")}>把工具放进路线图</a>
+        <a class="btn btn-ghost" href={url("/basics/practice/")}>看练习方法</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>(".tool-tab")];
+  const panels = [...document.querySelectorAll<HTMLElement>(".tool-panel")];
+
+  function activate(panelId: string, updateHash = true) {
+    const target = document.getElementById(panelId);
+    if (!target) return;
+    tabs.forEach((tab) => {
+      const on = tab.dataset.panel === panelId;
+      tab.classList.toggle("is-active", on);
+      tab.setAttribute("aria-selected", String(on));
+      tab.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach((panel) => {
+      panel.hidden = panel.id !== panelId;
+    });
+    if (updateHash) {
+      history.replaceState(null, "", `#${panelId}`);
+    }
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activate(tab.dataset.panel || "panel-fretboard"));
+    tab.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      const next = event.key === "ArrowRight" ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+      tabs[next].focus();
+      activate(tabs[next].dataset.panel || "panel-fretboard");
+    });
+  });
+
+  const hash = window.location.hash.replace("#", "");
+  if (hash && document.getElementById(hash)?.classList.contains("tool-panel")) {
+    activate(hash, false);
+  } else {
+    activate("panel-fretboard", false);
+  }
+</script>

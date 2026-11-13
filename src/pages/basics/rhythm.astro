@@ -1,0 +1,219 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("rhythm")!;
+const toc = [
+  { id: "why", label: "为什么节奏第一" },
+  { id: "pulse", label: "2 & 4 与 ride cymbal" },
+  { id: "swing", label: "Swing 八分：不是数学" },
+  { id: "practice", label: "如何练 swing" },
+  { id: "comping", label: "四拍 comping 与 Freddie Green" },
+  { id: "vocabulary", label: "切分、Charleston 与 anticipation" },
+  { id: "styles", label: "Bossa、3/4、5/4、6/8" },
+  { id: "feel", label: "Lay back、push 与 pocket" },
+  { id: "routine", label: "15 分钟节奏练习" },
+  { id: "listening", label: "听力作业" },
+  { id: "mistakes", label: "常见误区" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    如果只能练一件事，练节奏。音阶弹错，别人可能没注意；时间感不对，所有人都会立刻听出来。
+    爵士的第一语言不是“什么音”，而是“什么时候、用什么发音”。
+  </p>
+
+  <h2 id="why">为什么节奏第一</h2>
+  <p>
+    爵士是一种“时间艺术”。同样的 C 大调音阶，放在正确的 swing 八分与重音里，会立刻像爵士；
+    放在平均的八分里，就只是练习曲。很多自学者的误区是：先把音阶练到 200 BPM，再回头补节奏。
+    结果手指很快，但一放伴奏就“站不住”。
+  </p>
+  <p>节奏训练解决三件事：</p>
+  <ul>
+    <li><strong>稳定性</strong>：你能不能在 60 BPM 连续弹 2 分钟不漂。</li>
+    <li><strong>发音</strong>：长音、短音、重音、连断，是否清楚。</li>
+    <li><strong>互动</strong>：你能不能听见鼓的 ride、贝斯的 walking，并与之对话。</li>
+  </ul>
+
+  <h2 id="pulse">2 &amp; 4 与 ride cymbal</h2>
+  <p>
+    爵士的时间感通常建立在 <strong>2 &amp; 4</strong> 上：hi-hat 踩第二、第四拍，ride cymbal 画出八分音符的流动。
+    这和你熟悉的摇滚/流行“数 1、2、3、4，重音在 1、3”不同。把重心放在 2 &amp; 4，音乐会有“向前走”的感觉。
+  </p>
+  <p>练习方法：</p>
+  <ol>
+    <li>节拍器只响 2 &amp; 4（或者用鼓机/唱片）。</li>
+    <li>嘴里数“1 2 3 4”，但脚/身体在 2、4 下沉。</li>
+    <li>只弹一个音（比如 G），用 quarter notes 跟 30 秒。</li>
+    <li>再加一个音，变成简单的两音句子，仍然只弹 quarter notes。</li>
+  </ol>
+  <div class="callout callout-tip">
+    <strong class="callout-title">身体先于手指</strong>
+    <p>如果你不能用脚/身体稳定地踩 2 &amp; 4，手指也不可能稳定。先让身体“会”，再让琴“会”。</p>
+  </div>
+
+  <h2 id="swing">Swing 八分：不是数学</h2>
+  <p>
+    Swing 八分音符常被描述为“三连音的长-短”，但真实演奏不是固定的 2:1。
+    它更像一种<strong>发音方式</strong>：第一个音更长、更重，第二个音更短、更轻，并且随着速度、风格和乐手变化。
+    慢速时更接近三连音，快速时会更接近平均八分，但仍然保留重音与 articulation 的差别。
+  </p>
+  <p>你可以这样理解：</p>
+  <ul>
+    <li><strong>长-短</strong>：不是两个等长的八分。</li>
+    <li><strong>重-轻</strong>：第一个音通常更有重量，第二个音更像“经过”。</li>
+    <li><strong>连-断</strong>：不是每个音都同样连。音头、音尾、气息都会改变感觉。</li>
+    <li><strong>不机械</strong>：不要用节拍器把 swing 固定成数学比例。听唱片，模仿语气。</li>
+  </ul>
+  <div class="callout callout-warn">
+    <strong class="callout-title">不要把 swing 弹成“三连音练习”</strong>
+    <p>三连音是入口，不是终点。真正要练的是重音、音长与句子的呼吸。用唱片当老师，而不是只靠节拍器。</p>
+  </div>
+
+  <h2 id="practice">如何练 swing</h2>
+  <h3>1. 先唱</h3>
+  <p>
+    找一段简单的爵士旋律（比如 Autumn Leaves 的前四小节），先跟着唱片唱。
+    注意哪些音长、哪些音短、哪里呼吸。唱对了，手才有机会对。
+  </p>
+  <h3>2. 用单音练发音</h3>
+  <p>
+    只弹一个音，用 swing 八分弹 4 小节，再换一个音。听每个音的长度是否一致、
+    重音是否落在你想要的拍点上。不要加速。
+  </p>
+  <h3>3. 用音阶练句子</h3>
+  <p>
+    不要从下到上跑音阶。选 3–4 个音，组成一个短动机，用 swing 八分重复、移位、变化。
+    重点不是音多，而是“像一句话”。
+  </p>
+  <h3>4. 跟唱片</h3>
+  <p>
+    选一首速度适中的标准曲（比如 Blue Bossa、All of Me），跟着唱片弹根音或简单 comping。
+    先不要独奏，只感受 ride 的流动。你会发现自己很容易“赶”或“拖”。
+  </p>
+
+  <h2 id="comping">四拍 comping 与 Freddie Green</h2>
+  <p>
+    Freddie Green 的节奏吉他哲学可以总结为：<strong>每拍一下、短音、少音、稳定</strong>。
+    他用两三个音（root + 3rd/7th）在 4/4 里持续“ping”，不抢戏，但让整个乐队有脉搏。
+  </p>
+  <p>练习步骤：</p>
+  <ol>
+    <li>选一个和弦（比如 Cmaj7），只用 root + 3rd + 7th。</li>
+    <li>每拍弹一下，音长控制在半拍以内，让和弦“断”掉。</li>
+    <li>节拍器 2 &amp; 4，保持 60–100 BPM，连续 2 分钟。</li>
+    <li>换和弦：Cmaj7 → Am7 → Dm7 → G7，每小节一个，保持四拍。</li>
+    <li>加入轻微的重音变化：第 1 拍稍重，但不要变成“蹦擦擦”。</li>
+  </ol>
+  <div class="callout callout-listen">
+    <strong class="callout-title">听 Freddie Green</strong>
+    <p>Count Basie 乐队的录音里，吉他音量不大，但一旦去掉，整个乐队会突然“散”。这就是节奏吉他的价值。</p>
+  </div>
+
+  <h2 id="vocabulary">切分、Charleston 与 anticipation</h2>
+  <p>当你能稳定弹四拍后，才可以开始“离开拍点”。常见节奏词汇：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>词汇</th><th>感觉</th><th>怎么练</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Charleston</strong></td><td>第 1 拍 + 第 2 拍后半拍，经典爵士 comping 节奏</td><td>先拍手，再上琴；只弹两个和弦</td></tr>
+        <tr><td><strong>Anticipation</strong></td><td>和弦提前半拍出现，制造“推”的感觉</td><td>把第 3 拍的和弦提前到 2 &amp; 的后半拍</td></tr>
+        <tr><td><strong>Syncopation</strong></td><td>重音落在弱拍/弱位置</td><td>用单音练“弱拍重音”，再放到和弦上</td></tr>
+        <tr><td><strong>Push</strong></td><td>整体略提前，制造前进感</td><td>跟唱片，不要跟节拍器；感受“推”多少</td></tr>
+        <tr><td><strong>Lay back</strong></td><td>整体略延迟，制造松弛感</td><td>跟慢速 blues，注意不要变成拖拍</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    切分不是“随便乱放”。它需要你先有稳定的 grid，然后有意识地提前/延迟。
+    如果你还没有稳定 grid，切分只会听起来像“抢拍”。
+  </p>
+
+  <h2 id="styles">Bossa、3/4、5/4、6/8</h2>
+  <h3>Bossa Nova</h3>
+  <p>
+    Bossa 的吉他通常同时做两件事：拇指弹 bass（常在 1、3 拍或切分位置），其他手指弹和弦（切分）。
+    先学一个 2 小节 pattern，再把它套到 Blue Bossa / Girl from Ipanema 上。
+    不要一开始就追求复杂，先让 bass 稳定、和弦轻。
+  </p>
+  <h3>3/4 Jazz Waltz</h3>
+  <p>
+    3/4 的 comping 常见是：第 1 拍 bass/根音，第 2、3 拍和弦。也可以把和弦放在 2 &amp; 或 3 &amp;。
+    推荐曲目：Someday My Prince Will Come、Waltz for Debby、Footprints。
+  </p>
+  <h3>5/4</h3>
+  <p>
+    5/4 常被分成 3+2 或 2+3。Take Five 是经典例子。先用手/脚打出分组，再上琴。
+    不要用“四拍的感觉”硬套。
+  </p>
+  <h3>6/8 / 12/8</h3>
+  <p>
+    All Blues 是 6/8 的经典。感受“两个大拍、每拍三小拍”的流动。
+    Comping 可以很稀疏，让 ride 和 bass 说话。
+  </p>
+
+  <h2 id="feel">Lay back、push 与 pocket</h2>
+  <p>
+    “Pocket” 是和节奏组一起形成的共同时间感。它不是某个固定位置，而是你与鼓、贝斯之间的默契。
+    同样一个音，放在拍点前一点、后一点，感觉完全不同。
+  </p>
+  <ul>
+    <li><strong>On top</strong>：正好在拍点，清晰、稳定。</li>
+    <li><strong>Push</strong>：略提前，紧张、前进。</li>
+    <li><strong>Lay back</strong>：略延迟，松弛、慵懒。</li>
+  </ul>
+  <p>
+    这些词不是“想当然”。你需要跟真实录音练习，才能知道“多少”是合适的。
+    一个有效练习：同一段 8 小节 comping，分别录“正拍、略推、略拖”三个版本，回听差异。
+  </p>
+
+  <h2 id="routine">15 分钟节奏练习</h2>
+  <ol>
+    <li><strong>3 分钟</strong>：节拍器 2 &amp; 4，单音 quarter notes，60–90 BPM。</li>
+    <li><strong>4 分钟</strong>：Shell Voicing 四拍 comping，一个和弦进行循环。</li>
+    <li><strong>4 分钟</strong>：跟一首唱片，只弹根音/简单 comping，感受 ride。</li>
+    <li><strong>2 分钟</strong>：Charleston 或 anticipation，慢速两小节循环。</li>
+    <li><strong>2 分钟</strong>：录下来，听“有没有漂/赶/拖”。</li>
+  </ol>
+
+  <h2 id="listening">听力作业</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>唱片</th><th>听什么</th></tr></thead>
+      <tbody>
+        <tr><td>Count Basie — <em>The Complete Decca Recordings</em></td><td>Freddie Green 的四拍与整个乐队的“呼吸”</td></tr>
+        <tr><td>Miles Davis — <em>Kind of Blue</em></td><td>Jimmy Cobb 的 ride、Paul Chambers 的 walking、整体空间</td></tr>
+        <tr><td>Wes Montgomery — <em>Smokin' at the Half Note</em></td><td>Wes 的 laid-back 时间感与三重奏的互动</td></tr>
+        <tr><td>Stan Getz &amp; João Gilberto — <em>Getz/Gilberto</em></td><td>Bossa 的轻、切分与 bass 的流动</td></tr>
+        <tr><td>The Dave Brubeck Quartet — <em>Time Out</em></td><td>Take Five 的 5/4 分组与鼓的独立性</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="mistakes">常见误区</h2>
+  <ul>
+    <li><strong>把 2 &amp; 4 数成 1 &amp; 3</strong>：身体重心不对，怎么弹都不 swing。</li>
+    <li><strong>用节拍器把自己练成“平均八分”</strong>：节拍器只给 grid，swing 的语气要从唱片学。</li>
+    <li><strong>一上来就切分</strong>：没有稳定 grid，切分只会像抢拍。</li>
+    <li><strong>comping 弹太满</strong>：每一拍都塞满和弦，会把独奏者淹没。</li>
+    <li><strong>只听吉他</strong>：爵士的时间感是节奏组共同完成的，必须听鼓和贝斯。</li>
+  </ul>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能用身体稳定地踩 2 &amp; 4，连续 2 分钟。</li>
+    <li>我能用单音弹出有长短、轻重区别的 swing 八分。</li>
+    <li>我能用 Shell Voicing 做 2 分钟四拍 comping，不漂。</li>
+    <li>我能听出唱片里的 ride pattern 和 walking bass。</li>
+    <li>我知道 Charleston、anticipation、lay back 的区别。</li>
+    <li>我至少跟过 3 张不同风格的唱片练习节奏。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>有了时间感，接下来才谈“弹什么”。进入 <a href="../harmony/">音程、和弦与和声 →</a></p>
+  </div>
+</ChapterLayout>

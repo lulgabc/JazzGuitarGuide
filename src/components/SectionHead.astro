@@ -1,0 +1,31 @@
+---
+import { url } from "../lib/url";
+
+interface Props {
+  kicker?: string;
+  title: string;
+  description?: string;
+  link?: string;
+  linkLabel?: string;
+  align?: "left" | "center";
+}
+
+const { kicker, title, description, link, linkLabel = "查看全部", align = "left" } = Astro.props;
+---
+
+<div class:list={["section-head", align === "center" && "section-head-stack section-head-center"]}>
+  <div class="section-title">
+    {kicker && <span class="kicker">{kicker}</span>}
+    <h2>{title}</h2>
+  </div>
+  {(description || link) && (
+    <div class="section-aside">
+      {description && <p>{description}</p>}
+      {link && (
+        <a class="btn btn-ghost btn-sm" href={url(link)}>
+          {linkLabel} <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </div>
+  )}
+</div>

@@ -1,0 +1,181 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import { CHAPTERS } from "../../lib/site";
+import { url } from "../../lib/url";
+---
+
+<BaseLayout
+  title="入门知识"
+  description="爵士吉他入门知识：乐器与音色、节奏与 swing、和声、音阶、指板、伴奏、即兴、和弦旋律、练习方法与历史。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">The knowledge base</span>
+      <h1>从声音，到句子。</h1>
+      <p class="lead">
+        这不是一本按字母顺序排列的词典，而是一条从“手上有琴”到“能和人 jam”的路径。
+        11 章内容可以按顺序读，也可以在卡住时回来查。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">11 章</span>
+        <span class="pill">约 4–6 小时阅读</span>
+        <span class="pill">中文原创整理</span>
+        <span class="pill">可配合路线图使用</span>
+      </div>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href={url("/basics/foundations/")}>从第 1 章开始 <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href={url("/roadmap/")}>直接看路线图</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="stat-strip">
+        <div class="stat-cell"><strong>11</strong><span>章系统知识</span></div>
+        <div class="stat-cell"><strong>60+</strong><span>核心概念与练习</span></div>
+        <div class="stat-cell"><strong>40</strong><span>首配套标准曲</span></div>
+        <div class="stat-cell"><strong>0</strong><span>废话与玄学</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="The map"
+        title="知识地图：四层楼"
+        description="先住一楼，再上楼。不要一开始就跳到“高级和声”，也不要永远停在一楼。"
+      />
+      <div class="grid grid-4">
+        <article class="card reveal">
+          <div class="card-index">01</div>
+          <h3>声音与身体</h3>
+          <p>琴型、音色、姿势、拨弦、热身。先让琴发出你愿意听的声音。</p>
+          <div class="tag-row" style="margin-top: 14px;">
+            <span class="pill">乐器</span><span class="pill">音色</span><span class="pill">技术</span>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="card-index">02</div>
+          <h3>时间与和声</h3>
+          <p>Swing、2 &amp; 4、七和弦、ii–V–I。爵士的两条腿：时间感与和声。</p>
+          <div class="tag-row" style="margin-top: 14px;">
+            <span class="pill">节奏</span><span class="pill">和声</span><span class="pill">曲式</span>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="card-index">03</div>
+          <h3>指板与语言</h3>
+          <p>CAGED、音阶、琶音、approach notes、动机。把音组织成句子。</p>
+          <div class="tag-row" style="margin-top: 14px;">
+            <span class="pill">指板</span><span class="pill">即兴</span><span class="pill">Voicing</span>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="card-index">04</div>
+          <h3>曲目与舞台</h3>
+          <p>伴奏、和弦旋律、标准曲、转录、jam。把练习变成音乐。</p>
+          <div class="tag-row" style="margin-top: 14px;">
+            <span class="pill">Comping</span><span class="pill">Chord Melody</span><span class="pill">演出</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="All chapters"
+        title="11 章，按顺序或按需读"
+        description="每章都有目录、练习建议和听力作业。读完不是目的，把其中一个概念练进曲子里才是。"
+      />
+      <div class="grid grid-3">
+        {CHAPTERS.map((chapter) => (
+          <a class="card card-link reveal" href={url(`/basics/${chapter.slug}/`)}>
+            <div class="card-top">
+              <span class="card-index">{chapter.number}</span>
+              <span class="pill">{chapter.level}</span>
+            </div>
+            <h3>{chapter.title}</h3>
+            <p>{chapter.description}</p>
+            <div class="resource-meta" style="margin-top: 18px;">
+              <span class="pill">{chapter.minutes} 分钟</span>
+              <span class="card-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Pick your entrance"
+        title="三条入口，别走错门"
+        description="根据你现在的位置选一条。不用按顺序读完 11 章，先解决眼前的问题。"
+      />
+      <div class="grid grid-3">
+        <article class="card reveal">
+          <span class="pill pill-rust">完全零基础</span>
+          <h3 style="margin-top: 14px;">先让手和耳朵上线</h3>
+          <ol class="phase-list" style="list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 6px; font-size: 0.84rem; color: var(--muted);">
+            <li>01 乐器、声音与身体</li>
+            <li>02 节奏与 Swing</li>
+            <li>03 和声基础（只看前两节）</li>
+            <li>05 指板与 Shell Voicing</li>
+            <li>06 伴奏 Comping</li>
+            <li>路线图 Phase 1</li>
+          </ol>
+        </article>
+        <article class="card reveal">
+          <span class="pill pill-sage">会弹琴，没玩过爵士</span>
+          <h3 style="margin-top: 14px;">把“摇滚手”换成“爵士耳”</h3>
+          <ol class="phase-list" style="list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 6px; font-size: 0.84rem; color: var(--muted);">
+            <li>02 节奏与 Swing（重点）</li>
+            <li>03 音程、和弦与和声</li>
+            <li>05 指板与 Voicing</li>
+            <li>06 伴奏 Comping</li>
+            <li>07 即兴与转录</li>
+            <li>路线图 Phase 1–2</li>
+          </ol>
+        </article>
+        <article class="card reveal">
+          <span class="pill pill-blue">已经会一点爵士</span>
+          <h3 style="margin-top: 14px;">补漏洞，建立自己的语言</h3>
+          <ol class="phase-list" style="list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 6px; font-size: 0.84rem; color: var(--muted);">
+            <li>04 音阶、琶音与即兴语言</li>
+            <li>05 指板与 Drop 2</li>
+            <li>06 伴奏的节奏与留白</li>
+            <li>07 转录方法</li>
+            <li>08 和弦旋律</li>
+            <li>路线图 Phase 2–3</li>
+          </ol>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Before you start"
+        title="四个学习原则"
+        description="它们比任何音阶都重要。如果只能记住一页，就记住这一页。"
+      />
+      <div class="grid grid-4">
+        <article class="card reveal"><div class="card-index">01</div><h3>先慢后快</h3><p>慢到能控制每一个音，再加速。速度是结果，不是练习方法。</p></article>
+        <article class="card reveal"><div class="card-index">02</div><h3>一次一个目标</h3><p>今天只解决一个小节、一个和弦、一个节奏。具体，才可执行。</p></article>
+        <article class="card reveal"><div class="card-index">03</div><h3>录音</h3><p>录音会暴露你不想面对的问题，也会记录你真正的进步。</p></article>
+        <article class="card reveal"><div class="card-index">04</div><h3>回到音乐</h3><p>每个练习都要落到一首曲子里。否则你只是在做手指体操。</p></article>
+      </div>
+      <div class="callout callout-listen" style="margin-top: 28px;">
+        <strong class="callout-title">需要查词？</strong>
+        <p>术语表收录了 100+ 个常用词，从“半音”到“Coltrane changes”。也可以直接看常见问题。<a href={url("/basics/glossary/")}>打开术语表与 FAQ →</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

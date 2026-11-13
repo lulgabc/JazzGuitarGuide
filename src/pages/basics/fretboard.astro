@@ -1,0 +1,238 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("fretboard")!;
+const toc = [
+  { id: "notes", label: "先记住 6 弦与 5 弦" },
+  { id: "octaves", label: "八度形状：指板的捷径" },
+  { id: "caged", label: "CAGED：五个形状" },
+  { id: "positions", label: "五个把位与三音一弦" },
+  { id: "intervals", label: "指板上的音程" },
+  { id: "voicing", label: "Voicing 的构造逻辑" },
+  { id: "string-sets", label: "弦组与 Drop 2" },
+  { id: "shell", label: "Shell Voicing 与 Rootless" },
+  { id: "voice-leading", label: "声部连接练习" },
+  { id: "chord-melody", label: "从 Voicing 到 Chord Melody" },
+  { id: "keys", label: "12 个调怎么练" },
+  { id: "practice", label: "指板练习菜单" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    指板不是“把 12 个音背 6 遍”。它有形状、有对称、有重复。
+    一旦你理解八度、CAGED 与弦组，指板会从“迷宫”变成“地图”。
+  </p>
+
+  <h2 id="notes">先记住 6 弦与 5 弦</h2>
+  <p>
+    标准调弦是 E–A–D–G–B–E（从低到高）。最先要熟的是 6 弦与 5 弦的音名，
+    因为大多数和弦的根音都在这两根弦上。
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>品位</th><th>6 弦（低 E）</th><th>5 弦（A）</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>E</td><td>A</td></tr>
+        <tr><td>1</td><td>F</td><td>B♭</td></tr>
+        <tr><td>2</td><td>F♯ / G♭</td><td>B</td></tr>
+        <tr><td>3</td><td>G</td><td>C</td></tr>
+        <tr><td>4</td><td>A♭ / G♯</td><td>D♭ / C♯</td></tr>
+        <tr><td>5</td><td>A</td><td>D</td></tr>
+        <tr><td>6</td><td>B♭</td><td>E♭</td></tr>
+        <tr><td>7</td><td>B</td><td>E</td></tr>
+        <tr><td>8</td><td>C</td><td>F</td></tr>
+        <tr><td>9</td><td>D♭</td><td>G♭</td></tr>
+        <tr><td>10</td><td>D</td><td>G</td></tr>
+        <tr><td>11</td><td>E♭</td><td>A♭</td></tr>
+        <tr><td>12</td><td>E</td><td>A</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    练习：随机说一个音（比如 B♭），在 6 弦和 5 弦上找到它，再在 4、3、2、1 弦上找到。
+    每天 5 分钟，两周就会明显变快。
+  </p>
+
+  <h2 id="octaves">八度形状：指板的捷径</h2>
+  <p>同一个音在指板上的位置，可以用八度形状快速找到：</p>
+  <ul>
+    <li><strong>6 弦 → 4 弦</strong>：同一品 + 2 品（例如 6 弦 3 品 G → 4 弦 5 品 G）。</li>
+    <li><strong>5 弦 → 3 弦</strong>：同一品 + 2 品。</li>
+    <li><strong>4 弦 → 2 弦</strong>：同一品 + 3 品（因为 2 弦与 3 弦之间是大三度）。</li>
+    <li><strong>3 弦 → 1 弦</strong>：同一品 + 3 品。</li>
+    <li><strong>相邻弦</strong>：除了 G–B 之间是 4 品，其他相邻弦同一音相差 5 品。</li>
+  </ul>
+  <p>
+    这些形状能让你在即兴时快速找到同一个音的另一个位置，也能帮你检查和弦 voicing 是否重复了音。
+  </p>
+
+  <h2 id="caged">CAGED：五个形状</h2>
+  <p>
+    CAGED 是用五个开放和弦形状（C、A、G、E、D）来划分指板。
+    同一个大三和弦可以在五个位置用五个形状弹出来，音阶与琶音也可以围绕这些形状组织。
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>形状</th><th>根音位置</th><th>常用场景</th><th>注意</th></tr></thead>
+      <tbody>
+        <tr><td>C 形状</td><td>5 弦 3 品（C）</td><td>开放和弦、和弦旋律</td><td>需要横按/省略音</td></tr>
+        <tr><td>A 形状</td><td>5 弦</td><td>大横按、摇滚/爵士都常用</td><td>根音在 5 弦</td></tr>
+        <tr><td>G 形状</td><td>6 弦 3 品（G）</td><td>开放把位、和弦旋律</td><td>跨度大，可省略</td></tr>
+        <tr><td>E 形状</td><td>6 弦</td><td>最常用的横按大和弦</td><td>根音在 6 弦</td></tr>
+        <tr><td>D 形状</td><td>4 弦</td><td>高把位、小巧 voicing</td><td>根音在 4 弦</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    练习：在 5 个位置弹同一个 C 大三和弦，然后弹 C 大调音阶（围绕每个形状）。
+    不要只背形状，要说出每个形状的根音、3 音、5 音在哪里。
+  </p>
+
+  <h2 id="positions">五个把位与三音一弦</h2>
+  <p>
+    大调音阶在指板上有几种组织方式：
+  </p>
+  <ul>
+    <li><strong>5 个把位（CAGED 衍生）</strong>：每个把位覆盖 4–5 品，适合和弦/音阶结合。</li>
+    <li><strong>7 个把位（3 notes per string）</strong>：每个把位从不同音级开始，适合快速线条。</li>
+    <li><strong>横向连接</strong>：从一个把位滑到另一个，而不是每次从根音重新开始。</li>
+  </ul>
+  <p>
+    入门先学 5 个把位，因为你能看到和弦形状。进阶后再练 3 notes per string，
+    它会让你的 lines 更流畅，但不要用它替代和弦音思维。
+  </p>
+
+  <h2 id="intervals">指板上的音程</h2>
+  <p>记住几个“物理距离”：</p>
+  <ul>
+    <li><strong>同弦</strong>：相邻品 = 半音；+2 品 = 全音；+3 品 = 小三度；+4 品 = 大三度；+5 品 = 纯四度；+7 品 = 纯五度；+12 品 = 八度。</li>
+    <li><strong>相邻弦</strong>：同一品通常相差纯四度（除了 G–B 是大三度）。</li>
+    <li><strong>跨弦三度</strong>：6 弦 → 4 弦同一品 + 2 品，是大三度/小三度的常用形状。</li>
+    <li><strong>三全音</strong>：同一弦 +6 品，或跨弦的特定形状。</li>
+  </ul>
+  <p>
+    练习：选一个根音，在指板上画出 3、5、7、9 的位置，不要只画一个八度。
+    这会直接帮助你的 comping 与 solo。
+  </p>
+
+  <h2 id="voicing">Voicing 的构造逻辑</h2>
+  <p>
+    一个四音和弦（例如 Cmaj7 = C E G B）可以排成“close position”：
+    C–E–G–B（从低到高）。但在吉他上，这样的排列往往跨度太大或不好按。
+    于是我们用“drop”来重新排列：
+  </p>
+  <ul>
+    <li><strong>Drop 2</strong>：把第二个高音（G）降低八度 → C–G–E–B（实际弦序可能不同）。</li>
+    <li><strong>Drop 3</strong>：把第三个高音（E）降低八度 → E–C–G–B。</li>
+    <li><strong>Drop 2 &amp; 4</strong>：把第二高音（G）与第四高音（C）都降低八度。</li>
+  </ul>
+  <p>
+    这些规则不是为了考试，而是为了得到“在吉他上按得下、声部又清楚”的排列。
+    同一个和弦有多个转位与弦组，每个都能用 drop 2/3 生成。
+  </p>
+
+  <h2 id="string-sets">弦组与 Drop 2</h2>
+  <p>Drop 2 最常用的四组弦：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>弦组</th><th>音域</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>6–4–3–2</td><td>低音区</td><td>与贝斯手合作、低音 comping</td></tr>
+        <tr><td>5–4–3–2</td><td>中低音区</td><td>最常用的 jazz chord 弦组</td></tr>
+        <tr><td>4–3–2–1</td><td>中高音区</td><td>chord melody、高音 comping</td></tr>
+        <tr><td>5–3–2–1（较少）</td><td>中高音区</td><td>特殊排列，注意跨度</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    练习：在 5–4–3–2 弦组上，弹 Cmaj7 的四个转位（根音在 5 弦、7 弦、3 弦、5 弦）。
+    然后移动到 Fmaj7、B♭maj7，保持形状但改变根音位置。
+  </p>
+
+  <h2 id="shell">Shell Voicing 与 Rootless</h2>
+  <p>
+    Shell Voicing 是“根音 + 3 音 + 7 音”，省略 5 音。它听起来空，但和声性质非常清楚，
+    而且给贝斯/旋律留了空间。两种基本指型：
+  </p>
+  <ul>
+    <li><strong>根音在 6 弦</strong>：根音（6 弦） + 7 音（4 弦） + 3 音（3 弦）。</li>
+    <li><strong>根音在 5 弦</strong>：根音（5 弦） + 3 音（4 弦） + 7 音（2 弦）。</li>
+  </ul>
+  <p>
+    Rootless voicing 省略根音，只弹 3/5/7/9。它适合与贝斯手合作，也方便在钢琴/吉他之间分配声部。
+    不要一开始就学 rootless；先把 shell 弹稳。
+  </p>
+
+  <h2 id="voice-leading">声部连接练习</h2>
+  <p>
+    选一个 ii–V–I：Dm7 → G7 → Cmaj7。用 3–7 音：
+  </p>
+  <ol>
+    <li>Dm7：F（3）与 C（7）。</li>
+    <li>G7：B（3）与 F（7）。注意 C→B、F 保持。</li>
+    <li>Cmaj7：E（3）与 B（7）。注意 F→E、B 保持。</li>
+  </ol>
+  <p>
+    然后加入 9 音，或者把根音放在 6 弦/5 弦，保持 3/7 的移动最小。
+    录下来，听“和弦在走路”而不是“三个形状在跳”。
+  </p>
+
+  <h2 id="chord-melody">从 Voicing 到 Chord Melody</h2>
+  <p>
+    Chord melody 的核心不是“堆和弦”，而是“旋律在最高声部，和弦在下面支撑”。
+    入门步骤：
+  </p>
+  <ol>
+    <li>把旋律在 1–2 个八度内弹熟，能唱。</li>
+    <li>在旋律音下面加一个 shell voicing（根音 + 3/7）。</li>
+    <li>只在旋律长音处换和弦，短音/经过音可以不加。</li>
+    <li>用半音/级进连接和弦，让低音有方向。</li>
+    <li>最后才加入 fill、经过和弦、装饰音。</li>
+  </ol>
+  <p>
+    推荐第一首：Autumn Leaves（G minor）。它旋律清楚、和弦熟悉，适合把 shell voicing 放进旋律下面。
+  </p>
+
+  <h2 id="keys">12 个调怎么练</h2>
+  <p>
+    不要一次练 12 个调。用五度圈分组，每次 3–4 个调：
+  </p>
+  <ol>
+    <li>C → F → B♭ → E♭（最常见的爵士调）。</li>
+    <li>A♭ → D♭ → G♭（降号调）。</li>
+    <li>G → D → A → E（升号调）。</li>
+    <li>B → F♯（较少，但用来检查指板）。</li>
+  </ol>
+  <p>
+    每个调只练：ii–V–I shell voicing + guide tone + 一个 8 小节循环。
+    不要在每个调上练 20 分钟，质量比数量重要。
+  </p>
+
+  <h2 id="practice">指板练习菜单</h2>
+  <ol>
+    <li><strong>5 分钟</strong>：6/5 弦音名随机测试。</li>
+    <li><strong>5 分钟</strong>：CAGED 五个位置的 C 大三和弦 + 根音/3/5。</li>
+    <li><strong>10 分钟</strong>：一个调的 5 个把位音阶，慢速。</li>
+    <li><strong>10 分钟</strong>：Drop 2 四组弦的 maj7/m7/7 转位。</li>
+    <li><strong>10 分钟</strong>：ii–V–I 的 shell voicing + 3/7 连接。</li>
+    <li><strong>5 分钟</strong>：在曲子里找根音位置（Autumn Leaves / Blue Bossa）。</li>
+  </ol>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能在 6 弦与 5 弦上快速找到任意音。</li>
+    <li>我能用 CAGED 五个位置弹同一个大三和弦。</li>
+    <li>我能在 5 个把位弹 C 大调音阶，并说出根音。</li>
+    <li>我能构造 maj7 的 Drop 2，并在 3 组弦上弹。</li>
+    <li>我能用 shell voicing 连接 ii–V–I，声部移动最小。</li>
+    <li>我能在 Autumn Leaves 上找到每个和弦的根音位置。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>现在你知道和弦在哪了。进入 <a href="../comping/">伴奏 Comping →</a>，把它变成时间与互动。</p>
+  </div>
+</ChapterLayout>

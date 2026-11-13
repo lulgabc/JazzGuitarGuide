@@ -1,0 +1,309 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+
+const chapter = chapterBySlug("harmony")!;
+const toc = [
+  { id: "intervals", label: "音程：一切和声的积木" },
+  { id: "chords", label: "三和弦与七和弦" },
+  { id: "symbols", label: "和弦符号怎么读" },
+  { id: "extensions", label: "扩展音、tension 与 avoid note" },
+  { id: "diatonic", label: "大调功能和声" },
+  { id: "minor", label: "小调与和声小调" },
+  { id: "ii-v-i", label: "ii–V–I：爵士的语法核心" },
+  { id: "substitutions", label: "替代、副属与转调" },
+  { id: "forms", label: "Blues、Rhythm Changes 与曲式" },
+  { id: "voicings", label: "Voicing 类型：从 Shell 到 Drop 2" },
+  { id: "voice-leading", label: "声部连接：让和弦走路" },
+  { id: "practice", label: "和声练习菜单" },
+  { id: "listening", label: "听力作业" },
+  { id: "checklist", label: "本章检查清单" },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    和声不是“背和弦符号”。它是你听到的紧张与解决、远与近、亮与暗。
+    这一章会从音程开始，搭到 ii–V–I、替代与 voicing。不要一次读完，拿一个概念去琴上验证。
+  </p>
+
+  <h2 id="intervals">音程：一切和声的积木</h2>
+  <p>
+    音程是两个音之间的距离。爵士里最常用的描述方式是“度数 + 性质”：
+    大三度、纯五度、小七度、大七度、三全音。你不需要一开始就背所有音程，
+    但必须能在指板上找到它们。
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>音程</th><th>半音数</th><th>听感/功能</th><th>例子（从 C 起）</th></tr></thead>
+      <tbody>
+        <tr><td>小二度</td><td>1</td><td>最紧张，常作为导音/半音接近</td><td>C–D♭</td></tr>
+        <tr><td>大二度</td><td>2</td><td>相邻音级，旋律常用</td><td>C–D</td></tr>
+        <tr><td>小三度</td><td>3</td><td>小和弦的“颜色”</td><td>C–E♭</td></tr>
+        <tr><td>大三度</td><td>4</td><td>大和弦的“颜色”</td><td>C–E</td></tr>
+        <tr><td>纯四度</td><td>5</td><td>稳定、开放；四度叠置的基础</td><td>C–F</td></tr>
+        <tr><td>三全音</td><td>6</td><td>属七的张力核心；可替代</td><td>C–F♯ / C–G♭</td></tr>
+        <tr><td>纯五度</td><td>7</td><td>稳定、空；强力和弦</td><td>C–G</td></tr>
+        <tr><td>小六度</td><td>8</td><td>小调色彩；常作为♭13</td><td>C–A♭</td></tr>
+        <tr><td>大六度</td><td>9</td><td>明亮、开放；六和弦</td><td>C–A</td></tr>
+        <tr><td>小七度</td><td>10</td><td>属七/小七的七音</td><td>C–B♭</td></tr>
+        <tr><td>大七度</td><td>11</td><td>大七的七音；更“紧”</td><td>C–B</td></tr>
+        <tr><td>八度</td><td>12</td><td>同一个音的高/低版本</td><td>C–C</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    练习：在指板上从一个根音出发，找到它的 3、5、7、9、♭9、♯9、11、♯11、13。
+    不要只在一个把位，至少在 6 弦与 5 弦根音各做一次。
+  </p>
+
+  <h2 id="chords">三和弦与七和弦</h2>
+  <p>三和弦是三个音：根音、三音、五音。四种基本性质：</p>
+  <ul>
+    <li><strong>大三</strong>：1–3–5（C–E–G），明亮、稳定。</li>
+    <li><strong>小三</strong>：1–♭3–5（C–E♭–G），柔和、内省。</li>
+    <li><strong>减三</strong>：1–♭3–♭5（C–E♭–G♭），紧张、不稳定。</li>
+    <li><strong>增三</strong>：1–3–♯5（C–E–G♯），悬浮、梦幻。</li>
+  </ul>
+  <p>
+    爵士最常用的是七和弦。在三和弦上加一个七音，就得到四种核心性质：
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>和弦</th><th>公式</th><th>例子</th><th>功能/听感</th></tr></thead>
+      <tbody>
+        <tr><td><strong>maj7</strong></td><td>1–3–5–7</td><td>Cmaj7 = C E G B</td><td>主和弦，明亮、稳定</td></tr>
+        <tr><td><strong>m7</strong></td><td>1–♭3–5–♭7</td><td>Cm7 = C E♭ G B♭</td><td>二级/小调主，柔和</td></tr>
+        <tr><td><strong>7</strong></td><td>1–3–5–♭7</td><td>C7 = C E G B♭</td><td>属和弦，紧张、要解决</td></tr>
+        <tr><td><strong>m7♭5</strong></td><td>1–♭3–♭5–♭7</td><td>Cm7♭5 = C E♭ G♭ B♭</td><td>小调二级，半减、忧郁</td></tr>
+        <tr><td><strong>dim7</strong></td><td>1–♭3–♭5–♭♭7</td><td>Cdim7 = C E♭ G♭ B♭♭(=A)</td><td>对称、紧张，常作经过和弦</td></tr>
+        <tr><td><strong>mMaj7</strong></td><td>1–♭3–5–7</td><td>CmMaj7 = C E♭ G B</td><td>小调主和弦，悬疑、电影感</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="symbols">和弦符号怎么读</h2>
+  <p>同一个和弦可能有很多写法。下面是最常见的：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>符号</th><th>含义</th><th>例子</th></tr></thead>
+      <tbody>
+        <tr><td>Cmaj7 / C△7</td><td>大七和弦</td><td>C E G B</td></tr>
+        <tr><td>Cm7 / C−7</td><td>小七和弦</td><td>C E♭ G B♭</td></tr>
+        <tr><td>C7</td><td>属七和弦</td><td>C E G B♭</td></tr>
+        <tr><td>Cm7♭5 / Cø</td><td>半减七和弦</td><td>C E♭ G♭ B♭</td></tr>
+        <tr><td>Cdim7 / C°7</td><td>减七和弦</td><td>C E♭ G♭ A</td></tr>
+        <tr><td>C6</td><td>大六和弦</td><td>C E G A</td></tr>
+        <tr><td>C6/9</td><td>六九和弦</td><td>C E G A D</td></tr>
+        <tr><td>Cadd9</td><td>加九音的大三和弦</td><td>C E G D</td></tr>
+        <tr><td>C9 / C11 / C13</td><td>属和弦 + 9/11/13 扩展音</td><td>通常省略部分内声部</td></tr>
+        <tr><td>C7♭9 / C7♯9 / C7♯11 / C7alt</td><td>变化属和弦</td><td>用于增加张力与色彩</td></tr>
+        <tr><td>Csus4 / C7sus4</td><td>用四度替代三度</td><td>C F G (B♭)</td></tr>
+        <tr><td>C/E</td><td>斜线和弦：以 E 为低音</td><td>C 和弦第一转位</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-tip">
+    <strong class="callout-title">读符号的顺序</strong>
+    <p>先看根音，再看性质（maj7/m7/7/m7♭5/dim7），最后看扩展/变化（9、♭9、♯11、13、alt）。不要被符号吓到，它只是配方。</p>
+  </div>
+
+  <h2 id="extensions">扩展音、tension 与 avoid note</h2>
+  <p>
+    七和弦之上的音叫扩展音：9、11、13。它们让和弦从“功能”变成“颜色”。
+    扩展音不改变和弦的根本性质，但会改变紧张度与风格。
+  </p>
+  <ul>
+    <li><strong>9</strong>：最常见，几乎可以用在 maj7、m7、7 上。</li>
+    <li><strong>11</strong>：在大三和弦上常与 3 音冲突（avoid note），但在 m7、sus 上很自然。</li>
+    <li><strong>13</strong>：属七上的大六度，明亮、开放；常与♭9/♯9 一起用。</li>
+    <li><strong>变化音</strong>：♭9、♯9、♯11、♭13。它们让属七更紧张，也提供更多解决方向。</li>
+  </ul>
+  <p>
+    “Avoid note”不是“永远不能弹”。它指的是在某个和弦/音阶组合里，某个音会与和弦功能产生明显冲突，
+    需要解决或快速经过。比如 Cmaj7 上的 F（11）与 E（3）形成半音冲突，通常不作为长音停留。
+  </p>
+
+  <h2 id="diatonic">大调功能和声</h2>
+  <p>C 大调的自然七和弦：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>级数</th><th>和弦</th><th>功能</th><th>常见用法</th></tr></thead>
+      <tbody>
+        <tr><td>I</td><td>Cmaj7</td><td>主（Tonic）</td><td>稳定、回家</td></tr>
+        <tr><td>ii</td><td>Dm7</td><td>下属准备</td><td>ii–V–I 的起点</td></tr>
+        <tr><td>iii</td><td>Em7</td><td>主/替代</td><td>常替代 I，或作为 iii–vi–ii–V</td></tr>
+        <tr><td>IV</td><td>Fmaj7</td><td>下属</td><td>明亮、开放；也可作 Fm7 借和弦</td></tr>
+        <tr><td>V</td><td>G7</td><td>属（Dominant）</td><td>最强解决到 I</td></tr>
+        <tr><td>vi</td><td>Am7</td><td>主/关系小调</td><td>I–vi–ii–V 的起点</td></tr>
+        <tr><td>vii</td><td>Bm7♭5</td><td>导音/半减</td><td>常作为小调 ii，或经过和弦</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    功能不是“死规则”，而是“倾向”。ii 想走向 V，V 想走向 I，vi 可以替代 I。
+    当你即兴时，知道每个和弦“想去哪”，比知道它叫什么更重要。
+  </p>
+
+  <h2 id="minor">小调与和声小调</h2>
+  <p>
+    自然小调（Aeolian）的七和弦：Am7、Bm7♭5、Cmaj7、Dm7、Em7、Fmaj7、G7。
+    但爵士小调更常用<strong>和声小调</strong>来制造 V7：
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>级数</th><th>自然小调</th><th>和声小调</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td>i</td><td>Am7</td><td>Am(maj7)</td><td>小调主和弦，后者更“古典/悬疑”</td></tr>
+        <tr><td>ii</td><td>Bm7♭5</td><td>Bm7♭5</td><td>小调 ii</td></tr>
+        <tr><td>III</td><td>Cmaj7</td><td>Cmaj7♯5</td><td>色彩变化</td></tr>
+        <tr><td>iv</td><td>Dm7</td><td>Dm7</td><td>下属</td></tr>
+        <tr><td>V</td><td>Em7</td><td>E7</td><td>和声小调让 V 变成属七，解决更强</td></tr>
+        <tr><td>VI</td><td>Fmaj7</td><td>Fmaj7</td><td>下属/关系大调</td></tr>
+        <tr><td>vii</td><td>G7</td><td>G♯dim7</td><td>导音减和弦</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    小调 ii–V–i 是：Bm7♭5 → E7 → Am7。它在 Blue Bossa、Softly、Mr. P.C. 等曲子里大量出现。
+  </p>
+
+  <h2 id="ii-v-i">ii–V–I：爵士的语法核心</h2>
+  <p>
+    ii–V–I（读作“two five one”）是爵士最常见的终止进行：Dm7 → G7 → Cmaj7。
+    它把“准备 → 紧张 → 解决”压缩成三个和弦。几乎所有标准曲都充满了 ii–V–I 或其变体。
+  </p>
+  <h3>Guide tone 连接</h3>
+  <p>
+    Dm7 的 3 音是 F，7 音是 C；G7 的 3 音是 B，7 音是 F；Cmaj7 的 3 音是 E，7 音是 B。
+    注意 7 音如何下行到下一个和弦的 3 音：C → B，F → E。这个半音移动就是爵士声部连接的秘密。
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>和弦</th><th>3 音</th><th>7 音</th><th>解决方向</th></tr></thead>
+      <tbody>
+        <tr><td>Dm7 (ii)</td><td>F</td><td>C</td><td>C → B（G7 的 3 音）</td></tr>
+        <tr><td>G7 (V)</td><td>B</td><td>F</td><td>F → E（Cmaj7 的 3 音）</td></tr>
+        <tr><td>Cmaj7 (I)</td><td>E</td><td>B</td><td>稳定</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>在指板上练</h3>
+  <ol>
+    <li>只弹 3 音与 7 音，两个音一组，找到 C 大调 ii–V–I 的三个位置。</li>
+    <li>让 7 音下行到下一个 3 音，保持移动最小。</li>
+    <li>加入根音（Shell Voicing），但仍然以 3/7 为骨架。</li>
+    <li>移到 F、B♭、E♭ 等调，重复。</li>
+  </ol>
+
+  <h2 id="substitutions">替代、副属与转调</h2>
+  <h3>三全音替代（Tritone substitution）</h3>
+  <p>
+    G7 的三全音是 D♭7。用 D♭7 替代 G7，低音会形成半音下行（Dm7 → D♭7 → Cmaj7），
+    声音更“爵士”。注意：替代后和弦功能不变，仍然解决到 C。
+  </p>
+  <h3>副属（Secondary dominant）</h3>
+  <p>
+    在 Dm7 前加 A7（Dm7 的 V），在 Am7 前加 E7，在 Fmaj7 前加 C7。
+    这些“临时属七”会让和声更有方向，但不要每小节都加，否则会太忙。
+  </p>
+  <h3>减和弦经过</h3>
+  <p>
+    Cmaj7 → C♯dim7 → Dm7 是经典的半音经过。dim7 可以当作“连接和弦”，让两个和弦之间的低音/声部更平滑。
+  </p>
+  <h3>Backdoor 与 modal interchange</h3>
+  <p>
+    Fm7 → B♭7 → Cmaj7 是“后门进行”（backdoor），用下属小调和♭VII7 解决到 I。
+    从同主音小调借和弦（如 C 大调里的 A♭maj7、Fm7、E♭maj7）叫 modal interchange，
+    是现代爵士和声的常用颜色。
+  </p>
+
+  <h2 id="forms">Blues、Rhythm Changes 与曲式</h2>
+  <h3>12-bar blues</h3>
+  <p>
+    最基础的 12 小节 blues 是 I–IV–V。爵士 blues 会加入 ii–V、变化属和弦、turnaround。
+    例如 F blues：F7 | B♭7 | F7 | F7 | B♭7 | B♭7 | F7 | F7 | Gm7 C7 | B♭7 | F7 | C7。
+  </p>
+  <h3>Rhythm Changes</h3>
+  <p>
+    基于 Gershwin《I Got Rhythm》的 32 小节 AABA。A 段常是 I–vi–ii–V，bridge 是
+    III7–VI7–II7–V7（在 B♭ 里是 D7–G7–C7–F7）。Oleo、Anthropology、Cotton Tail 都是它的 contrafact。
+  </p>
+  <h3>32-bar AABA / ABAC</h3>
+  <p>
+    大多数标准曲是 32 小节：A 段 8 小节，重复或变化，B 段（bridge）8 小节，再回到 A。
+    知道曲式，才能在 jam 时知道“现在到哪了”，也才能安排 solo 的起伏。
+  </p>
+
+  <h2 id="voicings">Voicing 类型：从 Shell 到 Drop 2</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>类型</th><th>构成</th><th>用途</th><th>难度</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Shell Voicing</strong></td><td>根音 + 3 音 + 7 音（省略 5 音）</td><td>伴奏、chord melody、与贝斯手合作</td><td>入门</td></tr>
+        <tr><td><strong>Drop 2</strong></td><td>四音 close position 的第二高音降低八度</td><td>四音和弦、chord melody、comping</td><td>进阶</td></tr>
+        <tr><td><strong>Drop 3</strong></td><td>四音 close position 的第三高音降低八度</td><td>低音在 6/5 弦的 voicing</td><td>进阶</td></tr>
+        <tr><td><strong>Drop 2 &amp; 4</strong></td><td>同时降低第二与第四高音</td><td>更开阔的声部排列</td><td>进阶</td></tr>
+        <tr><td><strong>Quartal</strong></td><td>四度叠置</td><td>Modal、So What、现代 comping</td><td>进阶</td></tr>
+        <tr><td><strong>Rootless</strong></td><td>省略根音，只弹 3/5/7/9</td><td>与贝斯手合作、钢琴化 voicing</td><td>进阶</td></tr>
+        <tr><td><strong>Upper structure</strong></td><td>基础和弦上方叠三和弦</td><td>现代和声、属七色彩</td><td>高级</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    入门只需要 Shell Voicing。等你能在 12 个调上用它弹 ii–V–I，再学 Drop 2。
+    不要一开始就背几十个形状，那会变成“手指记忆”，而不是和声理解。
+  </p>
+
+  <h2 id="voice-leading">声部连接：让和弦走路</h2>
+  <p>好的 comping 不是“每个和弦换一个形状”，而是让声部平滑移动。三条原则：</p>
+  <ol>
+    <li><strong>共同音保持</strong>：两个和弦共有的音尽量不动。</li>
+    <li><strong>半音移动</strong>：3/7 音尽量以半音解决。</li>
+    <li><strong>就近原则</strong>：下一个和弦的 voicing 尽量靠近上一个，不要大跳。</li>
+  </ol>
+  <p>
+    练习：选一个 ii–V–I，只用三个音（例如 3、7、9），让每个声部只移动 1–2 品。
+    录下来，听是否像“一条和声线”，而不是三个孤立和弦。
+  </p>
+
+  <h2 id="practice">和声练习菜单</h2>
+  <ol>
+    <li><strong>12 个调的 ii–V–I</strong>：只弹 Shell Voicing，慢速，循环。</li>
+    <li><strong>Guide tone 二重奏</strong>：只弹 3/7，让 7→3 的半音连接清楚。</li>
+    <li><strong>四和弦循环</strong>：I–vi–ii–V，在每个调上弹。</li>
+    <li><strong>Blues in F</strong>：用 Shell Voicing comp 12 小节。</li>
+    <li><strong>Rhythm Changes A 段</strong>：I–vi–ii–V，8 小节循环。</li>
+    <li><strong>替代实验</strong>：把 G7 换成 D♭7，听低音的半音下行。</li>
+    <li><strong>曲目应用</strong>：在 Autumn Leaves 上找所有的 ii–V–I。</li>
+  </ol>
+
+  <h2 id="listening">听力作业</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>唱片</th><th>听什么</th></tr></thead>
+      <tbody>
+        <tr><td>Bill Evans — <em>Portrait in Jazz</em></td><td>ii–V–I 的声部连接与和声色彩</td></tr>
+        <tr><td>Wes Montgomery — <em>The Incredible Jazz Guitar</em></td><td>和弦旋律里的 Shell Voicing 与移动低音</td></tr>
+        <tr><td>Joe Pass — <em>Virtuoso</em></td><td>一个人如何同时处理 bass、和弦与旋律</td></tr>
+        <tr><td>Herbie Hancock — <em>Maiden Voyage</em></td><td>Modal 和声、四度叠置与 sus 和弦</td></tr>
+        <tr><td>Wayne Shorter — <em>Speak No Evil</em></td><td>现代和声、调式色彩与非功能进行</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能在指板上找到任意音的 3、5、7、9。</li>
+    <li>我能不看谱写出 C 大调的七个自然七和弦。</li>
+    <li>我能在 5 个调上弹 ii–V–I 的 Shell Voicing。</li>
+    <li>我能解释 guide tone 如何连接 ii–V–I。</li>
+    <li>我知道三全音替代、副属、减和弦经过的基本用法。</li>
+    <li>我能在 Autumn Leaves 上标出所有的 ii–V–I。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>和声是“地图”，音阶与琶音是“交通工具”。进入 <a href="../scales/">音阶、琶音与即兴语言 →</a></p>
+  </div>
+</ChapterLayout>

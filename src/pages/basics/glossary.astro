@@ -1,0 +1,209 @@
+---
+import ChapterLayout from "../../components/ChapterLayout.astro";
+import { chapterBySlug } from "../../lib/site";
+import { GLOSSARY } from "../../data/glossary";
+
+const chapter = chapterBySlug("glossary")!;
+const toc = [
+  { id: "chord-symbols", label: "和弦符号速查" },
+  { id: "glossary", label: "术语表（可搜索）" },
+  { id: "faq", label: "常见问题 20 问" },
+  { id: "checklist", label: "本章检查清单" },
+];
+
+const categories = ["全部", "基础与和声", "音阶与即兴", "节奏与乐队", "风格与历史"];
+const faqs = [
+  {
+    q: "学爵士吉他一定要会看五线谱吗？",
+    a: "不一定，但会看谱会打开更多材料。Real Book、教材、transcription 很多是五线谱。建议至少能慢速读单音旋律与和弦符号；TAB 可以辅助，但不要只依赖 TAB。",
+  },
+  {
+    q: "一定要买 archtop 吗？",
+    a: "不用。任何能正常演奏的电吉他都可以开始。Archtop 提供传统音色，但音色更多来自手、弦、拾音器与音箱。先把现有琴 setup 好，比换琴更划算。",
+  },
+  {
+    q: "手指短/手小能弹爵士吗？",
+    a: "能。爵士吉他大量使用 shell voicing、三音和弦、转位与省略音，不需要大手。关键是放松、指板熟悉度与选择适合的 voicing。",
+  },
+  {
+    q: "多少岁开始算晚？",
+    a: "没有“太晚”。成年人的优势是理解力、审美与自律。目标不是成为 Wes，而是能享受演奏、能和人 jam。按阶段走，进步会来。",
+  },
+  {
+    q: "每天要练多久？",
+    a: "15–30 分钟每天，比周末 3 小时更有效。关键是固定时间、明确目标、录音。时间少就选 30 分钟菜单里最重要的两块。",
+  },
+  {
+    q: "多久能去 jam？",
+    a: "如果每天 30–60 分钟，通常 6–12 个月可以带着 3–5 首曲子去慢速 jam。前提是能背旋律+和弦、能稳定 comping、知道曲式。",
+  },
+  {
+    q: "先学音阶还是和弦？",
+    a: "先学和弦与节奏。音阶是工具，和弦是语境。先用 shell voicing 弹 ii–V–I 与标准曲，再学音阶/琶音。",
+  },
+  {
+    q: "要不要学乐理？",
+    a: "要，但不要“先学完理论再弹”。学和声是为了理解你听到/弹到的东西。建议“用到一个概念，学一个概念”。",
+  },
+  {
+    q: "要不要找老师？",
+    a: "如果预算允许，找一位能演奏、能示范、能给你具体练习的老师，会少走很多弯路。自学也可以，但需要录音、反馈与结构化路线。",
+  },
+  {
+    q: "怎么找 jam session？",
+    a: "从本地爵士酒吧、音乐学校、大学音乐系、Facebook/微信群、JZ School 等活动找。先去看一次，听流程，再带 2–3 首准备好的曲子参加。",
+  },
+  {
+    q: "怎么背标准曲？",
+    a: "先记曲式与功能（ii–V–I、turnaround、转调），再记旋律轮廓，最后记具体和弦。分 4 小节块，间隔重复，不弹琴在脑子里过一遍。",
+  },
+  {
+    q: "怎么练耳？",
+    a: "每天 5–10 分钟：音程/和弦听辨 + 2–4 小节旋律听写 + 标准曲和声分析。最好的材料是真实唱片，不是只有 App。",
+  },
+  {
+    q: "怎么提速？",
+    a: "慢速、放松、节拍器、分段。速度来自多余动作的减少，不是用力。每次只加 3–5 BPM，能连续 3 次干净再加速。",
+  },
+  {
+    q: "为什么我的 solo 听起来像音阶？",
+    a: "因为缺少和弦音、目标音、节奏变化与休止。先只弹 3/7，加入 approach notes，限制音数，制造句子。",
+  },
+  {
+    q: "为什么跟伴奏会迷路？",
+    a: "通常是曲式不熟、不会数小节、只听自己。练习时大声数 1–4，先只弹根音/3/7，跟唱片走形式，再独奏。",
+  },
+  {
+    q: "怎么开始学 chord melody？",
+    a: "先旋律 + 每小节根音，再加长音下的 3/7，最后才加 drop 2 与 fill。推荐 Autumn Leaves、Summertime、Misty。",
+  },
+  {
+    q: "教材怎么选？",
+    a: "选一本主线方法书（Jody Fisher 或 Jane Miller），一本和声参考（Mark Levine），一本曲集（Real Book），一本转录（Parker Omnibook 或 Aebersold）。不要同时读十本。",
+  },
+  {
+    q: "琴和音箱怎么选？",
+    a: "琴：手感优先，setup 比品牌重要。音箱：clean、headroom 足够、8–12 寸喇叭更好。预算有限就先用好现有设备。",
+  },
+  {
+    q: "12 个月路线图必须严格按周走吗？",
+    a: "不用。它是顺序与检查点，不是考试。如果某一周没完成，延长一周；如果已经会，跳过。关键是不要跳过“曲目应用”和“录音”。",
+  },
+  {
+    q: "怎么保持动力？",
+    a: "选你真正喜欢的曲子；录下进步；每月听一次现场；找一个一起玩的人；把目标拆小。动力不是等来的，是从“完成一个小目标”里长出来的。",
+  },
+];
+---
+
+<ChapterLayout chapter={chapter} toc={toc}>
+  <p class="lead">
+    这一章是“查字典”的地方。和弦符号、100+ 术语、以及自学者最常问的 20 个问题。
+    不需要从头读到尾；卡住时回来查。
+  </p>
+
+  <h2 id="chord-symbols">和弦符号速查</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>符号</th><th>读法</th><th>构成（以 C 为例）</th><th>常见场景</th></tr></thead>
+      <tbody>
+        <tr><td>Cmaj7 / C△7</td><td>C major seven</td><td>C E G B</td><td>大调主和弦</td></tr>
+        <tr><td>Cm7 / C−7</td><td>C minor seven</td><td>C E♭ G B♭</td><td>ii 级、小调主</td></tr>
+        <tr><td>C7</td><td>C dominant seven</td><td>C E G B♭</td><td>V 级、blues</td></tr>
+        <tr><td>Cm7♭5 / Cø</td><td>C minor seven flat five</td><td>C E♭ G♭ B♭</td><td>小调 ii 级</td></tr>
+        <tr><td>Cdim7 / C°7</td><td>C diminished seven</td><td>C E♭ G♭ A</td><td>经过和弦、紧张</td></tr>
+        <tr><td>CmMaj7</td><td>C minor major seven</td><td>C E♭ G B</td><td>小调主、悬疑</td></tr>
+        <tr><td>C6 / C6/9</td><td>C six / six-nine</td><td>C E G A (D)</td><td>大调 tonic、结尾</td></tr>
+        <tr><td>C9 / C13</td><td>C nine / thirteen</td><td>C E G B♭ D (A)</td><td>属七扩展</td></tr>
+        <tr><td>C7♭9 / C7♯9</td><td>C seven flat/nine</td><td>C E G B♭ D♭/D♯</td><td>变化属七，解决到小调</td></tr>
+        <tr><td>C7♯11</td><td>C seven sharp eleven</td><td>C E G B♭ F♯</td><td>Lydian dominant 色彩</td></tr>
+        <tr><td>C7alt</td><td>C seven altered</td><td>C E G B♭ + 变化音</td><td>最大张力的属七</td></tr>
+        <tr><td>Csus4 / C7sus4</td><td>C suspended</td><td>C F G (B♭)</td><td>Modal、现代</td></tr>
+        <tr><td>C/E</td><td>C over E</td><td>E 为低音的 C 和弦</td><td>转位、低音线</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="glossary">术语表（可搜索）</h2>
+  <div class="glossary-toolbar">
+    <div class="filter-group" id="glossary-filters" role="group" aria-label="术语分类">
+      {categories.map((cat, i) => (
+        <button class:list={["filter-btn", i === 0 && "is-active"]} type="button" data-category={cat}>{cat}</button>
+      ))}
+    </div>
+    <input class="glossary-search" id="glossary-search" type="search" placeholder="搜索术语 / 英文…" aria-label="搜索术语" />
+  </div>
+  <div class="glossary-grid" id="glossary-grid">
+    {GLOSSARY.map((item) => (
+      <article class="glossary-item" data-category={item.category} data-search={`${item.term} ${item.en} ${item.def}`.toLowerCase()}>
+        <div class="glossary-term">
+          <strong>{item.term}</strong>
+          <em>{item.en}</em>
+        </div>
+        <p>{item.def}</p>
+      </article>
+    ))}
+  </div>
+  <div class="glossary-empty" id="glossary-empty" hidden>没有找到匹配的术语。试试别的关键词。</div>
+
+  <h2 id="faq">常见问题 20 问</h2>
+  <div class="faq-list">
+    {faqs.map((item) => (
+      <details>
+        <summary>{item.q}</summary>
+        <p>{item.a}</p>
+      </details>
+    ))}
+  </div>
+
+  <h2 id="checklist">本章检查清单</h2>
+  <ul>
+    <li>我能读懂 Cmaj7、Cm7、C7、Cm7♭5、Cdim7、C7alt。</li>
+    <li>我能区分 maj7 / 7 / m7 的构成。</li>
+    <li>我知道 ii–V–I、turnaround、Rhythm Changes 的意思。</li>
+    <li>我能用自己的话解释 guide tone、tension、avoid note。</li>
+    <li>我有至少 3 个可以随时查的术语/符号来源。</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <strong class="callout-title">下一步</strong>
+    <p>基础部分结束了。回到 <a href="../">入门知识目录</a>，或者直接进入 <a href="../../roadmap/">12 个月路线图</a>。</p>
+  </div>
+</ChapterLayout>
+
+<script>
+  const grid = document.getElementById("glossary-grid") as HTMLElement;
+  const search = document.getElementById("glossary-search") as HTMLInputElement;
+  const filters = document.getElementById("glossary-filters") as HTMLElement;
+  const empty = document.getElementById("glossary-empty") as HTMLElement;
+
+  if (grid && search && filters) {
+    let activeCategory = "全部";
+    const items = [...grid.querySelectorAll<HTMLElement>(".glossary-item")];
+
+    function applyFilter() {
+      const q = search.value.trim().toLowerCase();
+      let visible = 0;
+      items.forEach((item) => {
+        const categoryOk = activeCategory === "全部" || item.dataset.category === activeCategory;
+        const searchOk = !q || (item.dataset.search || "").includes(q);
+        const show = categoryOk && searchOk;
+        item.hidden = !show;
+        if (show) visible++;
+      });
+      if (empty) empty.hidden = visible > 0;
+    }
+
+    filters.addEventListener("click", (event) => {
+      const btn = (event.target as Element).closest<HTMLButtonElement>("[data-category]");
+      if (!btn) return;
+      activeCategory = btn.dataset.category || "全部";
+      filters.querySelectorAll<HTMLButtonElement>("[data-category]").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+      });
+      applyFilter();
+    });
+
+    search.addEventListener("input", applyFilter);
+  }
+</script>
