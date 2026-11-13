@@ -85,7 +85,7 @@
       segments.forEach((seg, i) => {
         const row = document.createElement("div");
         row.className = `timer-segment${i === index ? " is-active" : ""}${i < index ? " is-done" : ""}`;
-        row.innerHTML = `<span>${i + 1}. ${seg.name}</span><span>${seg.minutes} 分钟</span>`;
+        row.innerHTML = `<span>${i + 1}. ${seg.name}<br /><span style="font-size:0.68rem;color:var(--faint);">${seg.detail}</span></span><span>${seg.minutes} 分钟</span>`;
         segmentWrap.appendChild(row);
       });
     }

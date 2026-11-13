@@ -1254,6 +1254,34 @@ html[data-theme="light"] .theme-icon-sun {
   color: var(--blue);
 }
 
+.resource-links {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: grid;
+  gap: 6px;
+}
+
+.resource-links li {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.resource-links a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.resource-links a:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+.resource-links span {
+  color: var(--faint);
+}
+
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);
@@ -2835,6 +2863,10 @@ html[data-theme="light"] .fretboard-wrap {
 }
 
 .beat-dot.is-accent {
+  border-color: var(--rust);
+}
+
+.beat-dot.is-accent.is-on {
   background: var(--rust);
   border-color: var(--rust);
 }

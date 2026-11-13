@@ -54,10 +54,14 @@
       <input id="metro-swing" type="checkbox" />
       Swing 八分
     </label>
-    <label class="switch" for="metro-accent">
-      <input id="metro-accent" type="checkbox" checked />
-      重音第一拍
-    </label>
+    <div class="field">
+      <label for="metro-accent">重音</label>
+      <select id="metro-accent">
+        <option value="first">第一拍</option>
+        <option value="two-four" selected>2 &amp; 4</option>
+        <option value="none">无</option>
+      </select>
+    </div>
   </div>
 
   <p class="small muted">
@@ -75,7 +79,7 @@
   const beatsSel = document.getElementById("metro-beats") as HTMLSelectElement;
   const subdivisionSel = document.getElementById("metro-subdivision") as HTMLSelectElement;
   const swingCheck = document.getElementById("metro-swing") as HTMLInputElement;
-  const accentCheck = document.getElementById("metro-accent") as HTMLInputElement;
+  const accentSel = document.getElementById("metro-accent") as HTMLSelectElement;
 
   if (toggleBtn && dotsWrap) {
     let audioCtx: AudioContext | null = null;
@@ -119,9 +123,11 @@
 
     function rebuildDots() {
       dotsWrap.innerHTML = "";
+      const mode = accentSel.value;
       for (let i = 0; i < beats; i++) {
+        const accent = mode === "first" ? i === 0 : mode === "two-four" ? i === 1 || i === 3 : false;
         const dot = document.createElement("span");
-        dot.className = `beat-dot${i === 0 ? " is-accent" : ""}`;
+        dot.className = `beat-dot${accent ? " is-accent" : ""}`;
         dot.dataset.beat = String(i);
         dotsWrap.appendChild(dot);
       }
@@ -139,10 +145,13 @@
     function scheduleBeat(time: number) {
       const secondsPerBeat = 60 / bpm;
       const subs = Number(subdivisionSel.value);
+      const mode = accentSel.value;
+      const accent =
+        mode === "first" ? currentBeat === 0 : mode === "two-four" ? currentBeat === 1 || currentBeat === 3 : false;
       for (let s = 0; s < subs; s++) {
         let offset = (s * secondsPerBeat) / subs;
         if (swingCheck.checked && subs === 2 && s === 1) offset = secondsPerBeat * 0.66;
-        click(time + offset, currentBeat === 0 && accentCheck.checked && s === 0, s > 0);
+        click(time + offset, accent && s === 0, s > 0);
       }
       queue.push({ time, beat: currentBeat });
       currentBeat = (currentBeat + 1) % beats;
@@ -207,6 +216,7 @@
       currentBeat = 0;
       rebuildDots();
     });
+    accentSel.addEventListener("change", rebuildDots);
     let taps: number[] = [];
     tapBtn.addEventListener("click", () => {
       const now = performance.now();

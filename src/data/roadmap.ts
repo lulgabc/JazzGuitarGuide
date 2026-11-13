@@ -15,6 +15,7 @@ export type Phase = {
   focus: string[];
   tunes: string[];
   checkpoint: string[];
+  resourceIds: string[];
   tasks: Task[];
 };
 
@@ -30,6 +31,7 @@ export const PHASES: Phase[] = [
       "这个阶段不追求速度、复杂和声或大量曲目。你只需要建立三件事：正确且放松的发声、稳定的时间感、以及一套能用的三音和弦。所有练习都要落到曲子里。",
     focus: ["姿势与拨弦", "Swing 八分音符", "Shell Voicing", "12-bar Blues", "3 首标准曲", "录音复盘"],
     tunes: ["Autumn Leaves", "Blue Bossa", "Summertime", "C Jam Blues"],
+    resourceIds: ["v-order", "v-basic-chords", "v-swing", "v-autumn-full"],
     checkpoint: [
       "节拍器 2 & 4 上，能稳定弹 8 小节 quarter-note comping",
       "能不看谱弹 Autumn Leaves 的旋律与和弦",
@@ -62,6 +64,7 @@ export const PHASES: Phase[] = [
       "你已经有基本的曲目与和弦。现在开始把“音”组织成“句子”：和弦音、琶音、guide tone、approach note、motif。这个阶段的重点是质量，不是数量。",
     focus: ["Chord Tones", "Arpeggios", "Approach Notes", "Drop 2", "Comping 节奏", "Transcription"],
     tunes: ["There Will Never Be Another You", "All the Things You Are", "Stella by Starlight", "Softly, as in a Morning Sunrise", "Tune Up"],
+    resourceIds: ["v-ii-v-i", "v-chord-tones", "v-drop2", "v-ear-training"],
     checkpoint: [
       "能在 ii–V–I 上只用和弦音 solo，不依赖音阶",
       "Drop 2 能在四组弦上连接 ii–V–I",
@@ -94,6 +97,7 @@ export const PHASES: Phase[] = [
       "从“练习模式”切换到“音乐模式”。你会开始积累 bebop 语言、旋律小调与减音阶，但更重要的是：在标准曲里把它们用出来，并开始与人合奏。",
     focus: ["Bebop 语言", "Melodic Minor", "Diminished", "Chord Melody", "10 首曲目", "Jam"],
     tunes: ["All the Things You Are", "Stella by Starlight", "Body and Soul", "Oleo", "Misty", "Wave", "Solar", "Four"],
+    resourceIds: ["v-learn-standard", "v-jazz-blues", "v-autumn-chord-melody", "v-joe-pass"],
     checkpoint: [
       "10 首标准曲能背旋律与和弦，并跟别人合奏",
       "能在 5 个调上弹 ii–V–I 句子",
@@ -126,6 +130,7 @@ export const PHASES: Phase[] = [
       "最后一个阶段不是“学更多”，而是“整合”。你要把曲目、音色、即兴、编配与舞台经验整合成一个可演出的状态，并开始有意识地选择自己的语言。",
     focus: ["Repertoire", "Performance", "Recording", "Personal Voice", "Teaching", "Next Plan"],
     tunes: ["自选 15–20 首", "3 首 chord melody", "1 套 30 分钟 set"],
+    resourceIds: ["v-practice-daily", "v-bossa", "v-walking-bass", "v-wes-licks"],
     checkpoint: [
       "15–20 首曲目能随时 jam",
       "3 首 chord melody 能完整演奏",

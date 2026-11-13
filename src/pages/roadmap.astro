@@ -3,6 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
 import { url } from "../lib/url";
 import { PHASES, FIRST_12_WEEKS, ROUTINES, PRINCIPLES } from "../data/roadmap";
+import { VIDEOS } from "../data/courses";
+
+const videoById = new Map(VIDEOS.map((video) => [video.id, video]));
 ---
 
 <BaseLayout
@@ -114,6 +117,24 @@ import { PHASES, FIRST_12_WEEKS, ROUTINES, PRINCIPLES } from "../data/roadmap";
                 </label>
               </div>
             ))}
+          </div>
+
+          <div class="callout callout-listen" style="margin-top: 18px;">
+            <strong class="callout-title">配套课程</strong>
+            <ul class="resource-links">
+              {phase.resourceIds.map((id) => {
+                const video = videoById.get(id);
+                if (!video) return null;
+                return (
+                  <li>
+                    <a href={`https://www.youtube.com/watch?v=${video.youtubeId}`} target="_blank" rel="noopener noreferrer">
+                      {video.title}
+                    </a>
+                    <span>· {video.channel}</span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </section>
       ))}
