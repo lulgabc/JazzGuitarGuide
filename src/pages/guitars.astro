@@ -125,6 +125,16 @@ import { url } from "../lib/url";
           <div class="guitar-grid">
             {models.map((guitar) => (
               <article class="card guitar-card reveal">
+                <div class="guitar-photo">
+                  <img
+                    src={url(`/guitars/${guitar.id}.jpg`)}
+                    alt={`${guitar.brand} ${guitar.model}`}
+                    loading="lazy"
+                    width="485"
+                    height="970"
+                  />
+                </div>
+                <div class="guitar-content">
                 <div class="guitar-top">
                   <div>
                     <span class="pill">{guitar.tier}</span>
@@ -144,6 +154,7 @@ import { url } from "../lib/url";
                 <div class="guitar-source">
                   <a href={guitar.sourceUrl} target="_blank" rel="noopener noreferrer">{guitar.sourceLabel} ↗</a>
                   <span>{guitar.priceNote}</span>
+                </div>
                 </div>
               </article>
             ))}
@@ -207,6 +218,7 @@ import { url } from "../lib/url";
           以上为 2026 年 11 月在 Thomann.fr、Woodbrass、Star's Music、Music Privilège、Euroguitar、
           MusiX、Session、TFOA 等渠道看到的含税参考价（EUR TTC），不同颜色/批次/促销会变化。
           本站不收取任何推广费；购买前请以商家当前页面为准。
+          产品图来自品牌/经销商页面，版权归原方，仅用于识别型号；部分图片做了轻微裁剪。
         </p>
       </div>
     </div>
