@@ -14,7 +14,7 @@ const practice = standardPractice(tune);
 const levelClass = tune.level === "入门" ? "pill-sage" : tune.level === "高级" ? "pill-rust" : "pill-blue";
 const preview = {
   title: tune.title,
-  keyLabel: tune.key,
+  keyLabel: practice.keyLabel,
   keyPc: practice.keyPc,
   tempo: practice.tempo,
   meter: practice.meter,
@@ -76,6 +76,6 @@ const preview = {
       aria-pressed="false"
       aria-label={`试听 ${tune.title} 的简化练习循环`}
     >▶ 试听</button>
-    <a class="standard-detail-link" href={url(`/standards/${tune.id}/`)}>练习与和声地图 →</a>
+    <a class="standard-detail-link" href={url(`/standards/${tune.id}/`)}>打开练习 →</a>
   </div>
 </article>

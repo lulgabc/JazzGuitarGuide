@@ -4341,13 +4341,21 @@ html[data-theme="light"] .fretboard-wrap {
 }
 
 .standard-detail-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
   font-size: 0.72rem;
-  color: var(--muted);
+  color: var(--text-soft);
   text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .standard-detail-link:hover {
   color: var(--accent);
+  border-color: var(--accent);
 }
 
 .standard-player {
