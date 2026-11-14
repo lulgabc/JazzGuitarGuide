@@ -1,0 +1,222 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import { LIBRARY, LIBRARY_CATEGORIES, LIBRARY_LEVELS, LIBRARY_STATS } from "../../data/library";
+import { url } from "../../lib/url";
+
+const levelLinks = [
+  { level: "入门", text: "先把声音、节奏与基本和弦音练稳。", count: LIBRARY_STATS.byLevel["入门"] },
+  { level: "进阶", text: "开始连接把位、voicing 与简单的即兴语言。", count: LIBRARY_STATS.byLevel["进阶"] },
+  { level: "高级", text: "更复杂的和声、节奏与长线条。", count: LIBRARY_STATS.byLevel["高级"] },
+] as const;
+---
+
+<BaseLayout
+  title="练习乐谱库"
+  description="228 首原创爵士吉他练习乐谱：热身、音阶、琶音、和弦、伴奏、即兴、和弦旋律与视奏，按入门/进阶/高级分类，含五线谱、TAB 与练习说明。"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">The practice library</span>
+      <h1>228 首，<br />每天挑一页。</h1>
+      <p class="lead">
+        从 5 分钟热身到进阶 ii–V–I、bebop 线条与和弦旋律，全部是本站原创练习材料。
+        每首都有五线谱、吉他 TAB（单音练习）与练习说明；不是 Real Book 曲谱，也不是转录。
+      </p>
+      <div class="chapter-meta" style="margin-top: 24px;">
+        <span class="pill pill-accent">{LIBRARY_STATS.total} 首</span>
+        <span class="pill">{LIBRARY_LEVELS.length} 个等级</span>
+        <span class="pill">{LIBRARY_CATEGORIES.length} 类练习</span>
+        <span class="pill">ABC / 五线谱 / TAB</span>
+      </div>
+      <div class="btn-row" style="margin-top: 26px;">
+        <a class="btn btn-primary" href="#library">浏览全部乐谱 <span aria-hidden="true">↓</span></a>
+        <a class="btn btn-ghost" href={url("/roadmap/")}>配合路线图使用</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="stat-strip">
+        <div class="stat-cell"><strong>{LIBRARY_STATS.total}</strong><span>首原创练习</span></div>
+        <div class="stat-cell"><strong>{LIBRARY_STATS.byLevel["入门"]}</strong><span>入门</span></div>
+        <div class="stat-cell"><strong>{LIBRARY_STATS.byLevel["进阶"]}</strong><span>进阶</span></div>
+        <div class="stat-cell"><strong>{LIBRARY_STATS.byLevel["高级"]}</strong><span>高级</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="How to use"
+        title="怎么用这个乐谱库"
+        description="不要从第一首开始刷到最后一首。先按目标选一类，再按等级筛选，最后只练 1–2 页。"
+      />
+      <div class="step-grid">
+        <article class="step-card"><h3>选一个目标</h3><p>今天是要热身、学和弦、练伴奏，还是做即兴？先选主题，不要随机翻。</p></article>
+        <article class="step-card"><h3>按等级筛选</h3><p>入门先求清楚与稳定；进阶再求连接与语言；高级再求复杂和声与速度。</p></article>
+        <article class="step-card"><h3>只练 1–2 页</h3><p>一页练到能连续 3 次干净，比刷 10 页更有用。</p></article>
+        <article class="step-card"><h3>录音 + 移调</h3><p>录 30 秒；然后把同一素材移到 2 个调，确认不是背形状。</p></article>
+        <article class="step-card"><h3>放进曲子里</h3><p>每个练习都要回到一首标准曲；否则它只是手指体操。</p></article>
+        <article class="step-card"><h3>打印或存 PDF</h3><p>每页右上角可打印/保存 PDF；也可以下载 ABC 源文件。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker="Pick a level"
+        title="三个等级，三种目标"
+        description="等级不是“难度炫技”，而是你现在应该把注意力放在哪里。"
+      />
+      <div class="grid grid-3">
+        {levelLinks.map((item) => (
+          <a class="card card-link reveal" href={`#library`} data-jump-level={item.level}>
+            <div class="card-top">
+              <span class="pill pill-sage">{item.level}</span>
+              <span class="mono muted">{item.count} 首</span>
+            </div>
+            <h3>{item.level === "入门" ? "把基础弹清楚" : item.level === "进阶" ? "开始连接语言" : "复杂和声与长线条"}</h3>
+            <p>{item.text}</p>
+            <div class="resource-meta" style="margin-top: 16px;"><span class="card-arrow" aria-hidden="true">→</span></div>
+          </a>
+        ))}
+      </div>
+      <div class="callout callout-warn" style="margin-top: 24px;">
+        <strong class="callout-title">关于版权</strong>
+        <p>
+          本页所有谱例都是为练习目的原创生成的音阶、琶音、和弦、节奏型与短练习，
+          不包含受版权保护的标准曲旋律、lead sheet 或他人 transcription。
+          标准曲请使用合法购买/借阅的谱例与录音。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="library">
+    <div class="container">
+      <SectionHead
+        kicker="All exercises"
+        title="完整乐谱库"
+        description="按难度、类别或关键词筛选。每首详情页都有五线谱、TAB、练习步骤和常见错误。"
+      />
+      <div class="resource-toolbar library-toolbar">
+        <div class="filter-group" id="library-levels" role="group" aria-label="按难度筛选">
+          <button class="filter-btn is-active" type="button" data-level="全部">全部</button>
+          {LIBRARY_LEVELS.map((level) => <button class="filter-btn" type="button" data-level={level}>{level}</button>)}
+        </div>
+        <div class="filter-group">
+          <select class="glossary-search" id="library-category" aria-label="按类别筛选" style="min-width: 160px;">
+            <option value="全部">全部类别</option>
+            {LIBRARY_CATEGORIES.map((category) => <option value={category}>{category}</option>)}
+          </select>
+          <input class="glossary-search" id="library-search" type="search" placeholder="搜索标题 / 调 / 关键词…" aria-label="搜索乐谱" />
+        </div>
+      </div>
+      <p class="small muted" id="library-count" style="margin-bottom: 18px;">显示 {LIBRARY.length} 首</p>
+
+      <div class="library-grid" id="library-grid">
+        {LIBRARY.map((exercise, index) => (
+          <a
+            class="exercise-card reveal"
+            href={url(`/library/${exercise.id}/`)}
+            data-level={exercise.level}
+            data-category={exercise.category}
+            data-search={`${exercise.title} ${exercise.key} ${exercise.category} ${exercise.focus.join(" ")} ${exercise.description}`.toLowerCase()}
+          >
+            <div class="exercise-top">
+              <span class="exercise-index">{String(index + 1).padStart(3, "0")}</span>
+              <span class:list={["pill", exercise.level === "入门" ? "pill-sage" : exercise.level === "高级" ? "pill-rust" : "pill-blue"]}>{exercise.level}</span>
+            </div>
+            <div class="exercise-category">{exercise.category} · {exercise.key}</div>
+            <h3>{exercise.title}</h3>
+            <p>{exercise.description}</p>
+            <div class="exercise-meta">
+              <span>{exercise.meter}</span>
+              <span>{exercise.bars} 小节</span>
+              <span>{exercise.bpm} BPM</span>
+              <span>{exercise.tab ? "五线谱 + TAB" : "五线谱"}</span>
+            </div>
+            <div class="tag-row">
+              {exercise.focus.slice(0, 3).map((tag) => <span class="pill">{tag}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="glossary-empty" id="library-empty" hidden>没有找到匹配的练习。换个关键词或类别。</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout callout-tip">
+        <strong class="callout-title">练习建议</strong>
+        <p>
+          每次只选 1–2 页，先用 60 BPM 慢速弹 3 遍，再录 30 秒。能连续 3 次干净，才加速 5 BPM。
+          如果一页练了 10 分钟仍然乱，换一页或降到更基础的等级；不要硬耗。
+        </p>
+      </div>
+      <div class="btn-row" style="margin-top: 22px;">
+        <a class="btn btn-primary" href={url("/roadmap/")}>把乐谱放进 12 个月路线图</a>
+        <a class="btn btn-ghost" href={url("/tools/")}>用节拍器/伴奏练习</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const levelWrap = document.getElementById("library-levels") as HTMLElement;
+  const categorySel = document.getElementById("library-category") as HTMLSelectElement;
+  const search = document.getElementById("library-search") as HTMLInputElement;
+  const grid = document.getElementById("library-grid") as HTMLElement;
+  const count = document.getElementById("library-count") as HTMLElement;
+  const empty = document.getElementById("library-empty") as HTMLElement;
+
+  if (grid && levelWrap && categorySel && search && count) {
+    let level = "全部";
+    const cards = [...grid.querySelectorAll<HTMLElement>(".exercise-card")];
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      const category = categorySel.value;
+      let visible = 0;
+      cards.forEach((card) => {
+        const levelOk = level === "全部" || card.dataset.level === level;
+        const categoryOk = category === "全部" || card.dataset.category === category;
+        const searchOk = !q || (card.dataset.search || "").includes(q);
+        const show = levelOk && categoryOk && searchOk;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      count.textContent = `显示 ${visible} 首`;
+      if (empty) empty.hidden = visible > 0;
+    }
+
+    levelWrap.addEventListener("click", (event) => {
+      const btn = (event.target as Element).closest<HTMLButtonElement>("[data-level]");
+      if (!btn) return;
+      level = btn.dataset.level || "全部";
+      levelWrap.querySelectorAll<HTMLButtonElement>("[data-level]").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+      });
+      apply();
+    });
+    categorySel.addEventListener("change", apply);
+    search.addEventListener("input", apply);
+    apply();
+
+    document.querySelectorAll<HTMLElement>("[data-jump-level]").forEach((link) => {
+      link.addEventListener("click", () => {
+        const target = link.dataset.jumpLevel;
+        level = target || "全部";
+        levelWrap.querySelectorAll<HTMLButtonElement>("[data-level]").forEach((b) => {
+          b.classList.toggle("is-active", b.dataset.level === level);
+        });
+        apply();
+      });
+    });
+  }
+</script>

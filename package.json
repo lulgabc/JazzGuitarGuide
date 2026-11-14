@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
+    "abcjs": "^6.7.2",
     "astro": "^7.4.11"
   },
   "devDependencies": {

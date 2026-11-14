@@ -22,6 +22,7 @@ export const NAV: NavItem[] = [
   { href: "/roadmap/", label: "学习路线图", short: "路线图", description: "从第 1 周到第 52 周，每个阶段练什么、练到什么程度" },
   { href: "/courses/", label: "免费课程", short: "免费课", description: "精选 YouTube 频道、单课、免费网站与中文资源" },
   { href: "/standards/", label: "必学曲目", short: "曲目", description: "40 首标准曲，按难度、曲式与练习重点整理" },
+  { href: "/library/", label: "练习乐谱库", short: "乐谱", description: "228 首原创练习乐谱，含五线谱、TAB（单音）与练习说明" },
   { href: "/players/", label: "吉他大师", short: "大师", description: "从 Django 到 Julian Lage，按年代与风格认识爵士吉他" },
   { href: "/books/", label: "教材书单", short: "书单", description: "方法书、和声、即兴、转录、历史与传记" },
   { href: "/guitars/", label: "选琴指南", short: "选琴", description: "入门、进阶、演出三个等级的爵士吉他型号与法国市场参考价" },

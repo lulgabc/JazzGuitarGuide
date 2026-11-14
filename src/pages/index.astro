@@ -12,6 +12,11 @@ import { FEATURED_VIDEOS, CHANNELS } from "../data/courses";
 import { FEATURED_PLAYERS } from "../data/players";
 import { PLAYER_PHOTOS } from "../data/player-photos";
 import { FEATURED_BOOKS } from "../data/books";
+import { LIBRARY, LIBRARY_STATS } from "../data/library";
+
+const featuredLibrary = ["warmup-001", "comping-003", "chord-melody-002"]
+  .map((id) => LIBRARY.find((exercise) => exercise.id === id))
+  .filter((exercise): exercise is (typeof LIBRARY)[number] => Boolean(exercise));
 ---
 
 <BaseLayout description={SITE.description}>
@@ -35,6 +40,7 @@ import { FEATURED_BOOKS } from "../data/books";
         <div class="hero-meta">
           <span>零基础可入门</span>
           <span>40 首标准曲</span>
+          <span>{LIBRARY_STATS.total} 首练习乐谱</span>
           <span>30+ 免费课程</span>
           <span>可交互练习</span>
         </div>
@@ -265,6 +271,40 @@ import { FEATURED_BOOKS } from "../data/books";
             ))}
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        kicker={`${LIBRARY_STATS.total} exercises`}
+        title="每天挑一页，练完再走"
+        description="热身、音阶、琶音、和弦、伴奏、即兴、和弦旋律、视奏与曲式。每首都有五线谱、练习说明，单音练习附 TAB；按入门/进阶/高级筛选。"
+        link="/library/"
+        linkLabel="浏览练习乐谱库"
+      />
+      <div class="library-grid">
+        {featuredLibrary.map((exercise) => (
+          <a class="exercise-card reveal" href={url(`/library/${exercise.id}/`)}>
+            <div class="exercise-top">
+              <span class="exercise-index">{String(LIBRARY.findIndex((item) => item.id === exercise.id) + 1).padStart(3, "0")}</span>
+              <span class:list={["pill", exercise.level === "入门" ? "pill-sage" : exercise.level === "高级" ? "pill-rust" : "pill-blue"]}>{exercise.level}</span>
+            </div>
+            <div class="exercise-category">{exercise.category} · {exercise.key}</div>
+            <h3>{exercise.title}</h3>
+            <p>{exercise.description}</p>
+            <div class="exercise-meta">
+              <span>{exercise.meter}</span>
+              <span>{exercise.bars} 小节</span>
+              <span>{exercise.bpm} BPM</span>
+              <span>{exercise.tab ? "五线谱 + TAB" : "五线谱"}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="btn-row" style="margin-top: 22px;">
+        <a class="btn btn-ghost" href={url("/library/")}>全部 {LIBRARY_STATS.total} 首，按等级与类别筛选 →</a>
       </div>
     </div>
   </section>

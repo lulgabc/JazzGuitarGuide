@@ -4018,3 +4018,275 @@ html[data-theme="light"] .fretboard-wrap {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- practice library ---------- */
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.exercise-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 286px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--panel) 58%, transparent);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.2s var(--ease), border-color 0.2s ease;
+}
+
+.exercise-card:hover {
+  color: inherit;
+  border-color: var(--line-strong);
+  transform: translateY(-3px);
+}
+
+.exercise-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.exercise-index {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+}
+
+.exercise-category {
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.exercise-card h3 {
+  font-size: 1.05rem;
+  line-height: 1.35;
+  margin-bottom: 7px;
+}
+
+.exercise-card p {
+  flex: 1;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.exercise-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 11px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 0.66rem;
+  color: var(--faint);
+}
+
+.exercise-card .tag-row {
+  margin-top: 10px;
+}
+
+.exercise-card .pill {
+  font-size: 0.62rem;
+}
+
+.library-detail-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+}
+
+.sheet-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 24px;
+  align-items: start;
+}
+
+.sheet-main {
+  min-width: 0;
+}
+
+.sheet-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sheet-paper {
+  padding: clamp(14px, 2.5vw, 28px);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: #fffdf8;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.abc-notation {
+  min-height: 160px;
+  color: #1c1a17;
+}
+
+.abc-notation svg {
+  width: 100%;
+  height: auto;
+}
+
+.abc-notation .abcjs-container {
+  width: 100%;
+}
+
+.abc-notation .abcjs-staff {
+  fill: #1c1a17;
+}
+
+.abc-notation .abcjs-note,
+.abc-notation .abcjs-stem,
+.abc-notation .abcjs-beam {
+  stroke: #1c1a17;
+}
+
+.abc-notation .abcjs-tab-number {
+  fill: #1c1a17;
+}
+
+.abc-notation .abcjs-title {
+  fill: #1c1a17;
+}
+
+.sheet-scroll-hint {
+  display: none;
+  margin-top: 10px;
+}
+
+.sheet-side {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+}
+
+.sheet-side h2 {
+  font-size: 1.35rem;
+  margin-bottom: 10px;
+}
+
+.sheet-side h3 {
+  font-size: 1rem;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.sheet-side p {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.sheet-side .phase-list {
+  font-size: 0.8rem;
+}
+
+.sheet-side .phase-list li::before {
+  content: "→";
+}
+
+@media (max-width: 1080px) {
+  .library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sheet-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sheet-side {
+    position: static;
+  }
+}
+
+@media (max-width: 620px) {
+  .library-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exercise-card {
+    min-height: 0;
+  }
+
+  .sheet-paper {
+    padding: 10px;
+  }
+
+  .sheet-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 760px) {
+  .sheet-scroll-hint {
+    display: block;
+  }
+
+  .abc-notation svg {
+    min-width: 700px;
+  }
+
+  .abc-notation.abcjs-container {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+}
+
+@media print {
+  .site-header,
+  .site-footer,
+  .library-detail-hero,
+  .sheet-toolbar,
+  .sheet-scroll-hint,
+  .sheet-side,
+  .chapter-nav {
+    display: none !important;
+  }
+
+  .section-tight {
+    padding: 0 !important;
+  }
+
+  .container {
+    width: 100% !important;
+  }
+
+  .sheet-layout {
+    display: block;
+  }
+
+  .sheet-paper {
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .abc-notation svg {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+}

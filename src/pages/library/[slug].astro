@@ -1,0 +1,152 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LIBRARY, exerciseNeighbors } from "../../data/library";
+import { url } from "../../lib/url";
+
+export function getStaticPaths() {
+  return LIBRARY.map((exercise) => ({
+    params: { slug: exercise.id },
+    props: { exercise },
+  }));
+}
+
+const { exercise } = Astro.props;
+const neighbors = exerciseNeighbors(exercise.id);
+const index = LIBRARY.findIndex((item) => item.id === exercise.id) + 1;
+const description = `${exercise.title}：${exercise.description}`;
+---
+
+<BaseLayout title={exercise.title} description={description}>
+  <section class="page-hero library-detail-hero">
+    <div class="container">
+      <nav class="small muted" aria-label="面包屑" style="margin-bottom: 18px;">
+        <a href={url("/")}>首页</a>
+        <span aria-hidden="true"> / </span>
+        <a href={url("/library/")}>乐谱库</a>
+        <span aria-hidden="true"> / </span>
+        <span>{exercise.title}</span>
+      </nav>
+      <span class="eyebrow">Exercise {String(index).padStart(3, "0")} · {exercise.level} · {exercise.category}</span>
+      <h1>{exercise.title}</h1>
+      <div class="chapter-meta" style="margin-top: 20px;">
+        <span class="pill pill-accent">{exercise.key}</span>
+        <span class="pill">{exercise.meter}</span>
+        <span class="pill">{exercise.bars} 小节</span>
+        <span class="pill">{exercise.bpm} BPM</span>
+        <span class="pill">{exercise.tab ? "五线谱 + TAB" : "五线谱"}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="sheet-layout">
+        <div class="sheet-main">
+          <div class="sheet-toolbar">
+            <div class="tag-row">
+              {exercise.focus.map((tag) => <span class="pill">{tag}</span>)}
+            </div>
+            <div class="btn-row" style="gap: 8px;">
+              <button class="btn btn-ghost btn-sm" id="print-sheet" type="button">打印 / 保存 PDF</button>
+              <button class="btn btn-ghost btn-sm" id="download-abc" type="button">下载 ABC</button>
+            </div>
+          </div>
+          <div class="sheet-paper">
+            <div
+              id="notation"
+              class="abc-notation"
+              data-abc={exercise.abc}
+              data-tab={String(exercise.tab)}
+              aria-label={`${exercise.title} 五线谱${exercise.tab ? "与 TAB" : ""}`}
+            ></div>
+            <noscript>
+              <p class="small muted">乐谱需要 JavaScript 渲染。ABC 源文件可点击“下载 ABC”获取。</p>
+            </noscript>
+          </div>
+          <p class="small muted sheet-scroll-hint">乐谱可左右滑动查看完整内容 →</p>
+          <p class="small muted" style="margin-top: 12px;">
+            记谱为吉他高八度记谱；TAB 为标准调弦 E A D G B E 的参考指法。慢速练习时以五线谱/音高为准。
+          </p>
+        </div>
+
+        <aside class="sheet-side">
+          <div class="card">
+            <h2>练习说明</h2>
+            <p>{exercise.description}</p>
+            <h3>练习步骤</h3>
+            <ol class="phase-list" style="list-style: none; padding: 0;">
+              {exercise.steps.map((step) => <li>{step}</li>)}
+            </ol>
+            <h3>常见错误</h3>
+            <ul class="phase-list" style="list-style: none; padding: 0;">
+              {exercise.mistakes.map((mistake) => <li>{mistake}</li>)}
+            </ul>
+          </div>
+          <div class="card" style="margin-top: 18px;">
+            <span class="kicker">Related</span>
+            <h3 style="margin-top: 8px;">相关章节</h3>
+            <p><a href={url(exercise.related.href)}>{exercise.related.label} →</a></p>
+            <p class="small muted" style="margin-top: 10px;">
+              这首练习是原创练习材料；它不是标准曲的 lead sheet，也不替代正式教材。
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      <nav class="chapter-nav" aria-label="乐谱导航">
+        <div>
+          {neighbors.prev && (
+            <a href={url(`/library/${neighbors.prev.id}/`)}>
+              <small>← 上一首</small>
+              <strong>{neighbors.prev.title}</strong>
+            </a>
+          )}
+        </div>
+        <div style="text-align: right;">
+          {neighbors.next && (
+            <a href={url(`/library/${neighbors.next.id}/`)}>
+              <small>下一首 →</small>
+              <strong>{neighbors.next.title}</strong>
+            </a>
+          )}
+        </div>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import * as ABCJS from "abcjs";
+
+  const container = document.getElementById("notation") as HTMLElement | null;
+  const abc = container?.dataset.abc;
+  const showTab = container?.dataset.tab === "true";
+  const slug = window.location.pathname.split("/").filter(Boolean).pop() || "exercise";
+
+  if (container && abc) {
+    ABCJS.renderAbc(container, abc, {
+      responsive: "resize",
+      staffwidth: 720,
+      add_classes: true,
+      paddingtop: 12,
+      paddingbottom: 12,
+      tablature: showTab
+        ? [{ instrument: "guitar", label: "TAB (%T)", tuning: ["E,", "A,", "D", "G", "B", "e"] }]
+        : undefined,
+    });
+  }
+
+  document.getElementById("print-sheet")?.addEventListener("click", () => window.print());
+
+  document.getElementById("download-abc")?.addEventListener("click", () => {
+    if (!abc) return;
+    const blob = new Blob([abc], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${slug}.abc`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(link.href);
+  });
+</script>
