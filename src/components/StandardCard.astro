@@ -1,0 +1,81 @@
+---
+import type { Standard } from "../data/standards";
+import { standardPractice } from "../data/standard-practice";
+import { url } from "../lib/url";
+
+interface Props {
+  tune: Standard;
+  anchorId: string;
+  firstWave?: boolean;
+}
+
+const { tune, anchorId, firstWave = false } = Astro.props;
+const practice = standardPractice(tune);
+const levelClass = tune.level === "入门" ? "pill-sage" : tune.level === "高级" ? "pill-rust" : "pill-blue";
+const preview = {
+  title: tune.title,
+  keyLabel: tune.key,
+  keyPc: practice.keyPc,
+  tempo: practice.tempo,
+  meter: practice.meter,
+  feel: practice.feel,
+  progression: practice.progression,
+  progressionLabel: practice.progressionLabel,
+  bars: practice.bars,
+  preferFlats: practice.preferFlats,
+};
+---
+
+<article
+  class:list={["standard-card", firstWave && "first-wave-card"]}
+  id={anchorId}
+  data-level={tune.level}
+  data-category={tune.category}
+  data-search={`${tune.title} ${tune.composer} ${tune.key} ${tune.form} ${tune.focus.join(" ")} ${tune.tags.join(" ")}`.toLowerCase()}
+>
+  <div class="standard-top">
+    <div>
+      <h3>
+        <span class="mono muted">#{String(tune.order).padStart(2, "0")}</span>{" "}
+        <a href={url(`/standards/${tune.id}/`)}>{tune.title}</a>
+      </h3>
+      <div class="composer">{tune.composer}</div>
+    </div>
+    <span class:list={["pill", levelClass]}>{tune.level}</span>
+  </div>
+
+  <div class="standard-facts">
+    <span class="pill">{tune.key}</span>
+    <span class="pill">{tune.form}</span>
+    <span class="pill">{tune.category}</span>
+  </div>
+
+  <p class="standard-why">{tune.why}</p>
+
+  <div class="tag-row">
+    {tune.focus.map((item) => <span class:list={["pill", firstWave ? "pill-sage" : ""]}>{item}</span>)}
+  </div>
+
+  <details>
+    <summary>听什么 / 学习重点</summary>
+    <ul class="listen-list">
+      {tune.listen.map((item) => (
+        <li>
+          <strong>{item.artist}</strong>{item.album ? ` — ${item.album}` : ""}
+          <span>{item.note}</span>
+        </li>
+      ))}
+    </ul>
+  </details>
+
+  <div class="standard-actions">
+    <button
+      class="standard-play"
+      type="button"
+      data-standard-preview={JSON.stringify(preview)}
+      aria-pressed="false"
+      aria-label={`试听 ${tune.title} 的简化练习循环`}
+    >▶ 试听</button>
+    <a class="standard-detail-link" href={url(`/standards/${tune.id}/`)}>练习与和声地图 →</a>
+  </div>
+</article>

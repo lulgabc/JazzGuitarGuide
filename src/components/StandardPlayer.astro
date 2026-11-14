@@ -1,0 +1,115 @@
+---
+import { feelLabel, type StandardPractice } from "../data/standard-practice";
+
+interface Props {
+  title: string;
+  practice: StandardPractice;
+}
+
+const { title, practice } = Astro.props;
+const config = {
+  keyPc: practice.keyPc,
+  tempo: practice.tempo,
+  meter: practice.meter,
+  feel: practice.feel,
+  progression: practice.progression,
+  progressionLabel: practice.progressionLabel,
+  preferFlats: practice.preferFlats,
+};
+---
+
+<section class="standard-player" id="player" data-standard-player data-config={JSON.stringify(config)}>
+  <div class="standard-player-head">
+    <div>
+      <span class="kicker">Practice loop</span>
+      <h2>{title} · 练习循环</h2>
+      <p>
+        简化和声 + 贝斯 + 鼓，用来练 comping、曲式和 solo。它不是原曲完整 changes，也不含旋律；
+        听原曲请使用合法录音。
+      </p>
+    </div>
+    <button class="btn btn-primary standard-player-toggle" type="button" data-player-toggle aria-pressed="false">▶ 播放</button>
+  </div>
+
+  <div class="standard-player-controls">
+    <label class="standard-tempo">
+      <span>Tempo</span>
+      <input type="range" min="50" max="220" step="1" value={practice.tempo} data-player-tempo />
+      <output data-player-tempo-label>{practice.tempo} BPM</output>
+    </label>
+    <span class="pill">{practice.meter}/4</span>
+    <span class="pill">{feelLabel(practice.feel)}</span>
+    <span class="pill">{practice.progressionLabel}</span>
+  </div>
+
+  <div class="chord-display" data-player-chords aria-label="练习循环和弦"></div>
+
+  <div class="backing-status">
+    <span class="status-dot" data-player-dot></span>
+    <span data-player-status aria-live="polite">准备 · {practice.progressionLabel} · {practice.bars} 小节</span>
+  </div>
+
+  <p class="small muted standard-player-note">
+    练习建议：先只弹根音与 3/7；稳定后再加入切分。Solo 时先限制自己只用一个动机。
+  </p>
+</section>
+
+<script>
+  import { StandardAudio } from "../scripts/standard-audio";
+
+  const root = document.querySelector<HTMLElement>("[data-standard-player]");
+  if (root) {
+    const config = JSON.parse(root.dataset.config || "{}");
+    const toggleBtn = root.querySelector<HTMLButtonElement>("[data-player-toggle]");
+    const tempoInput = root.querySelector<HTMLInputElement>("[data-player-tempo]");
+    const tempoLabel = root.querySelector<HTMLOutputElement>("[data-player-tempo-label]");
+    const chordWrap = root.querySelector<HTMLElement>("[data-player-chords]");
+    const statusText = root.querySelector<HTMLElement>("[data-player-status]");
+    const statusDot = root.querySelector<HTMLElement>("[data-player-dot]");
+
+    if (toggleBtn && tempoInput && tempoLabel && chordWrap && statusText && statusDot) {
+      const audio = new StandardAudio(config, (index) => {
+        if (index < 0) {
+          chordWrap.querySelectorAll<HTMLElement>(".chord-chip").forEach((chip) => chip.classList.remove("is-on"));
+          return;
+        }
+        chordWrap.querySelectorAll<HTMLElement>(".chord-chip").forEach((chip, i) => {
+          chip.classList.toggle("is-on", i === index);
+        });
+        statusText.textContent = `播放中 · 第 ${index + 1} / ${audio.chordBars.length} 小节`;
+      }, () => {
+        toggleBtn.textContent = "▶ 播放";
+        toggleBtn.setAttribute("aria-pressed", "false");
+        statusDot.classList.remove("is-live");
+        statusText.textContent = `准备 · ${config.progressionLabel ?? "练习循环"} · ${audio.chordBars.length} 小节`;
+      });
+
+      audio.chordBars.forEach((bar, index) => {
+        const chip = document.createElement("div");
+        chip.className = "chord-chip";
+        chip.dataset.index = String(index);
+        chip.innerHTML = `<strong>${bar.name}</strong><small>${bar.roman} · ${index + 1}</small>`;
+        chordWrap.appendChild(chip);
+      });
+
+      toggleBtn.addEventListener("click", () => {
+        if (audio.isRunning) {
+          audio.stop();
+        } else {
+          audio.start();
+          toggleBtn.textContent = "■ 停止";
+          toggleBtn.setAttribute("aria-pressed", "true");
+          statusDot.classList.add("is-live");
+          statusText.textContent = `播放中 · ${audio.chordBars.length} 小节循环`;
+        }
+      });
+
+      tempoInput.addEventListener("input", () => {
+        const tempo = Number(tempoInput.value) || 100;
+        tempoLabel.textContent = `${tempo} BPM`;
+        audio.setTempo(tempo);
+        if (audio.isRunning) statusText.textContent = `播放中 · ${tempo} BPM · ${audio.chordBars.length} 小节循环`;
+      });
+    }
+  }
+</script>

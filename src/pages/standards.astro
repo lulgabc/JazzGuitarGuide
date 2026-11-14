@@ -1,12 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
+import StandardCard from "../components/StandardCard.astro";
 import { STANDARDS, FIRST_WAVE } from "../data/standards";
 ---
 
 <BaseLayout
   title="必学曲目"
-  description="40 首爵士吉他必学标准曲：调性、曲式、难度、练习重点与推荐录音。按第一波 12 首的顺序开始。"
+  description="40 首爵士吉他必学标准曲：调性、曲式、难度、练习重点与推荐录音；每首可打开详情、试听简化练习循环。按第一波 12 首的顺序开始。"
 >
   <section class="page-hero">
     <div class="container">
@@ -15,6 +16,7 @@ import { STANDARDS, FIRST_WAVE } from "../data/standards";
       <p class="lead">
         曲目不是“学得越多越好”，而是“每一首都真的能玩”。
         这 40 首覆盖了 blues、bossa、ballad、bebop 与 rhythm changes，按难度与学习顺序排列。
+        每张卡片都能打开详情，试听简化和声循环、看和声地图与练习步骤。
       </p>
       <div class="chapter-meta" style="margin-top: 24px;">
         <span class="pill pill-accent">40 首</span>
@@ -38,34 +40,7 @@ import { STANDARDS, FIRST_WAVE } from "../data/standards";
       />
       <div class="standard-grid">
         {FIRST_WAVE.map((tune) => (
-          <article class="standard-card first-wave-card" id={tune.id}>
-            <div class="standard-top">
-              <div>
-                <h3><span class="mono muted">#{String(tune.order).padStart(2, "0")}</span> {tune.title}</h3>
-                <div class="composer">{tune.composer}</div>
-              </div>
-              <span class="pill pill-accent">{tune.level}</span>
-            </div>
-            <div class="standard-facts">
-              <span class="pill">{tune.key}</span>
-              <span class="pill">{tune.form}</span>
-            </div>
-            <p class="standard-why">{tune.why}</p>
-            <div class="tag-row">
-              {tune.focus.map((item) => <span class="pill pill-sage">{item}</span>)}
-            </div>
-            <details>
-              <summary>听什么</summary>
-              <ul class="listen-list">
-                {tune.listen.map((item) => (
-                  <li>
-                    <strong>{item.artist}</strong>{item.album ? ` — ${item.album}` : ""}
-                    <span>{item.note}</span>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </article>
+          <StandardCard tune={tune} anchorId={tune.id} firstWave />
         ))}
       </div>
     </div>
@@ -104,41 +79,7 @@ import { STANDARDS, FIRST_WAVE } from "../data/standards";
 
       <div class="standard-grid" id="standard-grid">
         {STANDARDS.map((tune) => (
-          <article
-            class="standard-card"
-            id={`library-${tune.id}`}
-            data-level={tune.level}
-            data-category={tune.category}
-            data-search={`${tune.title} ${tune.composer} ${tune.key} ${tune.form} ${tune.focus.join(" ")} ${tune.tags.join(" ")}`.toLowerCase()}
-          >
-            <div class="standard-top">
-              <div>
-                <h3><span class="mono muted">#{String(tune.order).padStart(2, "0")}</span> {tune.title}</h3>
-                <div class="composer">{tune.composer}</div>
-              </div>
-              <span class:list={["pill", tune.level === "入门" ? "pill-sage" : tune.level === "高级" ? "pill-rust" : "pill-blue"]}>{tune.level}</span>
-            </div>
-            <div class="standard-facts">
-              <span class="pill">{tune.key}</span>
-              <span class="pill">{tune.form}</span>
-              <span class="pill">{tune.category}</span>
-            </div>
-            <p class="standard-why">{tune.why}</p>
-            <div class="tag-row">
-              {tune.focus.map((item) => <span class="pill">{item}</span>)}
-            </div>
-            <details>
-              <summary>听什么 / 学习重点</summary>
-              <ul class="listen-list">
-                {tune.listen.map((item) => (
-                  <li>
-                    <strong>{item.artist}</strong>{item.album ? ` — ${item.album}` : ""}
-                    <span>{item.note}</span>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </article>
+          <StandardCard tune={tune} anchorId={`library-${tune.id}`} />
         ))}
       </div>
     </div>
@@ -186,14 +127,24 @@ import { STANDARDS, FIRST_WAVE } from "../data/standards";
       </div>
 
       <div class="callout callout-warn" style="margin-top: 24px;">
-        <strong class="callout-title">关于调性与曲式</strong>
+        <strong class="callout-title">关于调性、曲式与试听</strong>
         <p>
           同一首标准曲在不同 Real Book 版本、不同歌手/乐队那里可能有不同调性、长度或和弦。
           本站的“常见调/曲式”用于练习参考；跟别人合奏时，先问“什么调、什么曲式、怎么 ending”。
+          卡片上的“试听”播放的是本站生成的简化和声练习循环，不是原曲录音，也不含旋律；听原曲请使用详情页听单中的搜索链接。
         </p>
       </div>
     </div>
   </section>
+
+  <div class="standard-preview-toast" id="standard-preview-toast" hidden role="status" aria-live="polite">
+    <div class="standard-preview-toast-copy">
+      <span>试听练习循环</span>
+      <strong id="standard-preview-title"></strong>
+      <small id="standard-preview-meta"></small>
+    </div>
+    <button class="btn btn-primary btn-sm" id="standard-preview-stop" type="button">停止</button>
+  </div>
 </BaseLayout>
 
 <script>
@@ -234,5 +185,74 @@ import { STANDARDS, FIRST_WAVE } from "../data/standards";
     categorySel.addEventListener("change", apply);
     search.addEventListener("input", apply);
     apply();
+  }
+</script>
+
+<script>
+  import { StandardAudio, type StandardAudioConfig } from "../scripts/standard-audio";
+
+  const toast = document.getElementById("standard-preview-toast") as HTMLElement | null;
+  const toastTitle = document.getElementById("standard-preview-title") as HTMLElement | null;
+  const toastMeta = document.getElementById("standard-preview-meta") as HTMLElement | null;
+  const stopBtn = document.getElementById("standard-preview-stop") as HTMLButtonElement | null;
+
+  if (toast && toastTitle && toastMeta && stopBtn) {
+    let audio: StandardAudio | null = null;
+    let activeButton: HTMLButtonElement | null = null;
+
+    function resetButton() {
+      if (!activeButton) return;
+      activeButton.classList.remove("is-playing");
+      activeButton.setAttribute("aria-pressed", "false");
+      activeButton.textContent = "▶ 试听";
+      activeButton = null;
+    }
+
+    function hideToast() {
+      resetButton();
+      audio = null;
+      toast!.hidden = true;
+    }
+
+    function stopPreview() {
+      const current = audio;
+      audio = null;
+      if (current) current.stop();
+      hideToast();
+    }
+
+    function startPreview(button: HTMLButtonElement, data: Record<string, unknown>) {
+      stopPreview();
+      activeButton = button;
+      button.classList.add("is-playing");
+      button.setAttribute("aria-pressed", "true");
+      button.textContent = "■ 停止";
+      toastTitle!.textContent = String(data.title ?? "练习循环");
+      toastMeta!.textContent = `${data.keyLabel ?? ""} · ${data.tempo ?? ""} BPM · ${data.progressionLabel ?? ""}`;
+      toast!.hidden = false;
+      audio = new StandardAudio(data as unknown as StandardAudioConfig, undefined, () => {
+        audio = null;
+        hideToast();
+      });
+      audio.start(Number(data.bars) || 8);
+    }
+
+    document.querySelectorAll<HTMLButtonElement>("[data-standard-preview]").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (activeButton === button && audio?.isRunning) {
+          stopPreview();
+          return;
+        }
+        try {
+          startPreview(button, JSON.parse(button.dataset.standardPreview || "{}"));
+        } catch {
+          // Ignore malformed preview data; the detail page still has a player.
+        }
+      });
+    });
+
+    stopBtn.addEventListener("click", stopPreview);
   }
 </script>

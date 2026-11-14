@@ -727,4 +727,16 @@ export const STANDARDS: Standard[] = [
   },
 ];
 
+export function getStandard(slug: string): Standard | undefined {
+  return STANDARDS.find((standard) => standard.id === slug);
+}
+
+export function standardNeighbors(slug: string) {
+  const index = STANDARDS.findIndex((standard) => standard.id === slug);
+  return {
+    prev: index > 0 ? STANDARDS[index - 1] : null,
+    next: index >= 0 && index < STANDARDS.length - 1 ? STANDARDS[index + 1] : null,
+  };
+}
+
 export const FIRST_WAVE = STANDARDS.filter((s) => s.firstWave);

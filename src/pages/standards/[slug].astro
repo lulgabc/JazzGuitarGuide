@@ -1,0 +1,193 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StandardPlayer from "../../components/StandardPlayer.astro";
+import { STANDARDS, standardNeighbors } from "../../data/standards";
+import {
+  feelLabel,
+  harmonicMap,
+  standardMistakes,
+  standardPractice,
+  standardRelated,
+  standardSteps,
+} from "../../data/standard-practice";
+import { url } from "../../lib/url";
+
+export function getStaticPaths() {
+  return STANDARDS.map((tune) => ({
+    params: { slug: tune.id },
+    props: { tune },
+  }));
+}
+
+const { tune } = Astro.props;
+const practice = standardPractice(tune);
+const steps = standardSteps(tune, practice);
+const mistakes = standardMistakes(tune, practice);
+const map = harmonicMap(tune, practice);
+const related = standardRelated(tune);
+const neighbors = standardNeighbors(tune.id);
+const index = STANDARDS.findIndex((item) => item.id === tune.id) + 1;
+const description = `${tune.title}：${tune.why} 附练习循环、和声地图、练习步骤与推荐录音。`;
+const levelClass = tune.level === "入门" ? "pill-sage" : tune.level === "高级" ? "pill-rust" : "pill-blue";
+---
+
+<BaseLayout title={`${tune.title} · 标准曲练习`} description={description}>
+  <section class="page-hero standard-detail-hero">
+    <div class="container">
+      <nav class="small muted" aria-label="面包屑" style="margin-bottom: 18px;">
+        <a href={url("/")}>首页</a>
+        <span aria-hidden="true"> / </span>
+        <a href={url("/standards/")}>必学曲目</a>
+        <span aria-hidden="true"> / </span>
+        <span>{tune.title}</span>
+      </nav>
+      <span class="eyebrow">Standard {String(index).padStart(2, "0")} · {tune.level} · {tune.category}</span>
+      <h1>{tune.title}</h1>
+      <p class="lead" style="margin-top: 10px;">{tune.composer}</p>
+      <div class="chapter-meta" style="margin-top: 20px;">
+        <span class="pill pill-accent">{tune.key}</span>
+        <span class="pill">{tune.form}</span>
+        <span class:list={["pill", levelClass]}>{tune.level}</span>
+        <span class="pill">{tune.category}</span>
+      </div>
+      <div class="btn-row" style="margin-top: 24px;">
+        <a class="btn btn-primary" href="#player">▶ 播放练习循环</a>
+        <a class="btn btn-ghost" href="#listen">听原曲版本</a>
+        <a class="btn btn-ghost" href={url("/standards/")}>返回曲库</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="sheet-layout standard-detail-layout">
+        <div class="sheet-main">
+          <StandardPlayer title={tune.title} practice={practice} />
+
+          <div class="card standard-detail-card">
+            <span class="kicker">Why this tune</span>
+            <h2>这首曲子练什么</h2>
+            <p>{tune.why}</p>
+            <div class="tag-row" style="margin-top: 14px;">
+              {tune.focus.map((item) => <span class="pill pill-sage">{item}</span>)}
+            </div>
+          </div>
+
+          <div class="card standard-detail-card">
+            <span class="kicker">Harmonic map</span>
+            <h2>和声地图</h2>
+            <ul class="standard-map-list">
+              {map.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+
+          <div class="grid grid-2 standard-two-col">
+            <div class="card standard-detail-card">
+              <span class="kicker">How to practice</span>
+              <h2>练习步骤</h2>
+              <ol class="standard-step-list">
+                {steps.map((step) => <li>{step}</li>)}
+              </ol>
+            </div>
+            <div class="card standard-detail-card">
+              <span class="kicker">Watch out</span>
+              <h2>常见错误</h2>
+              <ul class="standard-mistake-list">
+                {mistakes.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </div>
+
+          <div class="card standard-detail-card" id="listen">
+            <span class="kicker">Listen</span>
+            <h2>听什么</h2>
+            <p>先听原录音，再回到练习循环。不要把简化循环当成原曲。</p>
+            <ul class="standard-listen-list">
+              {tune.listen.map((item) => (
+                <li>
+                  <div>
+                    <strong>{item.artist}</strong>
+                    {item.album && <span class="standard-album"> — {item.album}</span>}
+                    <p>{item.note}</p>
+                  </div>
+                  <a
+                    class="standard-search-link"
+                    href={`https://www.youtube.com/results?search_query=${encodeURIComponent(`${tune.title} ${item.artist}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >搜索 ↗</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="callout callout-warn">
+            <strong class="callout-title">关于版权与练习循环</strong>
+            <p>
+              本页不提供原曲旋律、lead sheet 或 transcription。播放器是本站生成的简化和声练习循环，
+              用来练节奏、曲式与 solo，不是原曲完整 changes。听原曲请使用合法购买/流媒体的录音。
+            </p>
+          </div>
+        </div>
+
+        <aside class="sheet-side">
+          <div class="card">
+            <span class="kicker">At a glance</span>
+            <h2>练习参数</h2>
+            <dl class="standard-facts-list">
+              <div><dt>调性</dt><dd>{tune.key}</dd></div>
+              <div><dt>曲式</dt><dd>{tune.form}</dd></div>
+              <div><dt>练习循环</dt><dd>{practice.progressionLabel}</dd></div>
+              <div><dt>建议 Tempo</dt><dd>{practice.tempo} BPM</dd></div>
+              <div><dt>拍号</dt><dd>{practice.meter}/4</dd></div>
+              <div><dt>感觉</dt><dd>{feelLabel(practice.feel)}</dd></div>
+            </dl>
+            <p class="small muted" style="margin-top: 14px;">
+              循环为简化和声；实际原曲的调性/曲式可能因版本而异。
+            </p>
+          </div>
+
+          <div class="card" style="margin-top: 18px;">
+            <span class="kicker">Practice</span>
+            <h3>相关练习</h3>
+            <ul class="standard-link-list">
+              {related.map((item) => (
+                <li><a href={url(item.href)}>{item.label} →</a></li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top: 18px;">
+            <span class="kicker">Go deeper</span>
+            <h3>相关章节</h3>
+            <ul class="standard-link-list">
+              <li><a href={url("/basics/harmony/")}>和声、Voicing 与声部连接 →</a></li>
+              <li><a href={url("/basics/comping/")}>伴奏 Comping →</a></li>
+              <li><a href={url("/basics/improvisation/")}>即兴、乐句与转录 →</a></li>
+              <li><a href={url("/basics/chord-melody/")}>和弦旋律与独奏吉他 →</a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <nav class="chapter-nav" aria-label="曲目导航">
+        <div>
+          {neighbors.prev && (
+            <a href={url(`/standards/${neighbors.prev.id}/`)}>
+              <small>← 上一首</small>
+              <strong>{neighbors.prev.title}</strong>
+            </a>
+          )}
+        </div>
+        <div style="text-align: right;">
+          {neighbors.next && (
+            <a href={url(`/standards/${neighbors.next.id}/`)}>
+              <small>下一首 →</small>
+              <strong>{neighbors.next.title}</strong>
+            </a>
+          )}
+        </div>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>

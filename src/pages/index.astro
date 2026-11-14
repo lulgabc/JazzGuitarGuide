@@ -164,7 +164,7 @@ const featuredLibrary = ["warmup-001", "comping-003", "chord-melody-002"]
       />
       <div class="grid grid-3">
         {FIRST_WAVE.slice(0, 6).map((tune) => (
-          <a class="tune-card reveal" href={url(`/standards/#${tune.id}`)} style="text-decoration:none;color:inherit;">
+          <a class="tune-card reveal" href={url(`/standards/${tune.id}/`)} style="text-decoration:none;color:inherit;">
             <div class="tune-top">
               <div>
                 <h3>{tune.title}</h3>
