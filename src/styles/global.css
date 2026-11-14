@@ -4234,9 +4234,13 @@ html[data-theme="light"] .fretboard-wrap {
   }
 }
 
-@media (max-width: 760px) {
+@media screen and (max-width: 760px) {
   .sheet-scroll-hint {
     display: block;
+  }
+
+  .abc-notation .abcjs-title {
+    display: none;
   }
 
   .abc-notation svg {
